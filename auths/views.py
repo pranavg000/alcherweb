@@ -6,6 +6,7 @@ from django.contrib import messages
 
 def register(request):
 	if request.method == 'POST':
+		
 		username = request.POST['username']
 		password = request.POST['password']
 		email = request.POST['email']
@@ -17,7 +18,7 @@ def register(request):
 			return render(request, 'auths/signup.html')
 		
 		messages.success(request,f'Account created for {username}!')
-		return redirect('core:home')
+		return redirect('auths:login')
 	else:
 		return render(request, 'auths/signup.html')
 
