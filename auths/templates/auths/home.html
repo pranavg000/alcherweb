@@ -1,0 +1,4 @@
+{% if user.is_authenticated %}
+	{{user.username}}
+	<a class="btn btn-primary" href="{% url 'auths:logout' %}">Logout</a>
+{% endif %}

@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_django',
     'auths',
     'crispy_forms',
 ]
@@ -120,3 +121,21 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+LOGIN_REDIRECT_URL = 'auths:home'
+
+AUTHENTICATION_BACKENDS = [
+        'social_core.backends.google.GoogleOAuth2',
+        'social_core.backends.facebook.FacebookOAuth2',
+        'django.contrib.auth.backends.ModelBackend',
+    ]
+
+
+SOCIAL_AUTH_FACEBOOK_KEY = '535569483886586'       
+SOCIAL_AUTH_FACEBOOK_SECRET = "661093c7bda3e266d52e3c99be1ca11e"  
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1068393908321-qhk9bc1dfceq3ttc1kefsrbrfdqsp9k7.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'kRvC1BFBxGbwkco0YeAm6zeC'
+
+
+
+SOCIAL_AUTH_URL_NAMESPACE = "auths:social"
