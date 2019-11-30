@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+			<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<meta name="author" content="Kishor Malakar">
+	<link rel="author" href="https://www.facebook.com/kishor.malakar" />
+
+	
+
+	<link rel="stylesheet" href="css/index.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/Roboto.css">
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link href="https://fonts.googleapis.com/css?family=Fira+Sans|Roboto" rel="stylesheet">
+	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css">
+	<link rel="stylesheet" href="semantic/dist/semantic.min.css">
+
+	<link rel="icon" type="image/png" href="https://www.alcheringa.in/Alcheringa_Logo.png">
+	<meta name="theme-color" content="#455A64">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+	<title>FAQ | Campus Ambassador | Alcheringa, IIT Guwahati</title>
+
+	<!-- <?php require 'meta.php'; ?> -->
+</head>
+<body>
+
+	<div class="wrapper content-grid mdl-grid mdl-grid--no-spacing">
+
+	
+
+		<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+
+			<div class="content">
+
+				<div class="content_faq">
+
+					<div class="faq_header">
+
+					</div><!-- faq_header -->
+
+					<div class="faq_tabs">
+
+						<div class="faq_tab general_faq" data-faq-category="general">
+
+							<div class="faq_tab_icon">
+
+								<i class="material-icons">language</i>
+
+							</div><!-- faq_tab_icon -->
+
+							<div class="faq_tab_title">
+
+								<p>GENERAL</p>
+
+							</div><!-- faq_tab_title -->
+
+						</div><!-- faq_tab general_faq -->
+
+						<div class="faq_tab portal_faq" data-faq-category="portal">
+
+							<div class="faq_tab_icon">
+
+								<i class="material-icons">computer</i>
+
+							</div><!-- faq_tab_icon -->
+
+							<div class="faq_tab_title">
+
+								<p>PORTAL</p>
+
+							</div><!-- faq_tab_title -->
+
+						</div><!-- faq_tab portal_faq -->
+
+						<div class="faq_tab competitions_faq" data-faq-category="competitions">
+
+							<div class="faq_tab_icon">
+
+								<i class="material-icons">speaker_group</i>
+
+							</div><!-- faq_tab_icon -->
+
+							<div class="faq_tab_title">
+
+								<p>COMPETITIONS</p>
+
+							</div><!-- faq_tab_title -->
+
+						</div><!-- faq_tab competitions_faq -->
+
+						<div class="faq_tab accommodation_faq" data-faq-category="accommodation">
+
+							<div class="faq_tab_icon">
+
+								<i class="material-icons">hotel</i>
+
+							</div><!-- faq_tab_icon -->
+
+							<div class="faq_tab_title">
+
+								<p>ACCOMMODATION</p>
+
+							</div><!-- faq_tab_title -->
+
+						</div><!-- faq_tab accommodation_faq -->
+
+						<div class="faq_tab city_audition_faq" data-faq-category="city_audition">
+
+							<div class="faq_tab_icon">
+
+								<i class="material-icons">location_city</i>
+
+							</div><!-- faq_tab_icon -->
+
+							<div class="faq_tab_title">
+
+								<p>CITY AUDITION</p>
+
+							</div><!-- faq_tab_title -->
+
+						</div><!-- faq_tab city_audition_faq -->
+
+					</div><!-- faq_tabs -->
+
+					<div class="faq_faqs ui segment">
+
+					</div><!-- faq_faqs -->
+
+				</div> <!-- content_faq -->
+
+			</div> <!-- content -->
+			
+		</div>
+
+		<!-- <?php include 'rightbar.php'; ?> -->
+	
+	</div><!-- .wrapper -->
+
+	<div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar">
+	    <div class="mdl-snackbar__text"></div>
+	    <button type="button" class="mdl-snackbar__action"></button>
+	</div>
+
+	<script type="text/javascript" src='js/jquery.js'></script>
+	<script type="text/javascript" src='js/drawer.js'></script>
+	<script type="text/javascript" src='js/jquery_ui/jquery-ui.min.js'></script>
+	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+
+			$('body').on('click', '.faq_tab', function(){
+				var $this= $(this);
+				$('.faq_faqs').html("<div class='ui active loader'></div>");
+
+				$('.faq_tabs').css({'white-space': 'nowrap', 'overflow-x': 'scroll', 'overflow-y': 'hidden'});
+				$('.faq_tabs').animate({'width': '100%', 'max-width': '100%', 'height': '56px'}, 1000);
+				$('.faq_tab').css({'margin-left': '10px', 'margin-top': '3px', 'display': 'inline'});
+				$('.faq_tab:first-child').css({'margin-left': '3px'});
+				$('.faq_tab').not($this).animate({'height': '50px', 'width': '50px'}, 1000);
+				$this.animate({'height': '50px'}, 1000);
+				$this.css({'width': 'auto'});
+				$('.faq_tab').find('i').animate({'font-size': '30px', 'margin-left': '0px'}, 1000);
+				$('.faq_tab').find('.faq_tab_icon').animate({'height': '30px'}, 1000);
+				$('.faq_tab').find('.faq_tab_icon').css({'display': 'inline-block'});
+				$('.faq_tab').find('.faq_tab_title').css({'display': 'inline-block', 'float': 'right'});
+				$('.faq_tab').find('.faq_tab_title').find('p').animate({'padding-top': '5px', 'padding-left': '10px'}, 1000);
+				$('.faq_tab').not($this).find('.faq_tab_title').css({'display': 'none'});
+
+				var faq_category= $this.attr('data-faq-category');
+
+				$.ajax({
+					type: "POST",
+					url: "faq_questions.php",
+					data: {faq_category: faq_category},
+					success: function(response){
+						$('.faq_faqs').slideUp(300);
+						$('.faq_faqs').html(response);
+						$('.faq_faqs').fadeIn(1000);
+						$('#accordion').accordion();
+					}
+				});
+
+			});
+
+		});
+	</script>
+
+</body>
+</html>
