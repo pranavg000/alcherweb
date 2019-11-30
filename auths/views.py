@@ -21,7 +21,3 @@ def register(request):
 		return redirect('auths:login')
 	else:
 		return render(request, 'auths/signup.html')
-
-
-
-	
