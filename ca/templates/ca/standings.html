@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<meta name="author" content="Kishor Malakar">
+	<link rel="author" href="https://www.facebook.com/kishor.malakar" />
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/index.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/Roboto.css">
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link href="https://fonts.googleapis.com/css?family=Fira+Sans|Roboto" rel="stylesheet">
+	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css">
+	<link rel="stylesheet" href="semantic/dist/semantic.min.css">
+
+	<link rel="icon" type="image/png" href="https://www.alcheringa.in/Alcheringa_Logo.png">
+	<meta name="theme-color" content="#455A64">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Standings | Campus Ambassador | Alcheringa, IIT Guwahati</title>
+
+	<!-- <?php require 'meta.php'; ?> -->
+</head>
+<body>
+
+	<div class="wrapper content-grid mdl-grid mdl-grid--no-spacing">
+
+		<!-- <?php include 'header.php'; ?>
+
+		<?php include 'leftbar.php'; ?> -->
+
+		<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+
+			<div class="content">
+
+				<div class="content_standings">
+
+					<div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+
+							<div class="mdl-tabs__tab-bar">
+						    	<a href="#myscore" class="mdl-tabs__tab is-active">MY SCORE</a>
+						    	<a href="#leaderboard" class="mdl-tabs__tab">LEADEROARD</a>
+							</div>
+
+							<div class="mdl-tabs__panel is-active" id="myscore">
+
+								<div class="triweekly">
+
+									<p>Tri Weekly Score</p>
+
+									<!-- <?php
+
+										$score_query = mysqli_query($connect_ca,
+											"SELECT ca_details.alcher_id as alcher_id, ca_details.fullname as name, COUNT(distinct idea_tri.id) as idea_count, COUNT(distinct poc_tri.id) as poc_count, COUNT(distinct venue1_tri.id) as venue_count, COALESCE(shares_count_tri.shares,0) as share_count,
+											(((COUNT(distinct idea_tri.id))*50)+((COUNT(distinct poc_tri.id))*50)+((COUNT(distinct venue1_tri.id))*300)+((COALESCE(shares_count_tri.shares,0))*15)) as total FROM ca_details
+											LEFT JOIN idea_tri ON ca_details.alcher_id = idea_tri.alcher_id and idea_tri.approval = 1
+											LEFT JOIN poc_tri ON ca_details.alcher_id = poc_tri.alcher_id and poc_tri.approval = 1
+											LEFT JOIN shares_count_tri ON ca_details.alcher_id = shares_count_tri.alcher_id
+											LEFT JOIN venue1_tri ON ca_details.alcher_id = venue1_tri.alcher_id and venue1_tri.approval = 1
+											WHERE ca_details.alcher_id = '$alcher_id'"
+											);
+
+										$score = $score_query->fetch_assoc();
+										$idea_count = $score['idea_count'];
+										$poc_count = $score['poc_count'];
+										$venue_count = $score['venue_count'];
+										$share_count = $score['share_count'];
+										$total = $score['total'];
+
+										echo "<table>
+											<tr><td>Total Score</td><td>".$total."</td></tr>
+											<tr><td>Idea Submitted</td><td>".$idea_count."</td></tr>
+											<tr><td>POC Submitted</td><td>".$poc_count."</td></tr>
+											<tr><td>Venue Submitted</td><td>".$venue_count."</td></tr>
+											<tr><td>FB Shares</td><td>".$share_count."</td></tr>
+										</table>";
+
+									?> -->
+
+								</div>
+
+								<div class="overall">
+
+									<p>Overall Score</p>
+
+									<!-- <?php
+
+										$score_query = mysqli_query($connect_ca,
+											"SELECT ca_details.alcher_id as alcher_id, ca_details.fullname as name, COUNT(distinct idea.id) as idea_count, COUNT(distinct poc.id) as poc_count, COUNT(distinct venue1.id) as venue_count, COALESCE(shares_count.shares,0) as share_count, COUNT(distinct ca_questionnaire.alcher_id) as referral_count,
+											(((COUNT(distinct idea.id))*50)+((COUNT(distinct poc.id))*50)+((COUNT(distinct venue1.id))*300)+((COALESCE(shares_count.shares,0))*15)+((COUNT(distinct ca_questionnaire.alcher_id))*20)) as total FROM ca_details
+											LEFT JOIN idea ON ca_details.alcher_id = idea.alcher_id and idea.approval = 1
+											LEFT JOIN poc ON ca_details.alcher_id = poc.alcher_id and poc.approval = 1
+											LEFT JOIN shares_count ON ca_details.alcher_id = shares_count.alcher_id
+											LEFT JOIN venue1 ON ca_details.alcher_id = venue1.alcher_id and venue1.approval = 1
+											LEFT JOIN ca_questionnaire ON ca_details.alcher_id = ca_questionnaire.referral_code
+											WHERE ca_details.alcher_id = '$alcher_id'"
+											);
+
+										$score = $score_query->fetch_assoc();
+										$idea_count = $score['idea_count'];
+										$poc_count = $score['poc_count'];
+										$venue_count = $score['venue_count'];
+										$share_count = $score['share_count'];
+										$referral_count = $score['referral_count'];
+										$total = $score['total'];
+
+										echo "<table>
+											<tr><td>Total Score</td><td>".$total."</td></tr>
+											<tr><td>Idea Submitted</td><td>".$idea_count."</td></tr>
+											<tr><td>POC Submitted</td><td>".$poc_count."</td></tr>
+											<tr><td>Venue Submitted</td><td>".$venue_count."</td></tr>
+											<tr><td>FB Shares</td><td>".$share_count."</td></tr>
+											<tr><td>Referred CAs</td><td>".$referral_count."</td></tr>
+										</table>";
+
+									?> -->
+
+								</div>
+
+							</div><!-- myscore -->
+
+							<div class="mdl-tabs__panel" id="leaderboard">
+
+								<div class="triweekly">
+
+									<p>Tri Weekly Leaderboard</p>
+
+									<!-- <?php
+
+
+										$ca_query = mysqli_query($connect_ca,
+											"SELECT ca_details.alcher_id as alcher_id, ca_details.fullname as name, COUNT(distinct idea_tri.id) as idea_count, COUNT(distinct poc_tri.id) as poc_count, COUNT(distinct venue1_tri.id) as venue_count, COALESCE(shares_count_tri.shares,0) as share_count,
+											(((COUNT(distinct idea_tri.id))*50)+((COUNT(distinct poc_tri.id))*50)+((COUNT(distinct venue1_tri.id))*300)+((COALESCE(shares_count_tri.shares,0))*15)) as total FROM ca_details
+											LEFT JOIN idea_tri ON ca_details.alcher_id = idea_tri.alcher_id and idea_tri.approval = 1
+											LEFT JOIN poc_tri ON ca_details.alcher_id = poc_tri.alcher_id and poc_tri.approval = 1
+											LEFT JOIN shares_count_tri ON ca_details.alcher_id = shares_count_tri.alcher_id
+											LEFT JOIN venue1_tri ON ca_details.alcher_id = venue1_tri.alcher_id and venue1_tri.approval = 1
+											GROUP BY ca_details.alcher_id
+											ORDER BY (((COUNT(distinct idea_tri.id))*50)+((COUNT(distinct poc_tri.id))*50)+((COUNT(distinct venue1_tri.id))*300)+((COALESCE(shares_count_tri.shares,0))*15)) DESC
+											LIMIT 5 OFFSET 0"
+											);
+
+										echo "<table>";
+
+											echo "<tr><th>Rank</th><th>ALCHER ID</th><th>Name</th><th>Score</th></tr>";
+											$i = 1;
+
+											while($ca = $ca_query->fetch_assoc()){
+
+												$ca_alcher_id = $ca['alcher_id'];
+												$ca_name = $ca['name'];
+												$ca_score = $ca['total'];
+
+												echo "<tr><td>".$i."</td><td>".$ca_alcher_id."</td><td>".$ca_name."</td><td>".$ca_score."</td></tr>";
+												$i++;
+
+											}
+
+										echo "</table>";
+
+									?>
+
+								</div>
+
+								<div class="overall">
+
+									<p>Overall Leaderboard</p>
+
+									<?php
+
+										$ca_query = mysqli_query($connect_ca,
+											"SELECT ca_details.alcher_id as alcher_id, ca_details.fullname as name, COUNT(distinct idea.id) as idea_count, COUNT(distinct poc.id) as poc_count, COUNT(distinct venue1.id) as venue_count, COALESCE(shares_count.shares,0) as share_count,
+											(((COUNT(distinct idea.id))*50)+((COUNT(distinct poc.id))*50)+((COUNT(distinct venue1.id))*300)+((COALESCE(shares_count.shares,0))*15)+((COUNT(distinct ca_questionnaire.alcher_id))*20)) as total FROM ca_details
+											LEFT JOIN idea ON ca_details.alcher_id = idea.alcher_id and idea.approval = 1
+											LEFT JOIN poc ON ca_details.alcher_id = poc.alcher_id and poc.approval = 1
+											LEFT JOIN shares_count ON ca_details.alcher_id = shares_count.alcher_id
+											LEFT JOIN venue1 ON ca_details.alcher_id = venue1.alcher_id and venue1.approval = 1
+											LEFT JOIN ca_questionnaire ON ca_details.alcher_id = ca_questionnaire.referral_code
+											GROUP BY ca_details.alcher_id
+											ORDER BY (((COUNT(distinct idea.id))*50)+((COUNT(distinct poc.id))*50)+((COUNT(distinct venue1.id))*300)+((COALESCE(shares_count.shares,0))*15)+((COUNT(distinct ca_questionnaire.alcher_id))*20)) DESC
+											LIMIT 5 OFFSET 0"
+											);
+
+										echo "<table>";
+
+											echo "<tr><th>Rank</th><th>ALCHER ID</th><th>Name</th><th>Score</th></tr>";
+											$i = 1;
+
+											while($ca = $ca_query->fetch_assoc()){
+
+												$ca_alcher_id = $ca['alcher_id'];
+												$ca_name = $ca['name'];
+												$ca_score = $ca['total'];
+
+												echo "<tr><td>".$i."</td><td>".$ca_alcher_id."</td><td>".$ca_name."</td><td>".$ca_score."</td></tr>";
+												$i++;
+
+											}
+
+										echo "</table>";
+
+									?> -->
+
+								</div>
+
+								<div class="winners">
+
+									<p>Previous Triweekly Winners</p>
+
+									<table>
+
+									<tr><td>S/L</td><td>Name</td><td>ALCHER ID</td></tr>
+
+									<!-- <?php
+
+										$winner_query = mysqli_query($connect_ca,
+											"SELECT * FROM winner_tri WHERE 1 ORDER BY id DESC"
+											);
+										$i = 1;
+
+										while($winner = $winner_query->fetch_assoc()){
+
+											$winner_name = $winner['name'];
+											$winner_alcher_id = $winner['alcher_id'];
+
+											echo "<tr><td>".$i."</td><td>".$winner_name."</td><td>".$winner_alcher_id."</td></tr>";
+											$i++;
+
+										}
+
+									?> -->
+
+									</table>
+
+								</div>
+
+							</div><!-- overall -->
+
+					</div>
+
+				</div> <!-- content_standings -->
+
+			</div> <!-- content -->
+
+		</div>
+
+		<!-- <?php include 'rightbar.php'; ?> -->
+
+	</div><!-- .wrapper -->
+
+	<div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar">
+	    <div class="mdl-snackbar__text"></div>
+	    <button type="button" class="mdl-snackbar__action"></button>
+	</div>
+
+	<script type="text/javascript" src='js/jquery.js'></script>
+	<script type="text/javascript" src='js/drawer.js'></script>
+	<script type="text/javascript" src='js/jquery_ui/jquery-ui.min.js'></script>
+	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+
+</body>
+</html>

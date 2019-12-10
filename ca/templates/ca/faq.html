@@ -1,16 +1,18 @@
+{% load staticfiles %}
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-			<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
 	<meta name="author" content="Kishor Malakar">
 	<link rel="author" href="https://www.facebook.com/kishor.malakar" />
 
-	
 
-	<link rel="stylesheet" href="css/index.css">
-	<link rel="stylesheet" href="css/font-awesome.min.css">
-	<link rel="stylesheet" href="css/Roboto.css">
-	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="{% static 'ca/css/style.css' %}">
+	<link rel="stylesheet" href="{% static 'ca/css/index.css' %}">
+	<link rel="stylesheet" href="{% static 'ca/css/font-awesome.min.css' %}">
+	<link rel="stylesheet" href="{% static 'ca/css/Roboto.css' %}">
+	<link rel="stylesheet" href="{% static 'ca/css/normalize.css' %}">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link href="https://fonts.googleapis.com/css?family=Fira+Sans|Roboto" rel="stylesheet">
 	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css">
@@ -20,8 +22,6 @@
 	<meta name="theme-color" content="#455A64">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
 	<title>FAQ | Campus Ambassador | Alcheringa, IIT Guwahati</title>
 
 	<!-- <?php require 'meta.php'; ?> -->
@@ -30,13 +30,15 @@
 
 	<div class="wrapper content-grid mdl-grid mdl-grid--no-spacing">
 
-	
+
 
 		<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
 
-			<div class="content">
+			<div class="content" style="width: 100%;">
 
-				<div class="content_faq">
+				<form>
+					{% csrf_token %}
+					<div class="content_faq">
 
 					<div class="faq_header">
 
@@ -131,13 +133,14 @@
 					</div><!-- faq_faqs -->
 
 				</div> <!-- content_faq -->
+				</form>
 
 			</div> <!-- content -->
-			
+
 		</div>
 
 		<!-- <?php include 'rightbar.php'; ?> -->
-	
+
 	</div><!-- .wrapper -->
 
 	<div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar">
@@ -145,9 +148,9 @@
 	    <button type="button" class="mdl-snackbar__action"></button>
 	</div>
 
-	<script type="text/javascript" src='js/jquery.js'></script>
-	<script type="text/javascript" src='js/drawer.js'></script>
-	<script type="text/javascript" src='js/jquery_ui/jquery-ui.min.js'></script>
+	<script type="text/javascript" src="{% static 'ca/js/jquery.js' %}"></script>
+	<script type="text/javascript" src="{% static 'ca/js/drawer.js' %}"></script>
+	<script type="text/javascript" src="{% static 'ca/js/jquery_ui/jquery-ui.min.js' %}"></script>
 	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 	<script type="text/javascript">
 		$(function(){
@@ -174,8 +177,8 @@
 
 				$.ajax({
 					type: "POST",
-					url: "faq_questions.php",
-					data: {faq_category: faq_category},
+					url: "{% url 'ca:faqs' %}",
+					data: {'faq_category': faq_category, 'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()},
 					success: function(response){
 						$('.faq_faqs').slideUp(300);
 						$('.faq_faqs').html(response);

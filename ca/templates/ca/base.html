@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  	<meta name="author" content="Kishor Malakar">
+  	<link rel="author" href="https://www.facebook.com/kishor.malakar" />
+
+    <style>
+      @media only screen and (max-width: 990px) {
+        .navbar-nav{
+          z-index: 10;
+        }
+      }
+    </style>
+  <link rel="stylesheet" href="{% static 'ca/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'ca/css/index.css' %}">
+  <link rel="stylesheet" href="{% static 'ca/css/font-awesome.min.css' %}">
+  <link rel="stylesheet" href="{% static 'ca/css/Roboto.css' %}">
+  <link rel="stylesheet" href="{% static 'ca/css/normalize.css' %}">
+  	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  	<link href="https://fonts.googleapis.com/css?family=Fira+Sans|Roboto" rel="stylesheet">
+  	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css">
+  	<link rel="stylesheet" href="{% static 'ca/semantic/dist/semantic.min.css' %}">
+
+  	<link rel="icon" type="image/png" href="https://www.alcheringa.in/Alcheringa_Logo.png">
+  	<meta name="theme-color" content="#455A64">
+
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+      {% block title %}
+      {% endblock %}
+       | Campus Ambassador | Alcheringa, IIT Guwahati
+    </title>
+  </head>
+  <body style="background-color: #C9D1D3">
+    <nav class="navbar navbar-expand-lg navbar-custom navbarParent" >
+    	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCustom" aria-controls="navbarCustom" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"><img src="./img/List (2).png"></span>
+  </button>
+      <a href="#" class="navbar-brand navbarBrandCustom">
+      	<img src="./img/logo black-1 (2).svg" class="d-inline-block align-top">
+      </a>
+      <div class="navbar-collapse collapse" id="navbarCustom" style="z-index: 10;">
+        <span class="navbar-text " id="navbarItems">
+          <ul class="navbar-nav">
+            <li class="nav-item active ml-2 mr-2">
+              <a class="nav-link" href="#">HOME </a>
+            </li>
+            <li class="nav-item ml-2 mr-2">
+              <a class="nav-link" href="#">DASHBOARD </a>
+            </li>
+            <li class="nav-item ml-2 mr-2">
+              <a class="nav-link" href="#">GUIDELINES </a>
+            </li>
+            <li class="nav-item ml-2 mr-2">
+              <a class="nav-link" href="#">SUBMIT IDEAS </a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle ml-2 mr-2" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" style="cursor: pointer; ">MORE.. </a>
+              <div class="dropdown-menu dropdown-primary navbarDropdown" aria-labelledby="navbarDropdownMenuLink1">
+                <a class="dropdown-item navbarDropdownItem" href="#"> SUBMIT VENUE </a>
+                <a class="dropdown-item navbarDropdownItem" href="#"> SUBMIT POC </a>
+                <a class="dropdown-item navbarDropdownItem" href="#"> STANDINGS </a>
+                <a class="dropdown-item navbarDropdownItem" href="#"> HOSPITALITY </a>
+                <a class="dropdown-item navbarDropdownItem" href="#"> FAQ </a>
+                <a class="dropdown-item navbarDropdownItem" href="#"> CONTACT US </a>
+                <a class="dropdown-item navbarDropdownItem" href="#"> LOGOUT </a>
+              </div>
+            </li>
+
+
+          </ul>
+        </span>
+      </div>
+      <span id="profileImage">
+      <ul class="nav navbar-nav navbar-right">
+      <li class="nav-item"><a href="#"><img src="./img/Avatar.png"></a></li>
+    </ul>
+</span>
+    </nav>
+    <br><br><br>
+    <div class="container-fluid">
+    <div class="row">
+  <div class=" col-lg-3 d-none d-lg-block" style="padding-left: 3rem;">
+    <div class="card">
+      <div class="card-body">
+        <p class="card-image">
+          <center>
+          <img src="#" style="width: 13rem; border-radius: 10rem" >
+        </center>
+        </p>
+        <p class="card-title"><center><h3><!--NAME--></h3></center></p><br>
+        <p class="card-text">
+          Alcher ID<br>
+          Team Members<br>
+          Events Registered
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6" style="padding-left: 0;">
+
+    <div class="wrapper content-grid mdl-grid mdl-grid--no-spacing">
+
+  		<!-- <?php include 'header.php'; ?>
+
+  		<?php include 'leftbar.php'; ?> -->
+
+  		<!-- <?php include 'rightbar.php'; ?> -->
+
+  	</div><!-- .wrapper -->
+
+    <!-- <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Guidelines For Registration</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+      </div>
+    </div> -->
+
+
+  </div>
+  <div class="col-lg-3 d-none d-lg-block" style="padding-right: 3rem;">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Notification</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a href="#">See All </a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    {% block script %}
+    {% endblock %}
+  </body>
+</html>

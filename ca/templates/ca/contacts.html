@@ -1,0 +1,339 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<meta name="author" content="Kishor Malakar">
+	<link rel="author" href="https://www.facebook.com/kishor.malakar" />
+
+
+	<link rel="stylesheet" href="{% static 'ca/css/style.css' %}">
+	<link rel="stylesheet" href="{% static 'ca/css/index.css' %}">
+	<link rel="stylesheet" href="{% static 'ca/css/font-awesome.min.css' %}">
+	<link rel="stylesheet" href="{% static 'ca/css/Roboto.css' %}">
+	<link rel="stylesheet" href="{% static 'ca/css/normalize.css' %}">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link href="https://fonts.googleapis.com/css?family=Fira+Sans|Roboto" rel="stylesheet">
+	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css">
+	<link rel="stylesheet" href="semantic/dist/semantic.min.css">
+
+	<link rel="icon" type="image/png" href="https://www.alcheringa.in/Alcheringa_Logo.png">
+	<meta name="theme-color" content="#455A64">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Contacts | Campus Ambassador | Alcheringa, IIT Guwahati</title>
+
+	<!-- <?php require 'meta.php'; ?> -->
+</head>
+<body>
+
+	<div class="wrapper content-grid mdl-grid mdl-grid--no-spacing">
+
+		<!-- <?php include 'header.php'; ?>
+
+		<?php include 'leftbar.php'; ?> -->
+
+			<div class="content" style="width: 100%; ">
+
+				<div class="content_contacts">
+
+					<p class='pr_branding' style="font-size: 2rem; text-decoration: underline;">CONTACTS</p>
+
+					<div class="contact_heads">
+
+						<div class="contact_heads_details contact_heads_1">
+							<h4>SHASHANK SHARMA</h4>
+						<h5>Public Relations head</h5>
+						<a href="tel:+91-8949526567"><i class="material-icons" style="font-size: 36px;">phone</i></a>
+						&emsp;
+						<a href="mailto:shashank.sharma@alcheringa.in" target='blank'><i class="material-icons" style="font-size: 36px">mail</i></a>
+						&emsp;
+						<a href="https://www.facebook.com/profile.php?id=100004143670834" target='blank'><i class="facebook f icon" style="font-size: 25px"></i></a>
+
+						</div>
+
+
+
+						<div class="contact_heads_details contact_heads_2">
+
+							<h4>HEMANT YADAV</h4>
+						<h5>Public Relations Head</h5>
+						<a href="tel:+91-7663929177"><i class="material-icons" style="font-size: 36px">phone</i></a>
+						&emsp;
+						<a href="mailto:hemant@alcheringa.in" target='blank'><i class="material-icons" style="font-size: 36px">mail</i></a>
+						&emsp;
+						<a href="https://www.facebook.com/profile.php?id=100014056477606" target='blank'><i class="facebook f icon" style="font-size: 25px"></i></a>
+						</div>
+
+						<div class="contact_heads_details contact_heads_3">
+
+						<h4>KARTIKEY SHARMA</h4>
+						<h5>Media and Outreach Head</h5>
+						<a href="tel:+91-7578062409" ><i class="material-icons" style="font-size: 36px">phone</i></a>
+						&emsp;
+						<a href="mailto:kartikey@alcheringa.in" target='blank'><i class="material-icons" style="font-size: 36px">mail</i></a>
+						&emsp;
+						<a href="https://www.facebook.com/kartikey.sharma.7165" target='blank'><i class="facebook f icon" style="font-size: 25px"></i></a>
+						</div>
+
+					</div>
+
+					<!-- <p class='technical'>Technical</p>
+
+					<div class="contact_technical">
+
+						<div class="contact_technical_details contact_technical_1">
+
+							<h4 style='text-transform: uppercase;'>Siddharth Jain</h4>
+							<h5>Head - Web Operations</h5>
+							<i class="material-icons">phone</i>
+							<p><a href="tel:+91-9887569581">+91-9887569581</a></p>
+							<br>
+							<i class="material-icons">mail</i>
+							<p><a href="mailto:sidjain.24.sj@gmail.com" target=#>admin@alcheringa.in</a></p>
+							<br>
+							<i class="facebook f icon"></i>
+							<p><a href="https://www.facebook.com/Siddharthjain2424" target='blank'>/Siddharthjain2424</a></p>
+
+						</div>
+
+					</div> -->
+
+					<div class="complaint_book">
+
+						<p class='complaint_header'>Facing a problem? Have a query? Want to book a complaint?</p>
+
+						<select class='ui fluid selection dropdown' id='complaint_book_category'>
+							<option value='0'>Select a category</option>
+							<option value='General'>General</option>
+							<option value='Technical'>Technical</option>
+							<option value='Competition'>Competition</option>
+							<option value='Festival'>Festival</option>
+							<option value='Payment'>Payment</option>
+						</select>
+						<p class="complaint_book_category_error"></p>
+
+						<textarea class='complaint_book_text'></textarea>
+						<p class="complaint_book_text_error"></p>
+
+						<p class='complaint_book_error'>complaint error</p>
+						<button class='complaint_submit ui button'>SUBMIT</button>
+
+					</div>
+
+					<p class="complaints_header">Your previous queries</p>
+
+					<div class="complaints">
+						{% if prevQueries|length > 0 %}
+						{% for query in prevQueries %}
+
+
+
+							<div class='complaint'>
+								<div class='complaint_stat'>
+									{% if query.complaint_stat %}
+									<i class='checkmark icon solved'></i>
+									<p>Solved</p>
+									{% else %}
+									<i class='warning icon pending'></i>
+									<p>Pending</p>
+									{% endif %}
+									</div>
+
+									<div class='complaint_content'>
+										<div class='complaint_header'>
+											<p class='complaint_grievance_id'>Grievance ID: {{query.grievance_id}}</p>
+											<p class='complaint_complaint_category'>{{query.complaint_category}}</p>
+											</div>
+											<div class='complaint_text'>{{query.complaint_text}}</div></div>
+
+										</div>
+									{% if query.complaint_stat %}
+									<div class='complaint_report'>
+									<p>{{query.complaint_report}}</p>
+								</div>
+									{% endif %}
+						{% endfor %}
+						{% else %}
+							<div class='no_complaint error_box'>
+								<p>You haven't issued any complaints yet.</p>
+							</div>
+						{% endif %}
+						<!-- <?php
+
+							$complaint_query= mysqli_query($connect_reg,
+								"SELECT * FROM complaints WHERE alcher_id='$alcher_id' ORDER BY complaint_id DESC "
+								);
+							if($complaint_query->num_rows>0){
+
+								while($complaint= $complaint_query->fetch_assoc()){
+
+									$complaint_id= $complaint['complaint_id'];
+									$grievance_id= $complaint['grievance_id'];
+									$complaint_category= $complaint['complaint_category'];
+									$complaint_text= $complaint['complaint_text'];
+									$complaint_stat= $complaint['complaint_stat'];
+									$complaint_report= $complaint['complaint_report'];
+
+									$complaint_report= nl2br($complaint_report);
+
+									if($complaint_stat==0){
+										$complaint_status= "Pending";
+									}
+
+									if($complaint_stat==1){
+										$complaint_status= "Solved";
+									}
+
+									echo "<div class='complaint'>";
+										echo "<div class='complaint_stat'>";
+											if($complaint_stat==1){
+												echo "<i class='checkmark icon solved'></i>";
+											}
+											if($complaint_stat==0){
+												echo "<i class='warning icon pending'></i>";
+											}
+											echo "<p>".$complaint_status."</p>";
+										echo "</div>";
+
+										echo "<div class='complaint_content'>";
+											echo "<div class='complaint_header'>";
+												echo "<p class='complaint_grievance_id'>Grievance ID: ".$grievance_id."</p>";
+												echo "<p class='complaint_complaint_category'>".$complaint_category."</p>";
+											echo "</div>";
+											echo "<div class='complaint_text'>";
+												echo $complaint_text;
+											echo "</div>";
+										echo "</div>";
+
+										if($complaint_stat==1){
+											echo "<div class='complaint_report'>";
+												echo "<p>".$complaint_report."</p>";
+											echo "</div>";
+										}
+									echo "</div>";//complaint
+
+								}
+
+							}
+
+							else{
+								echo "<div class='no_complaint error_box'>";
+									echo "<p>You haven't issued any complaints yet.</p>";
+								echo "</div>";
+							}
+
+						?> -->
+
+					</div>
+
+				</div><!-- content_contacts -->
+
+			</div> <!-- content -->
+
+
+		<!-- <?php include 'rightbar.php'; ?> -->
+
+	</div><!-- .wrapper -->
+
+	<div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar">
+	    <div class="mdl-snackbar__text"></div>
+	    <button type="button" class="mdl-snackbar__action"></button>
+	</div>
+
+	<script type="text/javascript" src="{% static 'ca/js/jquery.js' %}"></script>
+	<script type="text/javascript" src="{% static 'ca/js/drawer.js' %}"></script>
+	<script type="text/javascript" src="{% static 'ca/js/jquery_ui/jquery-ui.min.js' %}"></script>
+	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+	<script type="text/javascript" src="{% static 'ca/semantic/dist/semantic.min.js' %}"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('#complaint_book_category').dropdown();
+
+			$('.complaint_submit').click(function(){
+				$(this).addClass('loading disabled');
+				var $this= $(this);
+				var complaint_category= $('#complaint_book_category').val();
+				var complaint_text= $('.complaint_book_text').val();
+				var error_state= 0;
+
+				if(complaint_category==0 || complaint_category==""){
+					$this.siblings('.complaint_book_category_error').html("Please select the category");
+					$this.siblings('.complaint_book_category_error').slideDown().delay(2000).slideUp();
+					error_state= 1;
+					$this.removeClass('loading disabled');
+				}
+
+				if(complaint_text==""){
+					$this.siblings('.complaint_book_text_error').html("Please submit your complaint/issue");
+					$this.siblings('.complaint_book_text_error').slideDown().delay(2000).slideUp();
+					error_state= 1;
+					$this.removeClass('loading disabled');
+				}
+
+				if(error_state==0){
+
+					$.ajax({
+						type: "POST",
+						url: "contacts_complaint_submit.php",
+						dataType: "json",
+						data: ({complaint_category: complaint_category,	complaint_text: complaint_text}),
+						success: function(response){
+							$this.removeClass('loading disabled');
+
+							if(response.session == "Session Error"){
+								var notification = document.querySelector('.mdl-js-snackbar');
+								var data = {
+								  message: 'Session Expired',
+								  timeout: 2000
+								};
+								notification.MaterialSnackbar.showSnackbar(data);
+
+								setTimeout(function(){
+									window.location.href = "index.php";
+								}, 3000);
+							}
+
+							if(response.complaint_category_stat=="Complaint category empty" || response.complaint_category=="INVALID COMPLAINT CATEGORY"){
+								$this.siblings('.complaint_book_category_error').html("Please select the category");
+								$this.siblings('.complaint_book_category_error').slideDown().delay(2000).slideUp();
+							}
+
+							if(response.complaint_text_stat=="Complaint text empty"){
+								$this.siblings('.complaint_book_text_error').html("Please submit your complaint/issue");
+								$this.siblings('.complaint_book_text_error').slideDown().delay(2000).slideUp();
+							}
+
+							if(response.stat=="SUCCESS"){
+								var notification = document.querySelector('.mdl-js-snackbar');
+								var data = {
+								  message: 'Your complaint has been recorded. We will get back to you soon.',
+								  timeout: 1000
+								};
+								notification.MaterialSnackbar.showSnackbar(data);
+
+								var grievance_id= response.grievance_id;
+
+								$('.complaints').prepend("<div class='complaint'><div class='complaint_stat'><i class='warning icon pending'></i><p>Pending</p></div><div class='complaint_content'><div class='complaint_header'><p class='complaint_grievance_id'>Grievance ID: "+grievance_id+"</p><p class='complaint_complaint_category'>"+complaint_category+"</p></div><div class='complaint_text'><p>"+complaint_text+"</p></div></div></div>");
+								$('.no_complaint').slideUp();
+							}
+
+							if(response.stat=="FAILURE"){
+								var notification = document.querySelector('.mdl-js-snackbar');
+								var data = {
+								  message: "Sorry! Your complaint couldn't be recorded.",
+								  timeout: 1000
+								};
+								notification.MaterialSnackbar.showSnackbar(data);
+							}
+						}
+					});
+
+				}
+			});
+		});
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home | Campus Ambassador | Alcheringa, IIT Guwahati</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="stylesheet" href="css/index.css">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link rel="stylesheet" href="css/Roboto.css">
+<link rel="stylesheet" href="css/normalize.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link href="https://fonts.googleapis.com/css?family=Fira+Sans|Roboto" rel="stylesheet">
+<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css">
+<link rel="stylesheet" href="semantic/dist/semantic.min.css">
+
+<link rel="icon" type="image/png" href="https://www.alcheringa.in/Alcheringa_Logo.png">
+<meta name="theme-color" content="#455A64">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+</head>
+<body>
+
+	<div class="wrapper content-grid mdl-grid mdl-grid--no-spacing">
+
+		
+
+		<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+
+			<div class="content">
+
+				<div class="content_home">
+
+					<div class="notifications_div">
+
+						<div class="notification_header">
+							<p>Notifications</p>
+						</div>
+
+						<div class="notification_content">
+
+							
+
+						</div> <!-- notification_content -->
+
+					</div> <!-- notifications_div -->
+
+					<div class='referral_div'>
+
+						<div class='referral_header'>
+							<p>Referral Code</p>
+						</div>
+						<div class='referral_content'>
+							<div class="referral_details">
+								<p>Your referral code is</p>
+								<h4><?php echo $alcher_id; ?></h4>
+								<p>Share this with your Friends and make them a part of Alcheringa. In turn get bounty points and awesome prizes.</p>
+							</div>
+							<div class="referral_action">
+								<button class='share_referral ui button' <?php echo "alcher_id='$alcher_id'"; ?>>Share</button>
+							</div>
+						</div>
+
+					</div> <!-- referral_div -->
+
+					<div class='time_remaining_div'>
+
+						<div class="time_remaining_header">
+							<p>Next Tri Weekly</p>
+						</div>
+
+						<div class="time_remaining_content">
+
+						</div>
+
+					</div>
+
+				</div> <!-- content_home -->
+
+			</div> <!-- content -->
+			
+		</div>
+
+		
+	</div><!-- .wrapper -->
+
+	<div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar">
+	    <div class="mdl-snackbar__text"></div>
+	    <button type="button" class="mdl-snackbar__action"></button>
+	</div>
+
+	<script type="text/javascript" src='js/jquery.js'></script>
+	<script type="text/javascript" src='js/drawer.js'></script>
+	<script type="text/javascript" src='js/jquery_ui/jquery-ui.min.js'></script>
+	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+	<script>
+
+		(function(d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) return;
+			js = d.createElement(s); js.id = id;
+			js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.9&appId=1648547895459766";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+
+	</script>
+	<script type="text/javascript">
+		$(function(){
+
+			window.fbAsyncInit = function() {
+			     FB.init({
+			       appId      : '1648547895459766',
+			       cookie     : true,  // enable cookies to allow the server to access 
+			                           // the session
+			       xfbml      : true,  // parse social plugins on this page
+			       version    : 'v2.7' // use graph api version 2.5
+			     });
+			     
+			 };
+
+			$('.share_referral').click(function(){
+
+				$(this).addClass('loading');
+				var $this = $(this);
+				var alcher_id = $this.attr('alcher_id');
+
+				FB.ui(
+					{
+					method: 'share_open_graph',
+					action_type: 'news.publishes',
+					hashtag: '#HailAlcher',
+					action_properties: JSON.stringify({
+					    article : {
+					    	   'fb:app_id': '1648547895459766',
+					           'og:url': 'http://www.alcheringa.in/ca/',
+					           'og:type': 'article',
+					           'og:title': 'Be a part of Alcheringa, IIT Guwahati. Use referral code '+alcher_id+'.',
+					           'og:description': 'I have enrolled myself for the Campus Ambassador Programme of Alcheringa, IIT Guwahati.',
+					           'og:image': 'http://alcheringa.in/ca/ca_try.png',
+					        }
+					  })
+					}, function(response){
+
+						$this.removeClass('loading');
+
+	    				if(response && !response.error_message){
+
+	    					var notification = document.querySelector('.mdl-js-snackbar');
+	    					var data = {
+	    					  message: 'Post shared on Facebook',
+	    					  timeout: 2000
+	    					};
+	    					notification.MaterialSnackbar.showSnackbar(data);
+	    					
+	    				}
+
+	    				else if(response && response.error_message){
+
+	    					var notification = document.querySelector('.mdl-js-snackbar');
+	    					var data = {
+	    					  message: 'Error ! Post couldnot be shared',
+	    					  timeout: 2000
+	    					};
+	    					notification.MaterialSnackbar.showSnackbar(data);
+
+	    				}
+
+	    				else if(!response){
+
+	    					var notification = document.querySelector('.mdl-js-snackbar');
+	    					var data = {
+	    					  message: 'Did you change your mind?',
+	    					  timeout: 2000
+	    					};
+	    					notification.MaterialSnackbar.showSnackbar(data);
+
+	    				}
+
+					});
+
+			});
+
+			$('.notification').click(function(){
+				var $this= $(this);
+				var notification_id= $this.attr('data-notification-id');
+				var notification_href= $this.attr('data-notification-href');
+
+				$.ajax({
+					type: "POST",
+					url: "notification_read.php",
+					dataType: 'json',
+					data: {notification_id: notification_id},
+					success: function(response){
+						if(response.session == "Session Error"){
+							var notification = document.querySelector('.mdl-js-snackbar');
+							var data = {
+							  message: 'Session Expired',
+							  timeout: 2000
+							};
+							notification.MaterialSnackbar.showSnackbar(data);
+
+							setTimeout(function(){
+								window.location.href = "index.php";
+							}, 3000);
+						}
+
+						else if(response.stat=="Notification read"){
+							if(notification_href === "#"){
+								window.location.href = "notifications.php";
+							}
+							else{
+								window.location.href = notification_href;
+							}
+						}
+						else if(response.stat=="Notification already read"){
+							if(notification_href === "#"){
+								window.location.href = "notifications.php";
+							}
+							else{
+								window.location.href = notification_href;
+							}
+						}
+						else if(response.stat=="Failure"){
+
+						}
+					}
+				});
+			});
+
+			var triweekly = ["09/10/2017", "10/01/2017", "10/22/2017", "11/12/2017", "12/03/2017", "12/24/2017", "01/15/2018", "02/05/2018"];
+			var today = new Date();
+
+			for(i = 0; i < triweekly.length; i++){
+
+				var triweekly_date = new Date(triweekly[i]);
+
+				var diffTime = triweekly_date.getTime() - today.getTime();
+				var diffDays = Math.ceil(diffTime / (1000 * 3600 * 24));
+
+				if(diffDays >= 0){
+
+					if(diffDays == 1){
+						$('.time_remaining_content').html("<div><p>"+diffDays+"</p></div><p> Day to Go</p>");
+						break;
+					}
+					else{
+						$('.time_remaining_content').html("<div><p>"+diffDays+"</p></div><p> Days to Go</p>");
+						break;
+					}
+
+				}
+
+			}
+
+			 
+			
+		});
+	</script>
+</body>
+</html>
