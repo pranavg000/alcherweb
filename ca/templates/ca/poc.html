@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<meta name="author" content="Kishor Malakar">
+	<link rel="author" href="https://www.facebook.com/kishor.malakar" />
+
+
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/index.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/Roboto.css">
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link href="https://fonts.googleapis.com/css?family=Fira+Sans|Roboto" rel="stylesheet">
+	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css">
+	<link rel="stylesheet" href="semantic/dist/semantic.min.css">
+
+	<link rel="icon" type="image/png" href="https://www.alcheringa.in/Alcheringa_Logo.png">
+	<meta name="theme-color" content="#455A64">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Submit POC | Campus Ambassador | Alcheringa, IIT Guwahati</title>
+
+	<!-- <?php require 'meta.php'; ?> -->
+</head>
+<body>
+
+	<div class="wrapper content-grid mdl-grid mdl-grid--no-spacing">
+
+
+		<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+
+			<div class="content" style="width:100%; ">
+
+				<div class="content_poc">
+
+					<div class="content_poc_header">
+						<p>Be the face of Alcheringa in your college and city - help us connect with the concerned authorities in your college.</p>
+					</div>
+
+					<div class="content_poc_submit">
+
+						<div class="poc_genre">
+
+							<select class="poc_genre_select ui fluid selection dropdown">
+								<option value=''>Select Genre</option>
+								<option value='Dance'>Dance</option>
+								<option value='Music'>Music</option>
+								<option value='Drama'>Drama</option>
+								<option value='Arts'>Arts</option>
+								<option value='Fashion'>Fashion</option>
+								<option value='Literary and Debate'>Literary and Debate</option>
+								<option value='Sports'>Sports</option>
+							</select>
+
+							<div class="genre_error input_error"></div>
+
+						</div>
+
+						<div class="poc_college">
+
+							<!-- <?php
+
+								$ca_college_query = mysqli_query($connect_ca,
+									"SELECT * FROM ca_questionnaire WHERE alcher_id='$alcher_id' "
+									);
+								$ca_college_row = $ca_college_query->fetch_assoc();
+								$ca_college = $ca_college_row['college_name'];
+
+							?> -->
+
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="text" id="college_name"
+									>
+								<label class="mdl-textfield__label" for="college_name">College/Institution</label>
+								<span class="mdl-textfield__error">Only letters, digits, comma and space are allowed</span>
+							</div>
+
+							<div class="college_error input_error"></div>
+
+						</div>
+
+						<div class="poc_name">
+
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="text" id="fullname" name="fullname"
+									>
+								<label class="mdl-textfield__label" for="fullname">Full Name</label>
+								<span class="mdl-textfield__error">Only letters and white spaces are allowed</span>
+							</div>
+
+							<div class="name_error input_error"></div>
+
+						</div>
+
+						<div class="poc_designation">
+
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="text" id="designation" >
+								<label class="mdl-textfield__label" for="designation">Position/Designation</label>
+								<span class="mdl-textfield__error">Only letters, digits, comma and space are allowed</span>
+							</div>
+
+							<div class="designation_error input_error"></div>
+
+						</div>
+
+						<div class="poc_phone">
+
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="tel" id="phone" name="phone"
+									>
+								<label class="mdl-textfield__label" for="phone">Phone Number</label>
+								<span class="mdl-textfield__error">Please enter a valid Phone No</span>
+							</div>
+
+							<div class="phone_error input_error"></div>
+
+						</div>
+
+						<div class="poc_email">
+
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="email" id="email" name="email">
+								<label class="mdl-textfield__label" for="email">Email ID</label>
+								<span class="mdl-textfield__error">Please enter a valid Email ID</span>
+							</div>
+
+							<div class="email_error input_error"></div>
+
+						</div>
+
+						<div class="poc_fb">
+
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="url" id="fb" name="fb">
+								<label class="mdl-textfield__label" for="fb">Facebook Profile</label>
+								<span class="mdl-textfield__error">Please enter a valid profile URL with http://</span>
+							</div>
+
+							<div class="fb_error input_error"></div>
+
+						</div>
+
+						<button class='poc_submit ui button'>SUBMIT</button>
+
+					</div>
+
+					<div class="content_poc_submitted">
+
+						<p>Submitted Contacts</p>
+
+						<!-- <?php
+
+							$poc_query = mysqli_query($connect_ca,
+								"SELECT * FROM poc WHERE alcher_id='$alcher_id' "
+								);
+
+							if($poc_query && $poc_query->num_rows > 0){
+
+								while($poc = $poc_query->fetch_assoc()){
+
+									$poc_genre = $poc['genre'];
+									$poc_college = $poc['colg'];
+									$poc_name = $poc['name_con'];
+									$poc_designation = $poc['desg'];
+									$poc_phone = $poc['phone'];
+									$poc_email = $poc['email'];
+									$poc_fb = $poc['fb'];
+									$approval_status = $poc['approval'];
+
+									if($poc_fb == ""){
+										$poc_fb = "Not Availiable";
+									}
+
+									echo "<div class='poc'>
+
+										<div class='genre_college'>
+											<i class='material-icons'>account_balance</i>
+											<p>".$poc_genre."</p>,
+											<p>".$poc_college."</p>
+										</div>
+
+										<div class='name_designation'>
+											<i class='material-icons'>person</i>
+											<p>".$poc_name."</p>,
+											<p>".$poc_designation."</p>
+										</div>
+
+										<div class='phone_email'>
+											<i class='material-icons'>call</i>
+											<p>".$poc_phone."</p>,
+											<p>".$poc_email."</p>
+										</div>
+
+										<div class='fb'>
+											<i class='material-icons'>link</i>
+											<p>".$poc_fb."</p>
+										</div>";
+
+                                        if($approval_status == 1){
+
+			    						    echo "<div class='phone_email'>";
+											echo "<i class='material-icons' style='color:#006621;font-size:12px;'>verified_user</i>";
+											echo "<p style='color:#006621;font-size:12px;'>Approved by Admin</p>";
+										    echo "</div>";
+
+										}
+										else if($approval_status == -1) {
+										        echo "<div class='phone_email'>";
+
+											echo "<i class='material-icons' style='color:#dd4b39;font-size:12px;'>cancel</i>";
+											echo "<p style='color:#dd4b39;font-size:12px;'>Disapproved by Admin</p>";
+										echo "</div>";
+										}
+										else{
+										            echo "<div class='phone_email'>";
+
+											echo "<i class='material-icons' style='color:#4885ed;font-size:12px;'>schedule</i>";
+											echo "<p style='color:#4885ed;font-size:12px;'>Pending</p>";
+										echo "</div>";
+										}
+
+									echo "</div>";
+
+								}
+
+							}
+							else{
+								echo "<div class='no_poc error_box'>";
+									echo "<p>You haven't submitted any contacts yet.</p>";
+								echo "</div>";
+							}
+
+						?> -->
+
+					</div>
+
+				</div> <!-- content_poc -->
+
+			</div> <!-- content -->
+
+		</div>
+
+		<!-- <?php include 'rightbar.php'; ?> -->
+
+	</div><!-- .wrapper -->
+
+	<div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar">
+	    <div class="mdl-snackbar__text"></div>
+	    <button type="button" class="mdl-snackbar__action"></button>
+	</div>
+
+	<script type="text/javascript" src='js/jquery.js'></script>
+	<script type="text/javascript" src='js/drawer.js'></script>
+	<script type="text/javascript" src='js/jquery_ui/jquery-ui.min.js'></script>
+	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+	<script type="text/javascript" src='semantic/dist/semantic.min.js'></script>
+	<script type="text/javascript">
+
+		$(function(){
+
+			$('.poc_genre_select').dropdown();
+
+			$('.poc_submit').click(function(){
+
+				$(this).addClass('loading disabled');
+
+				var $this = $(this);
+
+				var poc_genre = $('.content_poc_submit').find('.poc_genre').find('select').val();
+				var poc_college = $('.content_poc_submit').find('.poc_college').find('input').val();
+				var poc_name = $('.content_poc_submit').find('.poc_name').find('input').val();
+				var poc_designation = $('.content_poc_submit').find('.poc_designation').find('input').val();
+				var poc_phone = $('.content_poc_submit').find('.poc_phone').find('input').val();
+				var poc_email = $('.content_poc_submit').find('.poc_email').find('input').val();
+				var poc_fb = $('.content_poc_submit').find('.poc_fb').find('input').val();
+
+				var error_state = 0;
+
+				if(poc_genre == ""){
+					$('.genre_error').html("Please select the Genre");
+					$('.genre_error').slideDown().delay(2000).slideUp();
+					error_state = 1;
+					$this.removeClass('loading disabled');
+				}
+
+				if(poc_college == ""){
+					$('.college_error').html("Please enter College/Institute Name");
+					$('.college_error').slideDown().delay(2000).slideUp();
+					error_state = 1;
+					$this.removeClass('loading disabled');
+				}
+
+				if(poc_name == ""){
+					$('.name_error').html("Please enter the Name of the person");
+					$('.name_error').slideDown().delay(2000).slideUp();
+					error_state = 1;
+					$this.removeClass('loading disabled');
+				}
+
+				if(poc_designation == ""){
+					$('.designation_error').html("Please enter Position/Designation");
+					$('.designation_error').slideDown().delay(2000).slideUp();
+					error_state = 1;
+					$this.removeClass('loading disabled');
+				}
+
+				if(poc_phone == ""){
+					$('.phone_error').html("Please enter the Phone Number");
+					$('.phone_error').slideDown().delay(2000).slideUp();
+					error_state = 1;
+					$this.removeClass('loading disabled');
+				}
+
+				if(poc_email == ""){
+					$('.email_error').html("Please enter Email ID");
+					$('.email_error').slideDown().delay(2000).slideUp();
+					error_state = 1;
+					$this.removeClass('loading disabled');
+				}
+
+				if(error_state == 0){
+
+					poc_phone = $.trim(poc_phone);
+					if(poc_phone.length!=10){
+						$('.phone_error').html("Must have 10 digits");
+						$('.phone_error').slideDown().delay(2000).slideUp();
+						error_state = 1;
+						$this.removeClass('loading disabled');
+					}
+
+					function isPhone(phone){
+						var regex= /^[0-9]*$/;
+						return regex.test(phone);
+					}
+
+					if(!isPhone(poc_phone)){
+						$('.phone_error').html("Only digits from 0-9 are allowed");
+						$('.phone_error').slideDown().delay(2000).slideUp();
+						error_state = 1;
+						$this.removeClass('loading disabled');
+					}
+
+					if(error_state == 0){
+
+						$.ajax({
+							type: "POST",
+							url: "poc_submit.php",
+							dataType: "json",
+							data: ({poc_genre: poc_genre, poc_college: poc_college,
+								poc_name: poc_name, poc_designation: poc_designation,
+								poc_phone: poc_phone, poc_email: poc_email, poc_fb: poc_fb}),
+							success: function(response){
+								$this.removeClass('loading disabled');
+
+								if(response.session == "Session Error"){
+									var notification = document.querySelector('.mdl-js-snackbar');
+									var data = {
+									  message: 'Session Expired',
+									  timeout: 2000
+									};
+									notification.MaterialSnackbar.showSnackbar(data);
+
+									setTimeout(function(){
+										window.location.href = "../registrations/";
+									}, 3000);
+								}
+
+								if(response.genre == "Genre Empty"){
+									$('.genre_error').html("Please select the Genre");
+									$('.genre_error').slideDown().delay(2000).slideUp();
+								}
+
+								if(response.college == "College Empty"){
+									$('.college_error').html("Please enter College/Institute Name");
+									$('.college_error').slideDown().delay(2000).slideUp();
+								}
+
+								if(response.poc_name == "Name Empty"){
+									$('.name_error').html("Please enter the Name of the person");
+									$('.name_error').slideDown().delay(2000).slideUp();
+								}
+
+								if(response.designation == "Designation Empty"){
+									$('.designation_error').html("Please enter Position/Designation");
+									$('.designation_error').slideDown().delay(2000).slideUp();
+								}
+
+								if(response.phone == "Phone Empty"){
+									$('.phone_error').html("Please enter the Phone Number");
+									$('.phone_error').slideDown().delay(2000).slideUp();
+								}
+
+								if(response.email == "Email Empty"){
+									$('.email_error').html("Please enter Email ID");
+									$('.email_error').slideDown().delay(2000).slideUp();
+								}
+
+								if(response.phone == "Phone Length"){
+									$('.phone_error').html("Must have 10 digits");
+									$('.phone_error').slideDown().delay(2000).slideUp();
+								}
+
+								if(response.phone == "Phone REGEX"){
+									$('.phone_error').html("Only digits from 0-9 are allowed");
+									$('.phone_error').slideDown().delay(2000).slideUp();
+								}
+
+								if(response.email == "Email REGEX"){
+									$('.email_error').html("Please enter a valid Email ID");
+									$('.email_error').slideDown().delay(2000).slideUp();
+								}
+
+								if(response.fb == "FB REGEX"){
+									$('.fb_error').html("Please enter a valid FB Profile");
+									$('.fb_error').slideDown().delay(2000).slideUp();
+								}
+
+								if(response.stat == "Success"){
+
+									var notification = document.querySelector('.mdl-js-snackbar');
+									var data = {
+									  message: 'POC successfully submitted',
+									  timeout: 2000
+									};
+									notification.MaterialSnackbar.showSnackbar(data);
+
+								}
+
+								if(response.stat == "Failure"){
+									var notification = document.querySelector('.mdl-js-snackbar');
+									var data = {
+									  message: 'POC could not be submitted',
+									  timeout: 2000
+									};
+									notification.MaterialSnackbar.showSnackbar(data);
+								}
+
+							}
+						});
+
+					}
+
+				}
+
+			});
+
+		});
+
+	</script>
+
+</body>
+</html>

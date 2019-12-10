@@ -1,0 +1,53 @@
+nav{
+	height: 62px;
+}
+
+.navbarBrandCustom{
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.navbarDropdownItem:hover{
+	background-color: #35495E;
+	color: white;
+	border-width: 0px 0px 0px 5px;
+	border-style: solid;
+	border-color: #42B883;
+
+}
+
+.navbarDropdown{
+
+	background-color: ##ebeef5;
+	box-shadow: 5px 5px 20px grey;
+}
+
+.navbar-custom {
+    background-color: #35495E;
+}
+
+/* change the brand and text color */
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+    color: white;
+}
+
+/* change the link color */
+.navbar-custom .navbar-nav .nav-link {
+    color: white;
+}
+
+/* change the color of active or hovered links */
+.navbar-custom .nav-item.active .nav-link,
+.navbar-custom .nav-item:hover .nav-link {
+    color: #42B883;
+}
+
+#navbarItems{
+	background-color: #35495E;
+
+}
+
+#profileImage{
+	background-color: #35495E;
+}

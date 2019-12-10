@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<meta name="author" content="Kishor Malakar">
+	<link rel="author" href="https://www.facebook.com/kishor.malakar" />
+
+
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/index.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/Roboto.css">
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link href="https://fonts.googleapis.com/css?family=Fira+Sans|Roboto" rel="stylesheet">
+	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css">
+	<link rel="stylesheet" href="semantic/dist/semantic.min.css">
+
+	<link rel="icon" type="image/png" href="https://www.alcheringa.in/Alcheringa_Logo.png">
+	<meta name="theme-color" content="#455A64">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Submit Venue | Campus Ambassador | Alcheringa, IIT Guwahati</title>
+
+	<!-- <?php require 'meta.php'; ?> -->
+</head>
+<body>
+
+	<div class="wrapper content-grid mdl-grid mdl-grid--no-spacing">
+
+		<!-- <?php include 'header.php'; ?>
+
+		<?php include 'leftbar.php'; ?> -->
+			<div class="content" style="width: 100%;">
+
+				<div class="content_venue">
+
+					<div class="content_venue_header">
+
+						<p>Contribute in conducting City Auditions at your city by helping us with possible venues for the audition. Get bounty points and an opportunity to be a part of the organizing team of City Audition.</p>
+
+					</div>
+
+					<div class="content_venue_submit">
+
+						<div class="venue_name_div">
+
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="text" id="venue_name"
+									pattern="[<?php echo $team_name_pattern ?>]*">
+								<label class="mdl-textfield__label" for="venue_name">Venue Name</label>
+								<span class="mdl-textfield__error">Only letters, digits, comma and space are allowed</span>
+							</div>
+
+							<div class="venue_name_error input_error"></div>
+
+						</div>
+
+						<div class="contact_person_div">
+
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="text" id="contact_person"
+									<!--pattern="[<?php echo $name_pattern ?>]*"-->>
+								<label class="mdl-textfield__label" for="contact_person">Contact Person</label>
+								<span class="mdl-textfield__error">Only letters and white spaces are allowed</span>
+							</div>
+
+							<div class="contact_person_error input_error"></div>
+
+						</div>
+
+						<div class="contact_number_div">
+
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input class="mdl-textfield__input" type="tel" id="phone"
+									<!--pattern="[<?php echo $phone_pattern ?>]*"-->>
+								<label class="mdl-textfield__label" for="phone">Phone Number</label>
+								<span class="mdl-textfield__error">Please enter a valid Phone No</span>
+							</div>
+
+							<div class="contact_number_error input_error"></div>
+
+						</div>
+
+						<div class="venue_address_div">
+
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<textarea class="mdl-textfield__input" type="text" id="venue_address"
+									<!--pattern="[<?php echo $team_name_pattern ?>]*"-->></textarea>
+								<label class="mdl-textfield__label" for="venue_address">Address</label>
+								<span class="mdl-textfield__error">Only letters, digits, comma and space are allowed</span>
+							</div>
+
+							<div class="venue_address_error input_error"></div>
+
+						</div>
+
+						<div class="remarks_div">
+
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<textarea class="mdl-textfield__input" type="text" id="remarks"
+									<!--pattern="[<?php echo $team_name_pattern ?>]*"-->></textarea>
+								<label class="mdl-textfield__label" for="remarks">Remarks</label>
+								<span class="mdl-textfield__error">Only letters, digits, comma and space are allowed</span>
+							</div>
+
+							<div class="remarks_error input_error"></div>
+
+						</div>
+
+						<button class='venue_submit ui button'>SUBMIT</button>
+
+					</div>
+
+					<div class="content_venue_submitted">
+
+						<p>Submitted Venues</p>
+
+						<!-- <?php
+
+							$venue_query = mysqli_query($connect_ca,
+								"SELECT * FROM venue1 WHERE alcher_id='$alcher_id' "
+								);
+
+							if($venue_query && $venue_query->num_rows > 0){
+
+								while($venue = $venue_query->fetch_assoc()){
+
+									$venue_name = $venue['venue_name'];
+									$contact_person = $venue['contact_name'];
+									$contact_number = $venue['contact_no'];
+									$venue_address = $venue['venue_add'];
+									$remarks = $venue['remarks'];
+									$approval_status = $venue['approval'];
+
+									if($remarks == ""){
+										$remarks = "No Remarks";
+									}
+
+									echo "<div class='venue'>";
+
+										echo "<div class='venue_name'>";
+											echo "<i class='material-icons'>event_available</i>";
+											echo "<p>".$venue_name."</p>";
+										echo "</div>";
+
+										echo "<div class='contact_person'>";
+											echo "<i class='material-icons'>person</i>";
+											echo "<p>".$contact_person."</p>";
+										echo "</div>";
+
+										echo "<div class='contact_number'>";
+											echo "<i class='material-icons'>call</i>";
+											echo "<p>".$contact_number."</p>";
+										echo "</div>";
+
+										echo "<div class='venue_address'>";
+											echo "<i class='material-icons'>domain</i>";
+											echo "<p>".$venue_address."</p>";
+										echo "</div>";
+
+										echo "<div class='remarks'>";
+											echo "<i class='material-icons'>description</i>";
+											echo "<p>".$remarks."</p>";
+										echo "</div>";
+
+										if($approval_status == 1){
+										    echo "<div class='venue_address'><br>";
+
+											echo "<i class='material-icons' style='color:#006621;font-size:12px;'>verified_user</i>";
+											echo "<p style='color:#006621;font-size:12px;'>Approved by Admin</p>";
+										echo "</div>";
+										}
+										else if($approval_status == -1) {
+										        echo "<div class='venue_address'><br>";
+
+											echo "<i class='material-icons' style='color:#dd4b39;font-size:12px;'>cancel</i>";
+											echo "<p style='color:#dd4b39;font-size:12px;'>Disapproved by Admin</p>";
+										echo "</div>";
+										}
+										else{
+										            echo "<div class='venue_address'><br>";
+
+											echo "<i class='material-icons' style='color:#4885ed;font-size:12px;'>schedule</i>";
+											echo "<p style='color:#4885ed;font-size:12px;'>Pending</p>";
+										echo "</div>";
+										}
+
+
+									echo "</div>";
+
+								}
+
+							}
+							else{
+								echo "<div class='no_venue error_box'>";
+									echo "<p>You haven't submitted any venues yet.</p>";
+								echo "</div>";
+							}
+
+						?> -->
+
+					</div>
+
+				</div>
+
+			</div> <!-- content -->
+
+
+		<!-- <?php include 'rightbar.php'; ?> -->
+
+	</div><!-- .wrapper -->
+
+	<div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar">
+	    <div class="mdl-snackbar__text"></div>
+	    <button type="button" class="mdl-snackbar__action"></button>
+	</div>
+
+	<script type="text/javascript" src='js/jquery.js'></script>
+	<script type="text/javascript" src='js/drawer.js'></script>
+	<script type="text/javascript" src='js/jquery_ui/jquery-ui.min.js'></script>
+	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+	<script type="text/javascript">
+
+		$(function(){
+
+			$('.venue_submit').click(function(){
+				var $this = $(this);
+				$this.addClass('loading disabled');
+
+				var venue_name = $('.venue_name_div').find('input').val();
+				var contact_person = $('.contact_person_div').find('input').val();
+				var contact_number = $('.contact_number_div').find('input').val();
+				var venue_address = $('.venue_address_div').find('textarea').val();
+				var remarks = $('.remarks_div').find('textarea').val();
+
+				var error_state = 0;
+
+				if(venue_name == ""){
+					$('.venue_name_error').html("Please enter the name of the venue");
+					$('.venue_name_error').slideDown().delay(2000).slideUp();
+					error_state = 1;
+					$this.removeClass('loading disabled');
+				}
+
+				if(contact_person == ""){
+					$('.contact_person_error').html("Please enter the name of the Contact Person");
+					$('.contact_person_error').slideDown().delay(2000).slideUp();
+					error_state = 1;
+					$this.removeClass('loading disabled');
+				}
+
+				if(contact_number == ""){
+					$('.contact_number_error').html("Please enter the Phone Number");
+					$('.contact_number_error').slideDown().delay(2000).slideUp();
+					error_state = 1;
+					$this.removeClass('loading disabled');
+				}
+
+				if(venue_address == ""){
+					$('.venue_address_error').html("Please enter the address of the venue");
+					$('.venue_address_error').slideDown().delay(2000).slideUp();
+					error_state = 1;
+					$this.removeClass('loading disabled');
+				}
+
+				if(error_state == 0){
+
+					contact_number = $.trim(contact_number);
+					if(contact_number.length!=10){
+						$('.contact_number_error').html("Must have 10 digits");
+						$('.contact_number_error').slideDown().delay(2000).slideUp();
+						error_state = 1;
+						$this.removeClass('loading disabled');
+					}
+
+					function isPhone(phone){
+						var regex= /^[0-9]*$/;
+						return regex.test(phone);
+					}
+
+					if(!isPhone(contact_number)){
+						$('.contact_number_error').html("Only digits from 0-9 are allowed");
+						$('.contact_number_error').slideDown().delay(2000).slideUp();
+						error_state = 1;
+						$this.removeClass('loading disabled');
+					}
+
+					if(error_state == 0){
+
+						$.ajax({
+							type: "POST",
+							url: "venue_submit.php",
+							dataType: "json",
+							data: ({venue_name: venue_name, contact_person: contact_person,
+								contact_number: contact_number, venue_address: venue_address,
+								remarks: remarks}),
+							success: function(response){
+								$this.removeClass('loading disabled');
+
+								if(response.session == "Session Error"){
+									var notification = document.querySelector('.mdl-js-snackbar');
+									var data = {
+									  message: 'Session Expired',
+									  timeout: 2000
+									};
+									notification.MaterialSnackbar.showSnackbar(data);
+
+									setTimeout(function(){
+										window.location.href = "../registrations/";
+									}, 3000);
+								}
+
+								if(response.venue_name == "Venue Name Empty"){
+									$('.venue_name_error').html("Please enter the name of the venue");
+									$('.venue_name_error').slideDown().delay(2000).slideUp();
+								}
+
+								if(response.contact_person == "Contact Person Empty"){
+									$('.contact_person_error').html("Please enter the name of the Contact Person");
+									$('.contact_person_error').slideDown().delay(2000).slideUp();
+								}
+
+								if(response.contact_number == "Contact Number Empty"){
+									$('.contact_number_error').html("Please enter the Phone Number");
+									$('.contact_number_error').slideDown().delay(2000).slideUp();
+								}
+
+								if(response.venue_address == "Venue Address Empty"){
+									$('.venue_address_error').html("Please enter the address of the venue");
+									$('.venue_address_error').slideDown().delay(2000).slideUp();
+								}
+
+								if(response.contact_number == "Contact Number Length"){
+									$('.contact_number_error').html("Must have 10 digits");
+									$('.contact_number_error').slideDown().delay(2000).slideUp();
+								}
+
+								if(response.contact_number == "Contact Number REGEX"){
+									$('.contact_number_error').html("Only digits from 0-9 are allowed");
+									$('.contact_number_error').slideDown().delay(2000).slideUp();
+								}
+
+								if(response.stat == "Success"){
+									var notification = document.querySelector('.mdl-js-snackbar');
+									var data = {
+									  message: 'Venue successfully submitted',
+									  timeout: 2000
+									};
+									notification.MaterialSnackbar.showSnackbar(data);
+
+									$('.content_venue_submitted').append("<div class='venue'><div class='venue_name'><i class='material-icons'>event_available</i><p>"+venue_address+"</p></div><div class='contact_person'><i class='material-icons'>person</i><p>"+contact_person+"</p></div><div class='contact_number'><i class='material-icons'>call</i><p>"+contact_number+"</p></div><div class='venue_address'><i class='material-icons'>domain</i><p>"+venue_address+"</p></div><div class='remarks'><i class='material-icons'>description</i><p>"+remarks+"</p></div></div>");
+									$('.no_venue').slideUp();
+								}
+
+								if(response.stat == "Failure"){
+									var notification = document.querySelector('.mdl-js-snackbar');
+									var data = {
+									  message: 'Venue could not be submitted',
+									  timeout: 2000
+									};
+									notification.MaterialSnackbar.showSnackbar(data);
+								}
+							}
+						});
+
+					}
+
+				}
+
+			});
+
+		});
+
+	</script>
+
+</body>
+</html>

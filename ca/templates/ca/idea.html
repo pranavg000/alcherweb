@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<meta name="author" content="Kishor Malakar">
+	<link rel="author" href="https://www.facebook.com/kishor.malakar" />
+
+
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/index.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/Roboto.css">
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link href="https://fonts.googleapis.com/css?family=Fira+Sans|Roboto" rel="stylesheet">
+	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css">
+	<link rel="stylesheet" href="semantic/dist/semantic.min.css">
+
+	<link rel="icon" type="image/png" href="https://www.alcheringa.in/Alcheringa_Logo.png">
+	<meta name="theme-color" content="#455A64">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Submit Idea | Campus Ambassador | Alcheringa, IIT Guwahati</title>
+
+
+</head>
+<body>
+
+	<div class="wrapper content-grid mdl-grid mdl-grid--no-spacing">
+
+
+
+		<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+
+			<div class="content" style="width: 100%;">
+
+				<div class="content_idea">
+
+					<div class="content_idea_header">
+
+						<p>Always wanted something from Alcheringa? Do you have something in mind that you think we should implement? Do you have a new idea for competition, hospitality, crowd experience that would make Alcheringa better? Submit your idea. You will get bounty points and we will see if we can implement them in this edition of Alcheringa.</p>
+
+					</div>
+
+					<div class="idea_category_div">
+
+						<select class="idea_category ui fluid selection dropdown">
+							<option value=''>Select Category</option>
+							<option value="Competition">Competition</option>
+							<option value="Workshop">Workshop</option>
+							<option value="Hospitality">Hospitality</option>
+							<option value="Artist">Artist</option>
+							<option value="Crowd Experience">Crowd Experience</option>
+							<option value="Other">Other</option>
+						</select>
+						<div class='category_error input_error'></div>
+
+					</div>
+
+					<div class="idea_desc_div">
+
+						<textarea></textarea>
+						<div class='desc_error input_error'></div>
+
+					</div>
+
+					<button class='idea_submit ui button'>SUBMIT</button>
+
+					<div class="submitted_ideas">
+
+						<p>Submitted Ideas</p>
+
+						<!-- <?php
+
+							$idea_query = mysqli_query($connect_ca,
+								"SELECT * FROM idea WHERE alcher_id='$alcher_id' "
+								);
+
+							if($idea_query && $idea_query->num_rows > 0){
+
+								while($idea = $idea_query->fetch_assoc()){
+									$idea_desc = $idea['idea'];
+                                    $admin_reply = $idea['admin_reply'];
+                                    $approval_status = $idea['approval'];
+                                    $display_value = 'block';
+                                    if(empty($idea['admin_reply'])){
+                                        $display_value = 'none';
+                                    }
+									echo "<div class='idea_div'>";
+										echo "<p>".$idea_desc."</p>";
+										echo "<p style='background:#00B2FF;padding:5px 10px 5px 10px;color:#fff;display:$display_value'><b style='color:#000000'>ADMIN REPLY: </b> ".$admin_reply."</p>";
+										if($approval_status == 1){
+			    						    echo "<br>";
+										    echo "<i class='material-icons' style='color:#006621;font-size:12px;'>verified_user</i>";
+											echo "<p style='color:#006621;font-size:12px;'>Approved by Admin</p>";
+										}
+										else if($approval_status == -1) {
+										    echo "<br>";
+
+											echo "<i class='material-icons' style='color:#dd4b39;font-size:12px;'>cancel</i>";
+											echo "<p style='color:#dd4b39;font-size:12px;'>Disapproved by Admin</p>";
+
+										}
+										else{
+										    echo "<br>";
+											echo "<i class='material-icons' style='color:#4885ed;font-size:12px;'>schedule</i>";
+											echo "<p style='color:#4885ed;font-size:12px;'>Pending</p>";
+
+										}
+									echo "</div>";
+
+								}
+
+							}
+
+							else{
+								echo "<div class='no_idea error_box'>";
+									echo "<p>You haven't submitted any ideas yet.</p>";
+								echo "</div>";
+							}
+
+						?> -->
+
+					</div>
+
+				</div>
+
+			</div> <!-- content -->
+
+		</div>
+
+		<!-- <?php include 'rightbar.php'; ?> -->
+
+	</div><!-- .wrapper -->
+
+	<div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar">
+	    <div class="mdl-snackbar__text"></div>
+	    <button type="button" class="mdl-snackbar__action"></button>
+	</div>
+
+	<script type="text/javascript" src='js/jquery.js'></script>
+	<script type="text/javascript" src='js/drawer.js'></script>
+	<script type="text/javascript" src='js/jquery_ui/jquery-ui.min.js'></script>
+	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+	<script type="text/javascript" src='semantic/dist/semantic.min.js'></script>
+	<script type="text/javascript">
+
+		$(function(){
+			$('.idea_category').dropdown();
+
+			$('.idea_submit').click(function(){
+
+				$(this).addClass('loading disabled');
+				var $this = $(this);
+
+				var idea_category = $('.idea_category_div').find("select").val();;
+				var idea_desc = $('.idea_desc_div').find('textarea').val();
+
+				var error_state = 0;
+
+				if(idea_category == ""){
+					$('.category_error').html("Please select the category");
+					$('.category_error').slideDown().delay(2000).slideUp();
+					error_state= 1;
+					$this.removeClass('loading disabled');
+				}
+
+				if(idea_desc == ""){
+					$('.desc_error').html("Please write what idea you have in your mind");
+					$('.desc_error').slideDown().delay(2000).slideUp();
+					error_state= 1;
+					$this.removeClass('loading disabled');
+				}
+
+				if(error_state == 0){
+
+					$.ajax({
+						type: "POST",
+						url: "idea_submit.php",
+						dataType: "json",
+						data: ({idea_category: idea_category, idea_desc: idea_desc}),
+						success: function(response){
+							$this.removeClass('loading disabled');
+
+							if(response.session == "Session Error"){
+								var notification = document.querySelector('.mdl-js-snackbar');
+								var data = {
+								  message: 'Session Expired',
+								  timeout: 2000
+								};
+								notification.MaterialSnackbar.showSnackbar(data);
+
+								setTimeout(function(){
+									window.location.href = "../registrations/";
+								}, 3000);
+							}
+
+							if(response.category == "Category Empty"){
+								$('.category_error').html("Please select the category");
+								$('.category_error').slideDown().delay(2000).slideUp();
+							}
+
+							if(response.desc == "Desc Empty"){
+								$('.desc_error').html("Please write what idea you have in your mind");
+								$('.desc_error').slideDown().delay(2000).slideUp();
+							}
+
+							if(response.stat == "Success"){
+								var notification = document.querySelector('.mdl-js-snackbar');
+								var data = {
+								  message: 'Idea successfully submitted',
+								  timeout: 2000
+								};
+								notification.MaterialSnackbar.showSnackbar(data);
+
+								$('.submitted_ideas').append("<div class='idea_div'><p>"+idea_desc+"</p></div>");
+								$('.no_idea').slideUp();
+
+								$('.idea_desc_div').find('textarea').val('');
+							}
+
+							if(response.stat == "Failure"){
+								var notification = document.querySelector('.mdl-js-snackbar');
+								var data = {
+								  message: 'Idea could not be submitted',
+								  timeout: 2000
+								};
+								notification.MaterialSnackbar.showSnackbar(data);
+							}
+
+						}
+					});
+
+				}
+
+			});
+		});
+
+	</script>
+
+</body>
+</html>

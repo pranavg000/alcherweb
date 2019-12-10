@@ -1,0 +1,6 @@
+<div id='accordion'>
+	{% for faq in faqs %}
+	<h3><i class='pin icon'></i>{{faq.faq_question}}</h3>
+	<div><p>{{faq.faq_answer}}</p></div>
+	{% endfor %}
+</div>
