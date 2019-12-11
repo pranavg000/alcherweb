@@ -1,33 +1,10 @@
 {% extends 'ca/base.html' %}
 
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
 
-		<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-{#	<meta name="author" content="Kishor Malakar">#}
-{#	<link rel="author" href="https://www.facebook.com/kishor.malakar" />#}
-	<link rel="stylesheet" href="{% static 'ca/css/style.css'%}">
-	<link rel="stylesheet" href="{% static 'ca/css/index.css'%}">
-	<link rel="stylesheet" href="{% static 'ca/css/font-awesome.min.css'%}">
-	<link rel="stylesheet" href="{% static 'ca/css/Roboto.css'%}">
-	<link rel="stylesheet" href="{% static 'ca/css/normalize.css'%}">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	<link href="https://fonts.googleapis.com/css?family=Fira+Sans|Roboto" rel="stylesheet">
-	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css">
-	<link rel="stylesheet" href="{% static 'ca/semantic/dist/semantic.min.css'%}">
-
-	<link rel="icon" type="image/png" href="https://www.alcheringa.in/Alcheringa_Logo.png">
-	<meta name="theme-color" content="#455A64">
-
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-	<title>{% block body %}Hospitality | Campus Ambassador | Alcheringa, IIT Guwahati{% endblock %}</title>
+	{% block body %}Hospitality | Campus Ambassador | Alcheringa, IIT Guwahati{% endblock %}
 
 	<!-- <?php require 'meta.php'; ?> -->
-</head>
-<body>
+
 {% block body %}
 
 	<div class="wrapper content-grid mdl-grid mdl-grid--no-spacing">
@@ -234,5 +211,4 @@
 	</script>
 {% endblock %}
 
-</body>
-</html>
+

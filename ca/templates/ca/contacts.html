@@ -1,32 +1,8 @@
 {% extends 'ca/base.html' %}
 
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-{#	<meta name="author" content="Kishor Malakar">#}
-{#	<link rel="author" href="https://www.facebook.com/kishor.malakar" />#}
-
-
-	<link rel="stylesheet" href="{% static 'ca/css/style.css' %}">
-	<link rel="stylesheet" href="{% static 'ca/css/index.css' %}">
-	<link rel="stylesheet" href="{% static 'ca/css/font-awesome.min.css' %}">
-	<link rel="stylesheet" href="{% static 'ca/css/Roboto.css' %}">
-	<link rel="stylesheet" href="{% static 'ca/css/normalize.css' %}">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	<link href="https://fonts.googleapis.com/css?family=Fira+Sans|Roboto" rel="stylesheet">
-	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css">
-	<link rel="stylesheet" href="semantic/dist/semantic.min.css">
-
-	<link rel="icon" type="image/png" href="https://www.alcheringa.in/Alcheringa_Logo.png">
-	<meta name="theme-color" content="#455A64">
-
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>{% block title %}Contacts | Campus Ambassador | Alcheringa, IIT Guwahati{% endblock %}</title>
+{% block title %}Contacts | Campus Ambassador | Alcheringa, IIT Guwahati{% endblock %}
 
 	<!-- <?php require 'meta.php'; ?> -->
-</head>
-<body>
 
 {% block body %}
 
@@ -46,6 +22,8 @@
 					<div class="contact_heads">
 
 						<div class="contact_heads_details contact_heads_1">
+						<img src="images/IMG_20190610_182208-01 - INDIRA Sharma.png" style="width: 10rem; height: 10rem; border-radius: 5rem;" />
+
 							<h4>SHASHANK SHARMA</h4>
 						<h5>Public Relations head</h5>
 						<a href="tel:+91-8949526567"><i class="material-icons" style="font-size: 36px;">phone</i></a>
@@ -59,6 +37,7 @@
 
 
 						<div class="contact_heads_details contact_heads_2">
+                            <img src="images/hemant_y - Hemant Yadav.png" style="width: 10rem; height: 10rem; border-radius: 5rem;">
 
 							<h4>HEMANT YADAV</h4>
 						<h5>Public Relations Head</h5>
@@ -70,6 +49,7 @@
 						</div>
 
 						<div class="contact_heads_details contact_heads_3">
+                            <img src="images/DP - Kartikey Sharma.png" style="width: 10rem; height: 10rem; border-radius: 5rem;">
 
 						<h4>KARTIKEY SHARMA</h4>
 						<h5>Media and Outreach Head</h5>
@@ -338,5 +318,3 @@
 		});
 	</script>
 {% endblock %}
-</body>
-</html>
