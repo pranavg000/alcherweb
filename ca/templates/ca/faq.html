@@ -1,7 +1,8 @@
-{% load staticfiles %}
+{% extends 'ca/base.html' %}
+
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
 	<meta name="author" content="Kishor Malakar">
@@ -22,12 +23,14 @@
 	<meta name="theme-color" content="#455A64">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>FAQ | Campus Ambassador | Alcheringa, IIT Guwahati</title>
+	<title>{% block title %}FAQ | Campus Ambassador | Alcheringa, IIT Guwahati{% endblock %}</title>
 
 	<!-- <?php require 'meta.php'; ?> -->
 </head>
 <body>
 
+
+{% block body %}
 	<div class="wrapper content-grid mdl-grid mdl-grid--no-spacing">
 
 
@@ -191,6 +194,6 @@
 
 		});
 	</script>
-
+{% endblock %}
 </body>
 </html>

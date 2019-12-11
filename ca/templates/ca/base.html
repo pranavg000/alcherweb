@@ -3,9 +3,9 @@
   <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  	<meta name="author" content="Kishor Malakar">
-  	<link rel="author" href="https://www.facebook.com/kishor.malakar" />
-
+{#  	<meta name="author" content="Kishor Malakar">#}
+{#  	<link rel="author" href="https://www.facebook.com/kishor.malakar" />#}
+    {% load staticfiles %}
     <style>
       @media only screen and (max-width: 990px) {
         .navbar-nav{
@@ -31,7 +31,7 @@
     <title>
       {% block title %}
       {% endblock %}
-       | Campus Ambassador | Alcheringa, IIT Guwahati
+{#       | Campus Ambassador | Alcheringa, IIT Guwahati#}
     </title>
   </head>
   <body style="background-color: #C9D1D3">
@@ -88,11 +88,14 @@
     <div class="card">
       <div class="card-body">
         <p class="card-image">
-          <center>
-          <img src="#" style="width: 13rem; border-radius: 10rem" >
-        </center>
+
+          <img src="#" style="width: 13rem; border-radius: 10rem; text-align: center;" >
+
         </p>
-        <p class="card-title"><center><h3><!--NAME--></h3></center></p><br>
+        <p class="card-title" style="text-align: center;">
+          <h3><!--NAME--></h3>
+          </p>
+          <br>
         <p class="card-text">
           Alcher ID<br>
           Team Members<br>
@@ -101,27 +104,10 @@
       </div>
     </div>
   </div>
-  <div class="col-lg-6" style="padding-left: 0;">
 
-    <div class="wrapper content-grid mdl-grid mdl-grid--no-spacing">
+{% block body %}
+{% endblock %}
 
-  		<!-- <?php include 'header.php'; ?>
-
-  		<?php include 'leftbar.php'; ?> -->
-
-  		<!-- <?php include 'rightbar.php'; ?> -->
-
-  	</div><!-- .wrapper -->
-
-    <!-- <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Guidelines For Registration</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-      </div>
-    </div> -->
-
-
-  </div>
   <div class="col-lg-3 d-none d-lg-block" style="padding-right: 3rem;">
     <div class="card">
       <div class="card-body">

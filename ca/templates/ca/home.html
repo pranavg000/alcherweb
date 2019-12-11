@@ -1,17 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Home | Campus Ambassador | Alcheringa, IIT Guwahati</title>
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-<link rel="stylesheet" href="css/index.css">
-<link rel="stylesheet" href="css/font-awesome.min.css">
-<link rel="stylesheet" href="css/Roboto.css">
-<link rel="stylesheet" href="css/normalize.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link href="https://fonts.googleapis.com/css?family=Fira+Sans|Roboto" rel="stylesheet">
-<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css">
-<link rel="stylesheet" href="semantic/dist/semantic.min.css">
+{% extends 'ca/base.html' %}
 
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+{#	<meta name="author" content="Kishor Malakar">#}
+{#	<link rel="author" href="https://www.facebook.com/kishor.malakar" />#}
+	<link rel="stylesheet" href="{% static 'ca/css/style.css'%}">
+	<link rel="stylesheet" href="{% static 'ca/css/index.css'%}">
+	<link rel="stylesheet" href="{% static 'ca/css/font-awesome.min.css'%}">
+	<link rel="stylesheet" href="{% static 'ca/css/Roboto.css'%}">
+	<link rel="stylesheet" href="{% static 'ca/css/normalize.css'%}">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link href="https://fonts.googleapis.com/css?family=Fira+Sans|Roboto" rel="stylesheet">
+	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css">
+	<link rel="stylesheet" href="{% static 'ca/semantic/dist/semantic.min.css'%}">
+
+
+    <title>{% block title %}Home | Campus Ambassador | Alcheringa, IIT Guwahati{% endblock %}</title>
 <link rel="icon" type="image/png" href="https://www.alcheringa.in/Alcheringa_Logo.png">
 <meta name="theme-color" content="#455A64">
 
@@ -19,7 +27,7 @@
 	
 </head>
 <body>
-
+{% block body %}
 	<div class="wrapper content-grid mdl-grid mdl-grid--no-spacing">
 
 		
@@ -88,9 +96,9 @@
 	    <button type="button" class="mdl-snackbar__action"></button>
 	</div>
 
-	<script type="text/javascript" src='js/jquery.js'></script>
-	<script type="text/javascript" src='js/drawer.js'></script>
-	<script type="text/javascript" src='js/jquery_ui/jquery-ui.min.js'></script>
+	<script type="text/javascript" src="{% static 'ca/js/jquery.js' %}"></script>
+	<script type="text/javascript" src="{% static 'ca/js/drawer.js' %}"></script>
+	<script type="text/javascript" src="{% static 'ca/js/jquery_ui/jquery-ui.min.js' %}"></script>
 	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 	<script>
 
@@ -255,5 +263,7 @@
 			
 		});
 	</script>
+
+{% endblock %}
 </body>
 </html>
