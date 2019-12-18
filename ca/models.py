@@ -82,7 +82,7 @@ class Venue(models.Model):
 	venue_add = models.CharField(max_length=500)
 	contact_name = models.CharField(max_length=100)
 	contact_no = models.CharField(max_length=13)
-	remarks = models.CharField(max_length=500)
+	remarks = models.CharField(max_length=500, blank=True)
 	timestamp = models.DateTimeField(auto_now_add=True)
 	approval = models.IntegerField(default=0)
 
