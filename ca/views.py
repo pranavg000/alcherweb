@@ -12,6 +12,14 @@ def contactUs(request):
 
 	return render(request, 'ca/contacts.html', context)
 
+def Ideas(request):
+	ideaQueries = Ideas.objects.filter(user=request.user).order_by('-pk')
+
+	context = {
+		'ideaQueries': ideaQueries,
+	}
+
+	return render(request, 'ca/idea.html', context)
 
 def faqs(request):
 	if request.method == 'POST':
