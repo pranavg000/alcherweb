@@ -50,3 +50,11 @@ def venue(request):
 	}
 
 	return render(request, 'ca/venue.html', context)
+
+
+
+def questionnare(request):
+	if request.method == 'POST':
+		pass
+	else :
+		return render(request, 'ca/questionnare.html')
