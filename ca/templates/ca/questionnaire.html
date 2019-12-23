@@ -1,0 +1,540 @@
+<!-- ple<?php
+
+session_start();
+
+require 'db_connect.php';
+require 'functions.php';
+include 'analyticstracking.php';
+
+if(!isset($_SESSION['ca_id']) || empty($_SESSION['ca_id'])){
+	header('Location: https://www.alcheringa.in/registrations/ca_login.php');
+}
+
+else{
+
+	$current_page = "";
+
+	$ca_id= test_input($_SESSION['ca_id']);
+	$alcher_id= test_input($_SESSION['alcher_id']);
+	$name= test_input($_SESSION['name']);
+
+	validate_session($connect_ca, "ca", $ca_id, $alcher_id, $name);
+
+	if($session_error == 1){
+		header('Location: https://www.alcheringa.in/registrations/ca_login.php');
+	}
+
+	else{
+
+		$ca_query = mysqli_query($connect_ca,
+			"SELECT * FROM ca_details WHERE ca_id='$ca_id' "
+			);
+
+		$ca= $ca_query->fetch_assoc();
+		$ca_profile_complete= $ca['ca_profile_complete'];
+		$ca_approval= $ca['ca_approval'];
+		$ca_email= $ca['email'];
+		$ca_phone= $ca['phone'];
+		$ca_team_name= $ca['team_name'];
+
+		if($ca_profile_complete==1 && $ca_approval==1){
+			header('Location: home.php');
+		}
+
+		elseif($ca_profile_complete==1 && $ca_approval==0){
+			header('Location: pending.php');
+		}
+
+		elseif($ca_profile_complete==0){
+
+?>
+ -->
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Campus Ambassador | Alcheringa, IIT Guwahati</title>
+
+	<!-- <?php require 'meta.php'; ?> -->
+</head>
+<body>
+
+	<div class="wrapper content-grid mdl-grid mdl-grid--no-spacing">
+
+		<!-- <?php include 'header.php'; ?>
+
+		<?php include 'leftbar.php'; ?> -->
+
+		<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+
+			<div class="content">
+
+				<div class="questionnaire_content">
+
+					<h3>Some more info and you are good to go...</h3>
+
+					<p><b>Note</b>: You are only required to fill this quesionnaire if you want to apply for our <a href="https://www.alcheringa.in/ca/">Campus Ambassador Programme</a>. If that is not what you are looking for and you wanted to register for our competitions, Please login to our <a href="https://www.alcheringa.in/registrations">Registration Portal</a> instead.</p>
+
+					<h4>Academic Information</h4>
+
+					<div class="acad_div">
+
+						<select name='acad' id='acad' class="ui fluid selection dropdown">
+							<option value=''>Select Year of Study</option>
+							<option value='1st Year'>1st Year</option>
+							<option value='2nd Year'>2nd Year</option>
+							<option value='3rd Year'>3rd Year</option>
+							<option value='4th Year'>4th Year</option>
+							<option value='5th Year'>5th Year</option>
+						</select>
+
+						<div class="acad_error input_error"></div>
+
+					</div>
+
+					<div class="college_name_div">
+
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+							<input class="mdl-textfield__input" type="text" id="college_name" name="college_name"
+								pattern="[A-Za-z0-9, ]*" value="<?php echo $ca_team_name; ?>">
+							<label class="mdl-textfield__label" for="college_name">College Name</label>
+							<span class="mdl-textfield__error">Only letters, digits, comma and space are allowed</span>
+						</div>
+
+						<div class="college_name_error input_error"></div>
+
+					</div>
+
+					<h4>Personal Information</h4>
+
+					<div class="email_div">
+
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+							<input class="mdl-textfield__input" type="email" id="email" name="email"
+								value="<?php echo $ca_email; ?>" disabled>
+							<label class="mdl-textfield__label" for="email">Email ID</label>
+							<span class="mdl-textfield__error">Please enter a valid Email ID</span>
+						</div>
+
+						<div class="email_error input_error"></div>							
+
+					</div>
+
+					<div class="phone_div">
+
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+							<input class="mdl-textfield__input" type="tel" id="phone" name="phone"
+								pattern="[0-9]*" value="<?php echo $ca_phone; ?>" disabled>
+							<label class="mdl-textfield__label" for="phone">Phone Number</label>
+							<span class="mdl-textfield__error">Please enter a valid Phone No</span>
+						</div>
+
+						<div class="phone_error input_error"></div>
+
+					</div>
+
+					<div class="alt_contact_div">
+
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+							<input class="mdl-textfield__input" type="tel" id="alt_contact" name="alt_contact"
+								pattern="[0-9]*">
+							<label class="mdl-textfield__label" for="alt_contact">Alternate Contact</label>
+							<span class="mdl-textfield__error">Please enter a valid Phone No</span>
+						</div>
+
+						<div class="alt_contact_error input_error"></div>
+
+					</div>
+
+					<div class="city_div">
+
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+							<input class="mdl-textfield__input" type="text" id="city" name="city"
+								pattern="[a-zA-z0-9,-: ]*">
+							<label class="mdl-textfield__label" for="city">City</label>
+							<span class="mdl-textfield__error">Letters, Digits, Space and -,: are allowed</span>
+						</div>
+
+						<div class="city_error input_error"></div>
+
+					</div>
+
+					<div class="mailing_address_div">
+
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+							<input class="mdl-textfield__input" type="text" id="mailing_address" name="mailing_address"
+								pattern="[a-zA-z0-9,-: ]*">
+							<label class="mdl-textfield__label" for="mailing_address">Correspondence Address</label>
+							<span class="mdl-textfield__error">Letters, Digits, Space and -,: are allowed</span>
+						</div>
+
+						<div class="mailing_address_error input_error"></div>
+
+					</div>
+
+					<div class="fb_div">
+
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+							<input class="mdl-textfield__input" type="url" id="fb" name="fb">
+							<label class="mdl-textfield__label" for="fb">FB Profile</label>
+							<span class="mdl-textfield__error">Please type a valid url</span>
+						</div>
+
+						<div class="fb_error input_error"></div>
+
+					</div>
+
+					<div class="por_div">
+
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+							<input class="mdl-textfield__input" type="text" id="por" name="por"
+								pattern="[A-Za-z0-9, ]*">
+							<label class="mdl-textfield__label" for="por">Position of Responsibilities</label>
+							<span class="mdl-textfield__error">Only letters, digits, comma and space are allowed</span>
+						</div>
+
+						<div class="por_error input_error"></div>
+
+					</div>
+
+					<h4>Referral Code</h4>
+
+					<div class="referral_div">
+
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+							<input class="mdl-textfield__input" type="text" id="referral" name="referral"
+								pattern="[A-Za-z0-9-]*">
+							<label class="mdl-textfield__label" for="referral">Referral Code</label>
+							<span class="mdl-textfield__error">Only letters, digits and dash are allowed</span>
+						</div>
+
+						<div class="referral_error input_error"></div>
+
+					</div>
+
+					<button class="submit_questionnaire ui button">SUBMIT</button>
+
+				</div> <!-- questionnaire_content -->
+
+			</div> <!-- content -->
+			
+		</div>
+
+		<!-- <?php include 'rightbar.php'; ?> -->
+	
+	</div><!-- .wrapper -->
+
+	<div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar">
+	    <div class="mdl-snackbar__text"></div>
+	    <button type="button" class="mdl-snackbar__action"></button>
+	</div>
+
+	<script type="text/javascript" src='js/jquery.js'></script>
+	<script type="text/javascript" src='js/drawer.js'></script>
+	<script type="text/javascript" src='js/jquery_ui/jquery-ui.min.js'></script>
+	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+	<script type="text/javascript" src='semantic/dist/semantic.min.js'></script>
+	<script type="text/javascript">
+		$(function(){
+			$('#acad').dropdown();
+
+			$('.submit_questionnaire').click(function(){
+				$(this).addClass('loading');
+
+				var $this= $(this);
+				var acad= $('.acad_div').find('select').val();
+				var college_name= $('.college_name_div').find('input').val();
+				var email= $('.email_div').find('input').val();
+				var phone= $('.phone_div').find('input').val();
+				var alt_contact= $('.alt_contact_div').find('input').val();
+				var city= $('.city_div').find('input').val();
+				var mailing_address= $('.mailing_address_div').find('input').val();
+				var fb= $('.fb_div').find('input').val();
+				var por= $('.por_div').find('input').val();
+				var referral= $('.referral_div').find('input').val();
+
+				var error_state= 0;
+
+				if(acad==""){
+					$this.removeClass('loading');
+					$('.acad_div').find('.acad_error').html("<p>Please select your year of study</p>");
+					$('.acad_div').find('.acad_error').slideDown().delay(2000).slideUp();
+					error_state= 1;
+				}
+
+				if(college_name==""){
+					$this.removeClass('loading');
+					$('.college_name_div').find('.college_name_error').html("<p>Please enter your college name</p>");
+					$('.college_name_div').find('.college_name_error').slideDown().delay(2000).slideUp();
+					error_state= 1;
+				}
+
+				if(city==""){
+					$this.removeClass('loading');
+					$('.city_div').find('.city_error').html("<p>Please enter your City</p>");
+					$('.city_div').find('.city_error').slideDown().delay(2000).slideUp();
+					error_state= 1;
+				}
+
+				if(mailing_address==""){
+					$this.removeClass('loading');
+					$('.mailing_address_div').find('.mailing_address_error').html("<p>Please enter your mailing address</p>");
+					$('.mailing_address_div').find('.mailing_address_error').slideDown().delay(2000).slideUp();
+					error_state= 1;
+				}
+
+				// if(fb==""){
+				// 	$this.removeClass('loading');
+				// 	$('.fb_div').find('.fb_error').html("<p>Please enter your facebook profile link</p>");
+				// 	$('.fb_div').find('.fb_error').slideDown().delay(2000).slideUp();
+				// 	error_state= 1;
+				// }
+
+				if(error_state==0){
+
+					function isAcad(acad){
+						var regex= /^[a-zA-z0-9 ]*$/;
+						return regex.test(acad);
+					}
+
+					if(!isAcad(acad)){
+						$this.removeClass('loading');
+						$('.acad_div').find('.acad_error').html("<p>Select year from the dropdown</p>");
+						$('.acad_div').find('.acad_error').slideDown().delay(2000).slideUp();
+						error_state= 1;
+					}
+
+					function isCollegeName(college_name){
+						var regex= /^[a-zA-z0-9, ]*$/;
+						return regex.test(college_name);
+					}
+
+					if(!isCollegeName(college_name)){
+						$this.removeClass('loading');
+						$('.college_name_div').find('.college_name_error').html("<p>Only letters, digits, comma and space are allowed</p>");
+						$('.college_name_div').find('.college_name_error').slideDown().delay(2000).slideUp();
+						error_state= 1;
+					}
+
+					if(alt_contact!=""){
+
+						alt_contact= $.trim(alt_contact);
+						if(alt_contact.length!=10){
+							$this.removeClass('loading');
+							$('.alt_contact_div').find('.alt_contact_error').html("<p>Must have 10 digits</p>");
+							$('.alt_contact_div').find('.alt_contact_error').slideDown().delay(2000).slideUp();
+							error_state= 1;
+						}
+
+						function isPhone(phone){
+							var regex= /^[0-9]*$/;
+							return regex.test(phone);
+						}
+
+						if(!isPhone(alt_contact)){
+							$this.removeClass('loading');
+							$('.alt_contact_div').find('.alt_contact_error').html("<p>Only digits from 0-9 are allowed</p>");
+							$('.alt_contact_div').find('.alt_contact_error').slideDown().delay(2000).slideUp();
+							error_state= 1;
+						}
+
+					}
+
+					function isMailingAddress(mailing_address){
+						var regex= /^[a-zA-z0-9,-: ]*$/;
+						return regex.test(mailing_address);
+					}
+
+					if(!isMailingAddress(city)){
+						$this.removeClass('loading');
+						$('.city_div').find('.city_error').html("<p>Only letters, digits, comma and space are allowed</p>");
+						$('.city_div').find('.city_error').slideDown().delay(2000).slideUp();
+						error_state= 1;
+					}
+
+					if(!isMailingAddress(mailing_address)){
+						$this.removeClass('loading');
+						$('.mailing_address_div').find('.mailing_address_error').html("<p>Only letters, digits, comma and space are allowed</p>");
+						$('.mailing_address_div').find('.mailing_address_error').slideDown().delay(2000).slideUp();
+						error_state= 1;
+					}
+
+					function isURL(url){
+						var regex = /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/;
+						return regex.test(url);
+					}
+
+					if(!isURL(fb)){
+						$this.removeClass('loading');
+						$('.fb_div').find('.fb_error').html("<p>Please enter a valid FB profile</p>");
+						$('.fb_div').find('.fb_error').slideDown().delay(2000).slideUp();
+						error_state= 1;
+					}
+
+					if(por!=""){
+
+						function isPOR(por){
+							var regex= /^[a-zA-z0-9, ]*$/;
+							return regex.test(por);
+						}
+
+						if(!isPOR(por)){
+							$this.removeClass('loading');
+							$('.por_div').find('.por_error').html("<p>Only letters, digits, comma and space are allowed</p>");
+							$('.por_div').find('.por_error').slideDown().delay(2000).slideUp();
+							error_state= 1;
+						}
+
+					}
+
+					if(referral!=""){
+
+						function isAlcher(alcher_id){
+							var regex = /^[a-zA-Z0-9-]*$/;
+							return regex.test(alcher_id);
+						}
+
+						if(!isAlcher(referral)){
+							$this.removeClass('loading');
+							$('.referral_div').find('.referral_error').html("<p>Enter a valid Referral Code</p>");
+							$('.referral_div').find('.referral_error').slideDown().delay(2000).slideUp();
+							error_state= 1;
+						}
+
+					}
+
+					if(error_state==0){
+
+						$.ajax({
+								type: "POST",
+								url: "questionnaire_update.php",
+								dataType: "json",
+								data: ({acad: acad, college_name: college_name,
+										alt_contact: alt_contact, city: city, mailing_address: mailing_address,
+										fb: fb, por: por, referral: referral}),
+								success: function(response){
+
+									$this.removeClass('loading');
+
+									if(response.session == "Session Error"){
+										var notification = document.querySelector('.mdl-js-snackbar');
+										var data = {
+										  message: 'Session Expired',
+										  timeout: 2000
+										};
+										notification.MaterialSnackbar.showSnackbar(data);
+
+										setTimeout(function(){
+											window.location.href = "../registrations/";
+										}, 3000);
+									}
+
+									if(response.acad_stat=="ACAD EMPTY"){
+										$('.acad_div').find('.acad_error').html("<p>Please select your year of study</p>");
+										$('.acad_div').find('.acad_error').slideDown().delay(2000).slideUp();
+									}
+
+									if(response.college_name_stat=="COLLEGE NAME EMPTY"){
+										$('.college_name_div').find('.college_name_error').html("<p>Please enter your college name</p>");
+										$('.college_name_div').find('.college_name_error').slideDown().delay(2000).slideUp();
+									}
+
+									if(response.city_stat=="CITY EMPTY"){
+										$('.city_div').find('.city_error').html("<p>Please enter your City</p>");
+										$('.city_div').find('.city_error').slideDown().delay(2000).slideUp();
+									}
+
+									if(response.mailing_address_stat=="MAILING ADDRESS EMPTY"){
+										$('.mailing_address_div').find('.mailing_address_error').html("<p>Please enter your mailing address</p>");
+										$('.mailing_address_div').find('.mailing_address_error').slideDown().delay(2000).slideUp();
+									}
+
+									if(response.fb_stat=="FB EMPTY"){
+										$('.fb_div').find('.fb_error').html("<p>Please enter your facebook profile link</p>");
+										$('.fb_div').find('.fb_error').slideDown().delay(2000).slideUp();
+									}
+
+									if(response.acad_stat=="ACAD REGEX"){
+										$('.acad_div').find('.acad_error').html("<p>Select year from the dropdown</p>");
+										$('.acad_div').find('.acad_error').slideDown().delay(2000).slideUp();
+									}
+
+									if(response.college_name_stat=="COLLEGE NAME REGEX"){
+										$('.college_name_div').find('.college_name_error').html("<p>Only letters, digits, comma and space are allowed</p>");
+										$('.college_name_div').find('.college_name_error').slideDown().delay(2000).slideUp();
+									}
+
+									if(response.alt_contact_stat=="ALT CONTACT LENGTH"){
+										$('.alt_contact_div').find('.alt_contact_error').html("<p>Must have 10 digits</p>");
+										$('.alt_contact_div').find('.alt_contact_error').slideDown().delay(2000).slideUp();
+									}
+
+									if(response.alt_contact_stat=="ALT CONTACT REGEX"){
+										$('.alt_contact_div').find('.alt_contact_error').html("<p>Only digits from 0-9 are allowed</p>");
+										$('.alt_contact_div').find('.alt_contact_error').slideDown().delay(2000).slideUp();
+									}
+
+									if(response.city_stat=="CITY REGEX"){
+										$('.city_div').find('.city_error').html("<p>Only letters, digits, comma and space are allowed</p>");
+										$('.city_div').find('.city_error').slideDown().delay(2000).slideUp();
+									}
+
+									if(response.mailing_address_stat=="MAILING ADDRESS REGEX"){
+										$('.mailing_address_div').find('.mailing_address_error').html("<p>Only letters, digits, comma and space are allowed</p>");
+										$('.mailing_address_div').find('.mailing_address_error').slideDown().delay(2000).slideUp();
+									}
+
+									if(response.fb_stat=="FB REGEX"){
+										$('.fb_div').find('.fb_error').html("<p>Please enter a valid FB profile</p>");
+										$('.fb_div').find('.fb_error').slideDown().delay(2000).slideUp();
+									}
+
+									if(response.por_stat=="POR REGEX"){
+										$('.por_div').find('.por_error').html("<p>Only letters, digits, comma and space are allowed</p>");
+										$('.por_div').find('.por_error').slideDown().delay(2000).slideUp();
+									}
+
+									if(response.referral_stat=="REFERRAL REGEX"){
+										$('.referral_div').find('.referral_error').html("<p>Enter a valid Referral Code</p>");
+										$('.referral_div').find('.referral_error').slideDown().delay(2000).slideUp();
+									}
+
+									if(response.referral_stat=="ALCHER ID"){
+										$('.referral_div').find('.referral_error').html("<p>We see what you did there! Can't use your own Alcher ID as referral code.</p>");
+										$('.referral_div').find('.referral_error').slideDown().delay(2000).slideUp();
+									}
+
+									if(response.stat=="SUCCESS"){
+
+										var notification = document.querySelector('.mdl-js-snackbar');
+										var data = {
+										  message: 'Questionnaire successfully submitted',
+										  timeout: 2000
+										};
+										notification.MaterialSnackbar.showSnackbar(data);
+
+										window.location.href = "pending.php";
+									}
+
+									if(response.stat=="FAILURE"){
+										var notification = document.querySelector('.mdl-js-snackbar');
+										var data = {
+										  message: 'Questionnaire could not be submitted',
+										  timeout: 2000
+										};
+										notification.MaterialSnackbar.showSnackbar(data);
+									}
+
+								}
+							});
+
+					}
+
+				}
+
+			})
+		})
+	</script>
+
+</body>
+</html>
+

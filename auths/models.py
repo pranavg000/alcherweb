@@ -34,3 +34,9 @@ class Profile(models.Model):
 		return self.user.username
 
 
+class CA_Detail(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='ca_details')
+	team_name = models.CharField(max_length=200, blank=True)
+	ca_profile_complete = models.BooleanField(default=False)
+	ca_approval = models.BooleanField(default=False)
+	timestamp = models.DateTimeField(auto_now_add=True)
