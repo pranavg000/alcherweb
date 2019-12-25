@@ -4,8 +4,13 @@ from . import views
 app_name = 'ca'
 
 urlpatterns = [
+    path('home', views.home, name='home'),
     path('contact', views.contactUs , name='contactUs'),
     path('faqs', views.faqs , name='faqs'),
     path('venue', views.venue , name='venue'),
-    path('questionnare', views.questionnare, name='questionnare'),
+    path('questionnaire', views.questionnare, name='questionnare'),
+    path('pending', views.pending, name='pending'),
+    path('guidelines', views.guidelines, name='guidelines'),
+    path('hospitality', views.hospitality, name='hospitality'),
+    path('poc', views.poc, name='poc'),
 ]

@@ -1,7 +1,9 @@
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as auth_login
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from .models import *
 
 def register(request):
 
@@ -13,7 +15,7 @@ def register(request):
 		User.objects.create_user(username, email, password)
 		user = authenticate(username=username, password=password)
 		if user is not None:
-			login(request, user)
+			auth_login(request, user)
 		else:
 			return render(request, 'auths/signup.html')
 		
@@ -27,22 +29,26 @@ def register(request):
 
 
 
-# def login(request):
-# 	username = password = ''
-# 	if request.POST:
-# 		username = request.POST['username']
-# 		password = request.POST['password']
+def login(request):
+	username = password = ''
+	if request.POST:
+		username = request.POST['username']
+		password = request.POST['password']
 
-# 		user = authenticate(username=username, password=password)
-# 		if user is not None:
-# 			if user.is_active:
-# 				login(request, user)
-# 				ca_detail = CA_Detail.objects.get(user = request.user);
-# 				if ca_detail.ca_approval :
-# 					return redirect('ca:home')
-# 				elif ca_detail.ca_profile_complete :
-# 					return redirect('ca:pending')
-# 				else :
-# 					return redirect('ca:questionnare')
+		user = authenticate(username=username, password=password)
+		if user is not None:
+			if user.is_active:
+				auth_login(request, user)
 
-# 	return render(request, 'auths/login.html')
+				ca_detail = CA_Detail.objects.filter(user = request.user);
+				if len(ca_detail) == 0:
+					CA_Detail.objects.create(user=request.user)
+					ca_detail = CA_Detail.objects.filter(user = request.user);
+				if ca_detail[0].ca_approval :
+					return redirect('ca:home')
+				elif ca_detail[0].ca_profile_complete :
+					return redirect('ca:pending')
+				else :
+					return redirect('ca:questionnare')
+
+	return render(request, 'auths/login.html')

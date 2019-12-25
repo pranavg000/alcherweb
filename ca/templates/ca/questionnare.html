@@ -49,15 +49,15 @@ else{
 
 ?>
  -->
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Campus Ambassador | Alcheringa, IIT Guwahati</title>
 
-	<!-- <?php require 'meta.php'; ?> -->
-</head>
-<body>
+{% extends 'ca/base.html' %}
+    {% load staticfiles %}
 
+{% block title %}Campus Ambassador | Alcheringa, IIT Guwahati{% endblock %}
+
+
+
+{% block body %}
 	<div class="wrapper content-grid mdl-grid mdl-grid--no-spacing">
 
 		<!-- <?php include 'header.php'; ?>
@@ -65,7 +65,8 @@ else{
 		<?php include 'leftbar.php'; ?> -->
 
 		<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-
+			<form method="POST">
+				{% csrf_token %}
 			<div class="content">
 
 				<div class="questionnaire_content">
@@ -95,7 +96,7 @@ else{
 
 						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 							<input class="mdl-textfield__input" type="text" id="college_name" name="college_name"
-								pattern="[A-Za-z0-9, ]*" value="<?php echo $ca_team_name; ?>">
+								pattern="[A-Za-z0-9, ]*" value="{{college}}">
 							<label class="mdl-textfield__label" for="college_name">College Name</label>
 							<span class="mdl-textfield__error">Only letters, digits, comma and space are allowed</span>
 						</div>
@@ -110,7 +111,7 @@ else{
 
 						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 							<input class="mdl-textfield__input" type="email" id="email" name="email"
-								value="<?php echo $ca_email; ?>" disabled>
+								value="{{email}}" disabled>
 							<label class="mdl-textfield__label" for="email">Email ID</label>
 							<span class="mdl-textfield__error">Please enter a valid Email ID</span>
 						</div>
@@ -123,7 +124,7 @@ else{
 
 						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 							<input class="mdl-textfield__input" type="tel" id="phone" name="phone"
-								pattern="[0-9]*" value="<?php echo $ca_phone; ?>" disabled>
+								pattern="[0-9]*" value="{{phone_no}}" disabled>
 							<label class="mdl-textfield__label" for="phone">Phone Number</label>
 							<span class="mdl-textfield__error">Please enter a valid Phone No</span>
 						</div>
@@ -216,7 +217,7 @@ else{
 				</div> <!-- questionnaire_content -->
 
 			</div> <!-- content -->
-			
+			</form>
 		</div>
 
 		<!-- <?php include 'rightbar.php'; ?> -->
@@ -228,11 +229,11 @@ else{
 	    <button type="button" class="mdl-snackbar__action"></button>
 	</div>
 
-	<script type="text/javascript" src='js/jquery.js'></script>
-	<script type="text/javascript" src='js/drawer.js'></script>
-	<script type="text/javascript" src='js/jquery_ui/jquery-ui.min.js'></script>
+	<script type="text/javascript" src="{% static 'ca/js/jquery.js' %}"></script>
+	<script type="text/javascript" src="{% static 'ca/js/drawer.js' %}"></script>
+	<script type="text/javascript" src="{% static 'ca/js/jquery_ui/jquery-ui.min.js' %}"></script>
 	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-	<script type="text/javascript" src='semantic/dist/semantic.min.js'></script>
+	<script type="text/javascript" src="{% static 'ca/semantic/dist/semantic.min.js' %}"></script>
 	<script type="text/javascript">
 		$(function(){
 			$('#acad').dropdown();
@@ -406,7 +407,7 @@ else{
 
 						$.ajax({
 								type: "POST",
-								url: "questionnaire_update.php",
+								url: "{% url 'ca:questionnare' %}",
 								dataType: "json",
 								data: ({acad: acad, college_name: college_name,
 										alt_contact: alt_contact, city: city, mailing_address: mailing_address,
@@ -534,7 +535,5 @@ else{
 			})
 		})
 	</script>
-
-</body>
-</html>
+{% endblock %}
 

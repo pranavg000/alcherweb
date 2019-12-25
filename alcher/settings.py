@@ -122,7 +122,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-LOGIN_REDIRECT_URL = 'auths:home'
+LOGIN_REDIRECT_URL = 'ca:home'
+LOGIN_URL = 'auths:login'
 
 AUTHENTICATION_BACKENDS = [
         'social_core.backends.google.GoogleOAuth2',

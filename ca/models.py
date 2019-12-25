@@ -90,7 +90,7 @@ class Venue(models.Model):
 
 class CA_Questionnaire(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	alternate_contact = models.CharField(max_length=13)
+	alt_contact = models.CharField(max_length=13)
 	acad = models.CharField(max_length=100)
 	college_name = models.CharField(max_length=200)
 	city = models.CharField(max_length=200)
