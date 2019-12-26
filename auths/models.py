@@ -14,7 +14,7 @@ class Interest(models.Model):
 
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-	full_name = models.CharField(max_length=200)
+	fullname = models.CharField(max_length=200)
 	phone = models.CharField(max_length=11)
 	college = models.CharField(max_length=100)
 	GENDER_CHOICES = [
@@ -26,8 +26,8 @@ class Profile(models.Model):
 		max_length=1,
 		default='M'
 		)
-	state = models.CharField(max_length=50)
-	city = models.CharField(max_length=100)
+	state = models.CharField(max_length=50, blank=True)
+	city = models.CharField(max_length=100, blank=True)
 	interests = models.ManyToManyField(Interest)
 
 	def __str__(self):
