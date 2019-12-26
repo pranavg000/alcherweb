@@ -1,0 +1,550 @@
+<!-- <?php
+	require 'db_connect.php';
+	require 'functions.php';
+	//require_once __DIR__ . '/src/Facebook/autoload.php';
+	require 'facebook_login/php-graph-sdk-5.x/src/Facebook/autoload.php';
+	include 'analyticstracking.php';
+    include 'structured_data.php';
+
+	session_start();
+	
+	if (!empty($_SESSION['alcher_id'])) {
+	    
+        header('Location: ../caportal/dashboard.php');
+        
+        
+    }
+					
+			if(isset($_POST['ca_login'])){
+
+			//server side validation
+
+			$email= test_input($_POST['ca_email']);
+
+			$password= $_POST['ca_password'];
+			$password= stripslashes($password);
+			$password= htmlspecialchars($password, ENT_QUOTES);
+
+			//error reporting
+
+			$email_error= $password_error= $login_error= "";
+			$error_status= 0;
+
+			if(empty($email)){
+				$email_error= "Please enter a valid Email ID";
+				$error_status= 1;
+			}
+			if(empty($password)){
+				$password_error= "Password is required";
+				$error_status= 1;
+			}
+
+			if($error_status==0){
+
+				if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+
+					$email_error = "Invalid email format";
+					$error_status= 1;
+				}
+
+				if($error_status==0){
+
+					//process the form
+
+					//encrypt the password
+
+					$password= hash("sha512", $password);
+
+					//check if such account exists
+
+					$search_account= mysqli_query($connect_users,
+						"SELECT * FROM user_details WHERE email='$email' AND password='$password' "
+						);
+
+					$search_account_email = mysqli_query($connect_users,
+						"SELECT * FROM user_details WHERE email='$email' AND password='' AND fb_id!='' "
+					);
+
+					if(($search_account && $search_account->num_rows==0) && ($search_account_email && $search_account_email->num_rows==0)){
+						$login_error= "Sorry! Invalid credentials. Try again.";
+					}
+
+					elseif(($search_account && $search_account->num_rows==0) && ($search_account_email && $search_account_email->num_rows==1)){
+						$login_error= "It seems that you created your account with Facebook Authentication. So please choose 'Login with Facebook' option.";
+					}
+
+					elseif($search_account && $search_account->num_rows==1){
+
+						$search= $search_account->fetch_assoc();
+						$user_id= $search['user_id'];
+						$alcher_id= $search['alcher_id'];
+						$fullname= $search['fullname'];
+						$email= $search['email'];
+						$phone= $search['phone'];
+						$gender= $search['gender'];
+						$team_name= $search['team_name'];
+						$interests= $search['interests'];
+
+						//if not previously logged in, insert the data into ca details database
+
+						//if previously logged in, redirect to ca portal
+
+						$login_query= mysqli_query($connect_ca,
+							"SELECT * FROM ca_details WHERE alcher_id='$alcher_id';"
+							);
+
+						if($login_query->num_rows==0){
+
+							//the user hasn't previously logged in
+
+							//copy the data into ca_details database
+
+							date_default_timezone_set("Asia/Kolkata");
+							$date= date("d-m-Y");
+							$time= date("h:i:sa");
+							$timestamp= $date." ".$time;
+
+							$insert_ca= mysqli_query($connect_ca,
+								"INSERT INTO ca_details VALUES ('','$alcher_id',
+									'$fullname','$email','$phone','$gender','$team_name','','',
+									'$interests','0','0','$timestamp');"
+								);
+
+							//first 0 is for ca_profile_complete
+
+							//second 0 is for ca_approval
+
+						}
+
+						//now ca login procedure for both first login or repeated login
+
+						$ca_query= mysqli_query($connect_ca,
+							"SELECT * FROM ca_details WHERE alcher_id='$alcher_id';"
+							);
+						if($ca_query && $ca_query->num_rows==1){
+
+							$ca= $ca_query->fetch_assoc();
+							$ca_id= $ca['ca_id'];
+							$alcher_id= $ca['alcher_id'];
+							$fullname= $ca['fullname'];
+							$team_name= $ca['team_name'];
+							$ca_approval= $ca['ca_approval'];
+							$ca_profile_complete= $ca['ca_profile_complete'];
+
+							//three cases
+
+							//1. if the ca is approved, show him main portal
+							//2. if the ca questionnaire is complete, but hasn't been approved, show him pending msg
+							//3. if the ca questionnaire is not complete, show him the questionnaire
+
+							$_SESSION['ca_id']= $ca_id;
+							$_SESSION['alcher_id']= $alcher_id;
+							$_SESSION['name']= $fullname;
+							$_SESSION['team_name'] = $team_name;
+
+							if($ca_approval==1){
+
+								header('Location: ../caportal/home.php');
+
+							}
+
+							else{
+
+								if($ca_profile_complete==1){
+
+									header('Location: ../caportal/pending.php');
+
+								}
+
+								else{
+
+									//header('Location: ../caportal/closed.php');
+                                    header('Location: https://www.alcheringa.in/caportal/questionnaire.php');
+								}
+
+							}
+
+						}
+
+						else{
+							$login_error= "Problem logging you in. Please try again later.";
+						}
+					}
+
+				}
+
+			}
+
+	}
+
+	?> -->
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login | Campus Ambassador | Alcheringa, IIT Guwahati</title>
+	
+
+	<meta name="description" content="Register now for competitions happening during Alcheringa, IIT Guwahati - one of the largest college cultural festivals in India.">
+	<meta name="keywords" content="alcheringa,alcher,iit,guwahati,iitg,largest,cultural,festival,fest,india,competition,participant,participation,member,event,assam,northeast,2016,2017,2018,2019,january,february,rock,rocko,rock-o-phonix,rockophonix,rockophoenix,rock-o-phoenix,northeast rock,assam rock,battle,bands,thundermarch,silchar,Guwahati,Gauhati,dispur,weekender,kamakhya,mumbai,dance,music,fest,art,drama,prize,2.5 lacs,auditions,prelims,eliminations,holy,grail,metal,campus,ambassador,ca,date,release,31st Jan 2019 to 3rd Feb 2019,31st jan,3rd feb,2019 fest, city eliminations, auditions iitg, jaipur, delhi, lucknow, indore, pune, kolkata, shillong, jorhat, portal, electric,heels,electric heels,halla bol, halla,bol, monodrama,mono,so you think you can dance, sytycd, sutucd, alcher sutucd, theatrix, haute, couture,voguenation, vogue, nation, Glamour nova, glamour, nova, papyrus, array, crossfade, dj, dj battle, battle, faceoff,face, off, war, edm, electronic, music, roadies, fashion, games, informal, informals, class, apart, classapart, abcd, any body can dance, stagecraft, agt, Alcher got talent, step up, step, dancing duo, navras, raga high, high, raga, unplugged, voice of alcheringa, voice, choir, mun, model, united, nations, model united nations, model united nation, iitgmun, JAM, just a minute, mehfil, mehfil-e-alcheringa, parliamentary debate, iitg pd, iitgpd, pd, poetry, poetry slam, slam, clay, modelling, clay modelling, ink the tee, t-shirt, painting, t-shirt painting, Face art, face painting, graffiti, live sketching, sketching, rangoli, face art, football, futsal ,basketball, arm, arm wrestling, wrestling, gully cricket, cricket, gully, volleyball, online, competitions, digital, dexterity, custom, brush, doodle, pad, alcher diva, alcher hunk, xpressions, zephyr, lights, camera, action, directors cut, director, movie making, movie, short movie, snapthrillz, quiz, travel reimbursement, reaching iitg, accomodation, general, championship,  general championship, bounties, bounty">
+
+	<meta property="og:url" content="http://www.alcheringa.in/registrations/index.php">
+	<meta property="og:image" content="http://www.alcheringa.in/registrations/image.jpg">
+	<meta property="og:description" content="Register now for competitions happening during Alcheringa, IIT Guwahati - one of the largest college cultural festivals in India.">
+	<meta property="og:title" content="Registrations | Alcheringa, IIT Guwahati">
+	<meta property="og:type" content="website">
+	<meta property="og:site_name" content="Alcheringa, IIT Guwahati">
+	<meta property="og:see_also" content="http://alcheringa.in">
+
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="@alcheringaiitg">
+	<meta name="twitter:creator" content="@mithilesh4257">
+	<meta name="twitter:url" content="http://www.alcheringa.in/registrations/index.php">
+	<meta name="twitter:title" content="Registrations | Alcheringa, IIT Guwahati">
+	<meta name="twitter:description" content="Register now for competitions happening during Alcheringa, IIT Guwahati - one of the largest college cultural festivals in India.">
+	<meta name="twitter:image" content="http://www.alcheringa.in/registrations/image.jpg">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" href="images/favicon.png" type="image/png" sizes="32x32">
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PPSHCGJ');</script>
+<!-- End Google Tag Manager -->
+    <style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* style the container */
+.container {
+  position: relative;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px 0 30px 0;
+  -webkit-box-shadow: 0 0 5px 2px #aaa;
+    -moz-box-shadow: 0 0 5px 2px #aaa;
+    box-shadow: 0 0 5px 2px #aaa;
+} 
+
+/* style inputs and link buttons */
+input,
+.btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  margin: 5px 0 !important;
+  opacity: 0.85;
+  display: inline-block;
+  font-size: 14px;
+  line-height: 20px;
+
+  text-decoration: none; /* remove underline from anchors */
+}
+
+input:hover,
+.btn:hover {
+  opacity: 1;
+}
+
+/* add appropriate colors to fb, twitter and google buttons */
+.fb {
+  background-color: #3B5998;
+  color: white;
+}
+
+.twitter {
+  background-color: #55ACEE;
+  color: white;
+}
+
+.google {
+  background-color: #dd4b39;
+  color: white;
+}
+
+/* style the submit button */
+#ca_login_button {
+  background-color: #1A73E8;
+  color: white;
+  cursor: pointer;
+}
+
+#ca_login_button:hover {
+  background-color: #1c61bd;
+}
+
+/* Two-column layout */
+.col {
+  float: left;
+  width: 50%;
+  margin: auto;
+  padding: 0 50px;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* vertical line */
+.vl {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  border: 2px solid #ddd;
+  height: 175px;
+}
+
+/* text inside the vertical line */
+.vl-innertext {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  padding: 8px 10px;
+  width: auto;
+}
+
+/* hide some text on medium and large screens */
+.hide-md-lg {
+  display: none;
+}
+
+/* bottom container */
+.bottom-container {
+  text-align: center;
+  background-color: #666;
+  border-radius: 0px 0px 4px 4px;
+}
+
+/* Responsive layout - when the screen is less than 650px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 650px) {
+  .col {
+    width: 100%;
+    margin-top: 0;
+  }
+  /* hide the vertical line */
+  .vl {
+    display: none;
+  }
+  /* show the hidden text on small screens */
+  .hide-md-lg {
+    display: block;
+    text-align: center;
+  }
+}
+.ca_login_email_error {
+    display: none;
+    font-size:11px;
+    color:#d50000;
+}
+
+.ca_login_password_error {
+    display: none;
+    font-size:11px;
+    color:#d50000;
+}
+.email_error_input_error{
+    font-size:11px;
+    color:#d50000;
+}
+.password_error_input_error{
+    font-size:11px;
+    color:#d50000;
+}
+
+</style>
+<?php require 'meta.php'; ?>
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="{% static 'ca/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'ca/css/index.css' %}">
+  <link rel="stylesheet" href="{% static 'ca/css/font-awesome.min.css' %}">
+  <link rel="stylesheet" href="{% static 'ca/css/Roboto.css' %}">
+  <link rel="stylesheet" href="{% static 'ca/css/normalize.css' %}">
+  	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  	<link href="https://fonts.googleapis.com/css?family=Fira+Sans|Roboto" rel="stylesheet">
+  	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css">
+  	<link rel="stylesheet" href="{% static 'ca/semantic/dist/semantic.min.css' %}">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+</head>
+<body style="   background: #942c2c;
+    background: linear-gradient(to bottom right, #942c2c, #762a77);;">
+    
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PPSHCGJ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+	<header class="w3-bar w3-black" style="max-height: 80px; box-shadow:0 3px 9px 0 rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04);font:13px/27px 'Roboto','RobotoDraft',Arial,sans-serif;-webkit-box-shadow:0 3px 9px 0 rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04);transition: box-shadow 250ms;color: #757575;padding-top:3px;padding-bottom:3px;padding-left: 24px;padding-right: 24px;white-space: nowrap;">
+  <a href="https://www.alcheringa.in/" alt="Alcheringa" style='padding:0;margin:0;'>
+      
+      <img src="images/avatar3.png" style="width: 158px !important;height:74px !important;display: block;" ></a>
+</header>
+
+<div style="margin-left: auto;margin-right: auto;max-width: 600px;margin-top:10px;">
+                        
+<div class="container">
+  <form action="" method="POST" onsubmit="return is_valid_ca_login_form()">
+  	{% csrf_token %}
+    <div class="row">
+      <h4 style="text-align:center;text-transform:uppercase">Campus Ambassador Portal</h4>
+      
+      <div style="max-width:320px;padding:0 5px 0 5px;margin-left:auto;margin-right:auto;">
+      <p style="color:#b2b2b2;direction:ltr">Campus ambassadors are our representatives in your college. Work with us to make <b style='color:#000'>Alcheringa</b> bigger and better.</p>
+      <br>
+      </div>
+      
+      <div class="vl">
+        <span class="vl-innertext">or</span>
+      </div>
+
+      <div class="col">
+          <!-- <?php
+
+									$fb = new Facebook\Facebook([
+										'app_id' => '1648547895459766',
+										'app_secret' => '2fbe311e63333493cbfedc5a3bac855e',
+										'default_graph_version' => 'v3.1',
+										]);
+
+									$helper = $fb->getRedirectLoginHelper();
+									if(isset($_GET['state'])){
+										$_SESSION['FBRLH_state'] = $_GET['state'];
+									}
+
+									$permissions = ['email']; // Optional permissions
+									$loginUrl = $helper->getLoginUrl('https://www.alcheringa.in/registrations/fb_login_ca.php', $permissions);
+
+									
+									echo "<a href='$loginUrl' class='fb btn'>
+                                            <i class='fa fa-facebook fa-fw'></i> Login with Facebook
+                                            </a>";
+                                            
+                                            
+                                            
+                                            
+
+			?> -->
+
+        
+        
+      </div>
+
+      <div class="col">
+        <div class="hide-md-lg">
+          <p>Or sign in manually:</p>
+        </div>
+        <div class="sign_up_error" style="color:#d50000;font-size:11px;">
+							<?php if(isset($_POST['ca_login'])){echo $login_error;} ?>
+	    </div>
+        
+
+<div class="email_div">
+
+										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+											<input class="mdl-textfield__input" type="email" id="ca_email" name="ca_email"
+											value="">
+											<label class="mdl-textfield__label" for="ca_email">Email ID</label>
+											<span class="mdl-textfield__error">Please enter a valid Email ID</span>
+										</div>
+
+										<div class="email_error input_error"><p><?php if(isset($_POST['ca_login'])){echo $email_error;} ?></p></div>
+
+									</div>
+
+									<div class="password_div">
+
+										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+											<input class="mdl-textfield__input" type="password" id="ca_password" name="ca_password">
+											<label class="mdl-textfield__label" for="ca_password">Password</label>
+											<span class="mdl-textfield__error">Please enter a valid Phone No</span>
+										</div>
+
+										<div class="password_error  input_error"><p><?php if(isset($_POST['ca_login'])){echo $password_error;} ?></p></div>
+
+									</div>
+
+									<div class="forgot_password_div">
+										<a href='#'>Forgot Password</a>
+									</div>
+
+									<input type='submit' name='ca_login' value='LOG IN' class='btn'>
+        
+      </div>
+      
+    </div>
+  </form>
+</div>
+
+<div class="bottom-container">
+  <div class="row">
+    <div class="col">
+      <a href="{% url 'auths:register' %}" style="color:white" class="btn">Sign up</a>
+    </div>
+    <div class="col">
+      <a href="forgot_password.php" style="color:white" class="btn">Forgot password?</a>
+    </div>
+  </div>
+</div>
+</div>
+					
+<script>
+    
+
+
+function isEmail(email){
+	var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	return regex.test(email);
+}
+
+
+
+</script>
+
+
+<script type="text/javascript" src="{% static 'ca/js/jquery.js' %}"></script>
+	<script type="text/javascript" src="{% static 'ca/js/drawer.js' %}"></script>
+	<script type="text/javascript" src="{% static 'ca/js/functions.js' %}"></script>
+	<script type="text/javascript" src="{% static 'ca/js/jquery_ui/jquery-ui.min.js' %}"></script>
+	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+	<script type="text/javascript" src="{% static 'ca/semantic/dist/semantic.min.js' %}"></script>
+	
+<script>
+    function is_valid_ca_login_form(){
+        var s1=true,s2=true;
+        if(!isEmail($('#ca_email').val())){
+            s1 = false;
+            $('.ca_login_email_error').show();
+        }
+        if($('#ca_password').val() == '' || $('#ca_password').val() == ' ' || $('#ca_password').val().length == 0 ){
+            $('.ca_login_password_error').show();
+            s2=false;
+        }
+        if(s1 && s2){
+            
+            
+            $('#ca_login_button').append(' <i class="fa fa-refresh fa-spin "></i>').css({'pointer-events':'none','opacity':'0.2'});
+        }
+        return s1 && s2;
+    }
+    
+</script>			
+					
+					
+</body>
+</html>
