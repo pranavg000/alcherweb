@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Verify your Email</title>
+</head>
+<body>
+	<h2>Hello</h2>
+	<p> Your email is not yet verified, you cannot log in. Please go to your email and verify your email address by clicking on the link sent.</p>
+	<br><br>
+	<h3>Did not recieve an email from us?</h3>
+	<p>Enter your email adddress below and click on submit to resend verification email. </p>
+	<form method="POST" action="{% url 'auths:resendMail' %}">
+		{% csrf_token %}
+		<input type="email" name="emailField">
+		<input type='submit'>
+	</form>
+</body>
+</html>

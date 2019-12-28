@@ -10,6 +10,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from django.http import HttpResponse
 from django.contrib.sites.shortcuts import get_current_site
+from django.contrib import messages
 
 name_pattern = "[A-Za-z ]*"
 team_name_pattern = "[A-Za-z0-9, ]*"
@@ -61,7 +62,7 @@ def register(request):
 				profUser.interests.add(*interests_int)
 				profUser.save()
 				current_site = get_current_site(request)
-				subject = 'Activate Your MySite Account'
+				subject = 'Activate Your Alcheringa CA Account'
 				message = render_to_string('auths/account_activation_email.html', {
                 'user': user,
                 'domain': current_site.domain,
@@ -124,13 +125,22 @@ def login(request):
 		email = request.POST['ca_email']
 		password = request.POST['ca_password']
 		user_obj = User.objects.filter(email=email)
-		if len(user_obj) > 0:
-			user = authenticate(username=user_obj[0].username, password=password)
-			if user is not None:
-				print("User is not none")
-				if user.is_active:
-					print("User is active")
+		if len(user_obj) == 0:
+			print("No user with this email exists!")
+			return render(request,'auths/ca_login.html')
+		else:
+			user_obj = User.objects.filter(email=email).filter(profile__emailVerified=True)
+			if len(user_obj) == 0:
+				print("Email not verified yet!")
+				return render(request, 'auths/verify_your_email.html')
+			else:
+				user = authenticate(username=user_obj[0].username, password=password)
+				if user is None:
+					print("Please enter the correct password for your account.")
+					return render(request, 'auths/ca_login.html')
+				else:
 					auth_login(request, user)
+					print(user.username)
 
 					ca_detail = CA_Detail.objects.filter(user = request.user);
 					if len(ca_detail) == 0:
@@ -142,5 +152,32 @@ def login(request):
 						return redirect('ca:pending')
 					else :
 						return redirect('ca:questionnare')
-			print("User is not active,hence cannot be authenticated,please verify email")
 	return render(request, 'auths/ca_login.html')
+
+
+
+
+def resendMail(request):
+	if request.method=='POST':
+		email=request.POST['emailField']
+		user_obj = User.objects.filter(email=email).filter(profile__emailVerified=True)
+		if len(user_obj)!=0 :
+			messages.info(request, ('Email already verified! Please proceed to login.'))
+			return redirect('auths:login')
+		user_obj = User.objects.filter(email=email)
+		if len(user_obj) ==0:
+			messages.info(request, 'Email is not registered yet, please signup!')
+			return redirect('auths:register')
+		if len(user_obj)>0:
+			user = user_obj[0]
+			current_site = get_current_site(request)
+			subject = 'Activate Your Alcheringa CA Account'
+			message = render_to_string('auths/account_activation_email.html', {
+        	'user': user,
+        	'domain': current_site.domain,
+        	'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        	'token': account_activation_token.make_token(user),
+        })
+			user.email_user(subject, message)
+			return redirect('auths:account_activation_sent')
+	return render(request, 'auths/verify_your_email.html')
