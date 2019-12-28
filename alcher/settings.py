@@ -141,3 +141,15 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'kRvC1BFBxGbwkco0YeAm6zeC'
 
 
 SOCIAL_AUTH_URL_NAMESPACE = "auths:social"
+
+#default email backend, sends mail to console
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+#for gmail
+'''
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = True
+'''
