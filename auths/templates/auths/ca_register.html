@@ -510,6 +510,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="container">
   
     <div class="row">
+    	 {% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
       <h4 style="text-align:center;text-transform:uppercase">Campus Ambassador Portal</h4>
       
       <div style="max-width:320px;padding:0 5px 0 5px;margin-left:auto;margin-right:auto;">

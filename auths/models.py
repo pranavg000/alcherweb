@@ -29,6 +29,7 @@ class Profile(models.Model):
 	state = models.CharField(max_length=50, blank=True)
 	city = models.CharField(max_length=100, blank=True)
 	interests = models.ManyToManyField(Interest)
+	emailVerified = models.BooleanField(default=False)
 
 	def __str__(self):
 		return self.user.username
