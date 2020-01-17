@@ -77,9 +77,12 @@
           </ul>
         </span>
       </div>
-      <span id="profileImage">
+      <span id="profileImage" style="z-index: 10;">
       <ul class="nav navbar-nav navbar-right">
-      <li class="nav-item"><a href="#"><img class="profile_circle" src="{% static 'ca/images/KartikeySharma.png' %}"></a></li>
+      <li class="nav-item"><a href="#"><img style="border-radius: 50%;
+  width: 40px;
+  height: 40px;
+" src="{% static 'ca/images/KartikeySharma.png' %}"></a></li>
     </ul>
 </span>
     </nav>
@@ -89,20 +92,23 @@
   <div class=" col-lg-3 d-none d-lg-block" style="padding-left: 3rem;">
     <div class="card">
       <div class="card-body">
-        <p class="card-image">
+        <p class="card-image" style="text-align: -webkit-center;">
 
-          <img src="#" style="width: 13rem; border-radius: 10rem; text-align: center;" >
+          <img src="{% static 'ca/images/KartikeySharma.png' %}" style="border-radius: 50%;
+  width: 150px;
+  height: 150px;
+" >
 
         </p>
         <p class="card-title" style="text-align: center;">
           <h3><!--NAME--></h3>
           </p>
           <br>
-        <p class="card-text">
-          Alcher ID<br>
-          Team Members<br>
-          Events Registered
-        </p>
+        <div class="card-text">
+        <div style="float: left;"> Alcher ID: </div><div style="float: right;"> {{ user.username }}</div><br><br>
+          Team Members:<br><br>
+          Events Registered:<br><br>
+        </div>
       </div>
     </div>
   </div>
@@ -113,7 +119,7 @@
    <div class="col-lg-3 d-none d-lg-block" style="padding-right: 3rem;">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">Notification</h5>
+        <h4 class="card-title">Notification</h4>
         <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
         <a href="#">See All </a>
       </div>
