@@ -67,17 +67,17 @@ class Idea(models.Model):
 
 class POC(models.Model):
 	GENRE_CHOICES = {
-	('dance','Dance'),
-	('music','Music'),
-	('drama','Drama'),
-	('arts','Arts'),
-	('fashion','Fashion'),
-	('lit_n_deb','Literary and Debate'),
-	('sports','Sports'),	
+	('Dance','Dance'),
+	('Music','Music'),
+	('Drama','Drama'),
+	('Arts','Arts'),
+	('Fashion','Fashion'),
+	('Literary and Debate','Literary and Debate'),
+	('Sports','Sports'),	
 	}
 
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	genre = models.CharField(choices=GENRE_CHOICES,default='dance',max_length=20)
+	genre = models.CharField(choices=GENRE_CHOICES,default='dance',max_length=30)
 	name_con = models.CharField(max_length=60)
 	desg = models.CharField(max_length=50)
 	colg = models.CharField(max_length=100)

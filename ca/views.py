@@ -4,7 +4,7 @@ from auths.models import CA_Detail
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from random import randint
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, EmailValidator
 
 
 def generateGrievanceId():
@@ -279,13 +279,64 @@ def hospitality(request):
 
 @login_required
 def poc(request):
-	ca_dets = request.user.ca_details
-	if ca_dets.ca_profile_complete and not ca_dets.ca_approval :
-		return redirect('ca:pending')
-	elif not ca_dets.ca_profile_complete :
-		return redirect('ca:questionnare')
-	else :
-		return render(request, 'ca/poc.html', {'more_active': True})
+	if request.method == 'POST':
+		
+		data = {}
+		if request.POST['poc_genre'] == '':
+			data['genre'] = "Genre Empty"
+		
+		if request.POST['poc_college'] == '':
+			data['college'] = "College Empty"
+
+		if request.POST['poc_name'] == '':
+			data['poc_name'] = "Name Empty"
+
+		if request.POST['poc_designation'] == '':
+					 data['designation'] = "Designation Empty"
+
+		if request.POST['poc_phone'] == '':
+					 data['phone'] = "Phone Empty"
+
+		if request.POST['poc_email'] == '':
+					 data['email'] = "Email Empty"
+
+		contact_number_validator = RegexValidator('^[0-9]{10}$')
+		email_validator = EmailValidator()
+		try:
+			contact_number_validator(request.POST['poc_phone'])
+		except Exception as e:
+			data['phone'] = "Phone REGEX"
+
+		try:
+			email_validator(request.POST['poc_email'])
+		except Exception as e:
+			data['email'] = "Email REGEX"
+
+		if data.get('genre') or data.get('college') or data.get('poc_name') or data.get('designation') or data.get('phone') or data.get('email') or data.get('fb'):
+			data['stat'] = "FAILURE"
+			return JsonResponse(data)
+		else :
+			poc_genre = request.POST['poc_genre']
+			poc_college = request.POST['poc_college']
+			poc_name = request.POST['poc_name']
+			poc_designation = request.POST['poc_designation']
+			poc_phone = request.POST['poc_phone']
+			poc_email = request.POST['poc_email']
+			poc_fb = request.POST['poc_fb']
+
+			POC.objects.create(user=request.user, genre=poc_genre, colg=poc_college,
+				name_con=poc_name, desg=poc_designation, phone=poc_phone, email=poc_email, fb=poc_fb)
+			data['stat'] = "Success"
+
+			return JsonResponse(data)
+	else:
+		ca_dets = request.user.ca_details
+		if ca_dets.ca_profile_complete and not ca_dets.ca_approval :
+			return redirect('ca:pending')
+		elif not ca_dets.ca_profile_complete :
+			return redirect('ca:questionnare')
+		else :
+			return render(request, 'ca/poc.html', {'more_active': True})
 
 @login_required
 def standings(request):

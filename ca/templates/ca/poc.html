@@ -10,7 +10,8 @@
 					<div class="content_poc_header">
 						<p>Be the face of Alcheringa in your college and city - help us connect with the concerned authorities in your college.</p>
 					</div>
-
+					<form method="POST">
+						{% csrf_token %}
 					<div class="content_poc_submit">
 
 						<div class="poc_genre">
@@ -116,9 +117,9 @@
 						</div>
 
 						<button class='poc_submit ui button'>SUBMIT</button>
-
+					
 					</div>
-
+					</form>
 					<div class="content_poc_submitted">
 
 						<p>Submitted Contacts</p>
@@ -315,9 +316,10 @@
 
 						$.ajax({
 							type: "POST",
-							url: "poc_submit.php",
+							url: "{% url 'ca:poc' %}",
 							dataType: "json",
-							data: ({poc_genre: poc_genre, poc_college: poc_college,
+							data: ({csrfmiddlewaretoken : $("input[name=csrfmiddlewaretoken]").val(),
+								poc_genre: poc_genre, poc_college: poc_college,
 								poc_name: poc_name, poc_designation: poc_designation,
 								poc_phone: poc_phone, poc_email: poc_email, poc_fb: poc_fb}),
 							success: function(response){
@@ -394,7 +396,7 @@
 									  timeout: 2000
 									};
 									notification.MaterialSnackbar.showSnackbar(data);
-
+									$this.closest('form').find("input, textarea").val("");
 								}
 
 								if(response.stat == "Failure"){
