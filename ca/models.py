@@ -6,12 +6,12 @@ from django.contrib.auth.models import User
 class Complaints(models.Model):
 
 	COMPLAINT_CATEGORY_CHOICES = {
-	('general', 'General'),
-	('technical', 'Technical'),
-	('competition', 'Competition'),
-	('festival', 'Festival'),
-	('payment', 'Payment'),
-	}
+		('General', 'General'),
+		('Technical', 'Technical'),
+		('Competition', 'Competition'),
+		('Festival', 'Festival'),
+		('Payment', 'Payment'),
+		}
 
 	# complaint_id = models.IntegerField(default=0,validators=[MinValueValidator(0)])
 	grievance_id = models.CharField(max_length=15)
@@ -46,7 +46,16 @@ class Notifications(models.Model):
 
 
 class Idea(models.Model):
+	IDEA_CATEGORY_CHOICES = {
+	('Competition', 'Competition'),
+	('Workshop', 'Workshop'),
+	('Hospitality', 'Hospitality'),
+	('Artist', 'Artist'),
+	('Crowd Experience', 'Crowd Experience'),
+	('Other', 'Other'),
+	}
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	idea_category = models.CharField(choices=IDEA_CATEGORY_CHOICES,default='Other',max_length=20)
 	idea = models.CharField(max_length=200)
 	admin_reply = models.CharField(max_length=200, null=True, blank=True)
 	timestamp = models.DateTimeField(auto_now_add=True)

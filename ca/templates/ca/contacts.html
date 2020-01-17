@@ -85,7 +85,8 @@
 					</div> -->
 
 					<div class="complaint_book">
-
+					<form method="POST">
+						{% csrf_token %}
 						<p class='complaint_header'>Facing a problem? Have a query? Want to book a complaint?</p>
 
 						<select class='ui fluid selection dropdown' id='complaint_book_category'>
@@ -102,8 +103,8 @@
 						<p class="complaint_book_text_error"></p>
 
 						<p class='complaint_book_error'>complaint error</p>
-						<button class='complaint_submit ui button'>SUBMIT</button>
-
+						<button type="button" class='complaint_submit ui button'>SUBMIT</button>
+					</form>
 					</div>
 
 					<p class="complaints_header">Your previous queries</p>
@@ -260,9 +261,9 @@
 
 					$.ajax({
 						type: "POST",
-						url: "contacts_complaint_submit.php",
+						url: "{% url 'ca:contactUs' %}",
 						dataType: "json",
-						data: ({complaint_category: complaint_category,	complaint_text: complaint_text}),
+						data: ({csrfmiddlewaretoken : $("input[name=csrfmiddlewaretoken]").val(),complaint_category: complaint_category,	complaint_text: complaint_text}),
 						success: function(response){
 							$this.removeClass('loading disabled');
 

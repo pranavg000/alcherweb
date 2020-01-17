@@ -2,42 +2,92 @@ from django.shortcuts import render, redirect
 from ca.models import * 
 from auths.models import CA_Detail
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 
 @login_required
 def contactUs(request):
-	ca_dets = request.user.ca_details
-	if ca_dets.ca_profile_complete and not ca_dets.ca_approval :
-		return redirect('ca:pending')
-	elif not ca_dets.ca_profile_complete :
-		return redirect('ca:questionnare')
-	else :
-		prevQueries = Complaints.objects.filter(user=request.user).order_by('-pk')
-
-		context = {
-		'prevQueries': prevQueries,
-		'more_active': True,
+	if request.method == 'POST':
+		COMPLAINT_CATEGORY_CHOICES = {
+		('General', 'General'),
+		('Technical', 'Technical'),
+		('Competition', 'Competition'),
+		('Festival', 'Festival'),
+		('Payment', 'Payment'),
 		}
+		complaint_category_list = [x[0] for x in COMPLAINT_CATEGORY_CHOICES]
+		data = {}
+		if request.POST['complaint_category'] == '':
+			 data['complaint_category_stat'] = "Complaint category empty"
+		if request.POST['complaint_category'] not in complaint_category_list:
+			 data['complaint_category_stat'] = "INVALID COMPLAINT CATEGORY"
 
-		return render(request, 'ca/contacts.html', context)
+		if request.POST['complaint_text'] == '':
+			 data['complaint_text_stat'] = "Complaint text empty"
+
+		if data.get('category') or data.get('desc'):
+			data['stat'] = "FAILURE"
+			return JsonResponse(data)
+		else :
+			complaint_text = request.POST['complaint_text']
+			complaint_category = request.POST['complaint_category']
+			Complaints.objects.create(user=request.user, complaint_text=complaint_text, 
+				complaint_category=complaint_category)
+			data['stat'] = "SUCCESS"
+
+		return JsonResponse(data)
+	else:
+		ca_dets = request.user.ca_details
+		if ca_dets.ca_profile_complete and not ca_dets.ca_approval :
+			return redirect('ca:pending')
+		elif not ca_dets.ca_profile_complete :
+			return redirect('ca:questionnare')
+		else :
+			prevQueries = Complaints.objects.filter(user=request.user).order_by('-pk')
+
+			context = {
+			'prevQueries': prevQueries,
+			'more_active': True,
+			}
+
+			return render(request, 'ca/contacts.html', context)
 
 
 @login_required
 def submitIdea(request):
-	ca_dets = request.user.ca_details
-	if ca_dets.ca_profile_complete and not ca_dets.ca_approval :
-		return redirect('ca:pending')
-	elif not ca_dets.ca_profile_complete :
-		return redirect('ca:questionnare')
-	else :
-		ideaQueries = Idea.objects.filter(user=request.user).order_by('-pk')
+	if request.method == 'POST':
+			data = {}
+			if request.POST['idea_category'] == '':
+				 data['category'] = "Category Empty"
 
-		context = {
-			'ideaQueries': ideaQueries,
-			'idea_active': True,
-		}
+			if request.POST['idea_desc'] == '':
+				 data['desc'] = "Desc Empty"
 
-		return render(request, 'ca/idea.html', context)
+			if data.get('category') or data.get('desc'):
+				data['stat'] = "Failure"
+				return JsonResponse(data)
+			else :
+				idea = request.POST['idea_desc']
+				idea_category = request.POST['idea_category']
+				Idea.objects.create(user=request.user, idea=idea, idea_category=idea_category)
+				data['stat'] = "Success"
+
+			return JsonResponse(data)
+	else:
+		ca_dets = request.user.ca_details
+		if ca_dets.ca_profile_complete and not ca_dets.ca_approval :
+			return redirect('ca:pending')
+		elif not ca_dets.ca_profile_complete :
+			return redirect('ca:questionnare')
+		else :
+			ideaQueries = Idea.objects.filter(user=request.user).order_by('-pk')
+
+			context = {
+				'ideaQueries': ideaQueries,
+				'idea_active': True,
+			}
+
+			return render(request, 'ca/idea.html', context)
 
 @login_required
 def faqs(request):

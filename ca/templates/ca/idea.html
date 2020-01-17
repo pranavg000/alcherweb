@@ -21,31 +21,32 @@
 						<p>Always wanted something from Alcheringa? Do you have something in mind that you think we should implement? Do you have a new idea for competition, hospitality, crowd experience that would make Alcheringa better? Submit your idea. You will get bounty points and we will see if we can implement them in this edition of Alcheringa.</p>
 
 					</div>
+					<form method="POST">
+						{% csrf_token %}
+						<div class="idea_category_div">
 
-					<div class="idea_category_div">
+							<select class="idea_category ui fluid selection dropdown">
+								<option value=''>Select Category</option>
+								<option value="Competition">Competition</option>
+								<option value="Workshop">Workshop</option>
+								<option value="Hospitality">Hospitality</option>
+								<option value="Artist">Artist</option>
+								<option value="Crowd Experience">Crowd Experience</option>
+								<option value="Other">Other</option>
+							</select>
+							<div class='category_error input_error'></div>
 
-						<select class="idea_category ui fluid selection dropdown">
-							<option value=''>Select Category</option>
-							<option value="Competition">Competition</option>
-							<option value="Workshop">Workshop</option>
-							<option value="Hospitality">Hospitality</option>
-							<option value="Artist">Artist</option>
-							<option value="Crowd Experience">Crowd Experience</option>
-							<option value="Other">Other</option>
-						</select>
-						<div class='category_error input_error'></div>
+						</div>
 
-					</div>
+						<div class="idea_desc_div">
 
-					<div class="idea_desc_div">
+							<textarea></textarea>
+							<div class='desc_error input_error'></div>
 
-						<textarea></textarea>
-						<div class='desc_error input_error'></div>
+						</div>
 
-					</div>
-
-					<button class='idea_submit ui button'>SUBMIT</button>
-
+						<button class="idea_submit ui button" type="button">SUBMIT</button>
+					</form>
 					<div class="submitted_ideas">
 
 						<p>Submitted Ideas</p>
@@ -53,13 +54,16 @@
                             {% for ideaQuery in ideaQueries %}
 
                                 <div class='idea_div'>
-                                    <p>{{ ideaQuery.idea_desc }}</p>
-                                    <p style='background:#00B2FF;padding:5px 10px 5px 10px;color:#fff;display:{{ ideaQuery.display_value }}'><b style='color:#000000'>ADMIN REPLY: </b> "{{ ideaQuery.admin_reply }}"</p>
-                                    {% if ideaQuery.approval_status == 1 %}
+                                    <p>{{ ideaQuery.idea }}</p>
+                                    {% if ideaQuery.admin_reply %}
+                                    <p style='background:#00B2FF;padding:5px 10px 5px 10px;color:#fff;display:{{ ideaQuery.display_value }}'><b style='color:#000000'>ADMIN REPLY: </b> 
+                                    {{ ideaQuery.admin_reply }}
+                                </p>{% endif %}
+                                    {% if ideaQuery.approval == 1 %}
                                         <br>
                                         <i class='material-icons' style='color:#006621;font-size:12px;'>verified_user</i>
                                         <p style='color:#006621;font-size:12px;'>Approved by Admin</p>
-                                    {% elif ideaQuery.approval_status == -1 %}
+                                    {% elif ideaQuery.approval == -1 %}
                                         <br>
                                         <i class='material-icons' style='color:#dd4b39;font-size:12px;'>cancel</i>
                                         <p style='color:#dd4b39;font-size:12px;'>Disapproved by Admin</p>
@@ -156,7 +160,6 @@
 			$('.idea_category').dropdown();
 
 			$('.idea_submit').click(function(){
-
 				$(this).addClass('loading disabled');
 				var $this = $(this);
 
@@ -183,10 +186,12 @@
 
 					$.ajax({
 						type: "POST",
-						url: "idea_submit.php",
+						url: "{% url 'ca:submitIdea' %}",
 						dataType: "json",
-						data: ({idea_category: idea_category, idea_desc: idea_desc}),
+						data: ({csrfmiddlewaretoken : $("input[name=csrfmiddlewaretoken]").val(),
+							idea_category: idea_category, idea_desc: idea_desc}),
 						success: function(response){
+							console.log(response);
 							$this.removeClass('loading disabled');
 
 							if(response.session == "Session Error"){
@@ -201,6 +206,8 @@
 									window.location.href = "../registrations/";
 								}, 3000);
 							}
+
+							
 
 							if(response.category == "Category Empty"){
 								$('.category_error').html("Please select the category");
