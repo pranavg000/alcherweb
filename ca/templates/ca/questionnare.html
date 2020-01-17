@@ -58,16 +58,14 @@ else{
 
 
 {% block body %}
-	<div class="wrapper content-grid mdl-grid mdl-grid--no-spacing">
+	<div class="col-lg-6">
 
 		<!-- <?php include 'header.php'; ?>
 
 		<?php include 'leftbar.php'; ?> -->
 
-		<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
 			<form method="POST">
 				{% csrf_token %}
-			<div class="content">
 
 				<div class="questionnaire_content">
 
@@ -215,10 +213,7 @@ else{
 					<button class="submit_questionnaire ui button">SUBMIT</button>
 
 				</div> <!-- questionnaire_content -->
-
-			</div> <!-- content -->
 			</form>
-		</div>
 
 		<!-- <?php include 'rightbar.php'; ?> -->
 	

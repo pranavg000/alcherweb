@@ -1,3 +1,4 @@
+
 *{
 	box-sizing: border-box;
 }
@@ -1620,7 +1621,7 @@ body{
     text-indent: 48px;
     padding-top: 5px;
     color: white;
-    background: url(../ribbon.png);
+    /*background: url({% static 'ca/img/ribbon.png' %});*/
     background-repeat: no-repeat;
     background-size: 230px 55px;
     font-family: 'Fira Sans', sans-serif; font-family: 'Roboto', sans-serif;
