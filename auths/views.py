@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, logout
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
@@ -43,14 +43,7 @@ def register(request):
 		print(alcher_id)
 		if User.objects.filter(email=email).filter(profile__emailVerified=True):
 			print("Same Email or phone no. already present")
-			context = {
-			'name_pattern': name_pattern,
-			'team_name_pattern' : team_name_pattern,
-			'phone_pattern' : phone_pattern,
-			'interests_list' : interests_list,
-		}
-
-			return render(request, 'auths/ca_register.html',context)
+			return redirect('auths:register')
 		else:
 			User.objects.create_user(alcher_id, email, password)
 			user = authenticate(username=alcher_id, password=password)
@@ -72,13 +65,8 @@ def register(request):
 				user.email_user(subject, message)
 				return redirect('auths:account_activation_sent')
 			else:
-				context = {
-			'name_pattern': name_pattern,
-			'team_name_pattern' : team_name_pattern,
-			'phone_pattern' : phone_pattern,
-			'interests_list' : interests_list,
-			}
-			return render(request, 'auths/ca_register.html', context)
+				print("user is none")
+				return redirect('auths:register')
 
 	else:
 		context = {
@@ -125,36 +113,39 @@ def login(request):
 		email = request.POST['ca_email']
 		password = request.POST['ca_password']
 		user_obj = User.objects.filter(email=email)
+
 		if len(user_obj) == 0:
 			print("No user with this email exists!")
 			return render(request,'auths/ca_login.html')
 		else:
-			user_obj = User.objects.filter(email=email).filter(profile__emailVerified=True)
+			user = authenticate(username=user_obj[0].username, password=password)
+			if user is None:
+				print("Please enter the correct password for your account.")
+				return redirect('auths:login')
+			user_obj = user_obj.filter(profile__emailVerified=True)
 			if len(user_obj) == 0:
 				print("Email not verified yet!")
-				return render(request, 'auths/verify_your_email.html')
-			else:
-				user = authenticate(username=user_obj[0].username, password=password)
-				if user is None:
-					print("Please enter the correct password for your account.")
-					return render(request, 'auths/ca_login.html')
-				else:
-					auth_login(request, user)
-					print(user.username)
+				return redirect('auths:verifyEmail')
+			
+			
+			auth_login(request, user)
+			print(user.username)
 
-					ca_detail = CA_Detail.objects.filter(user = request.user);
-					if len(ca_detail) == 0:
-						CA_Detail.objects.create(user=request.user)
-						ca_detail = CA_Detail.objects.filter(user = request.user);
-					if ca_detail[0].ca_approval :
-						return redirect('ca:home')
-					elif ca_detail[0].ca_profile_complete :
-						return redirect('ca:pending')
-					else :
-						return redirect('ca:questionnare')
+			ca_detail = CA_Detail.objects.filter(user = request.user);
+			if len(ca_detail) == 0:
+				CA_Detail.objects.create(user=request.user)
+				ca_detail = CA_Detail.objects.filter(user = request.user);
+			if ca_detail[0].ca_approval :
+				return redirect('ca:home')
+			elif ca_detail[0].ca_profile_complete :
+				return redirect('ca:pending')
+			else :
+				return redirect('ca:questionnare')
 	return render(request, 'auths/ca_login.html')
 
 
+def verifyEmail(request):
+	return render(request, 'auths/verify_your_email.html')
 
 
 def resendMail(request):
@@ -181,3 +172,10 @@ def resendMail(request):
 			user.email_user(subject, message)
 			return redirect('auths:account_activation_sent')
 	return render(request, 'auths/verify_your_email.html')
+
+
+def logout_(request):
+	if request.user:
+		logout(request)
+	messages.success(request, 'Logged out successfully!!')
+	return redirect('auths:login')

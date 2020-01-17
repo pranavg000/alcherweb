@@ -13,4 +13,6 @@ urlpatterns = [
     path('guidelines', views.guidelines, name='guidelines'),
     path('hospitality', views.hospitality, name='hospitality'),
     path('poc', views.poc, name='poc'),
+    path('submitideas', views.submitIdea, name='submitIdea'),
+    path('standings', views.standings, name='standings'),
 ]

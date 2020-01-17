@@ -16,23 +16,25 @@ def contactUs(request):
 
 		context = {
 		'prevQueries': prevQueries,
+		'more_active': True,
 		}
 
 		return render(request, 'ca/contacts.html', context)
 
 
 @login_required
-def Ideas(request):
+def submitIdea(request):
 	ca_dets = request.user.ca_details
 	if ca_dets.ca_profile_complete and not ca_dets.ca_approval :
 		return redirect('ca:pending')
 	elif not ca_dets.ca_profile_complete :
 		return redirect('ca:questionnare')
 	else :
-		ideaQueries = Ideas.objects.filter(user=request.user).order_by('-pk')
+		ideaQueries = Idea.objects.filter(user=request.user).order_by('-pk')
 
 		context = {
 			'ideaQueries': ideaQueries,
+			'idea_active': True,
 		}
 
 		return render(request, 'ca/idea.html', context)
@@ -44,7 +46,7 @@ def faqs(request):
 		faqs = FAQ.objects.filter(faq_category=faq_category)
 
 		context = {
-		'faqs':faqs
+		'faqs':faqs,
 		}
 
 		return render(request, 'ca/faq_response.html', context)
@@ -56,7 +58,7 @@ def faqs(request):
 		elif not ca_dets.ca_profile_complete :
 			return redirect('ca:questionnare')
 		else :
-			return render(request, 'ca/faq.html')
+			return render(request, 'ca/faq.html', {'more_active': True})
 
 
 @login_required
@@ -77,6 +79,7 @@ def venue(request):
 		'name_pattern':name_pattern,
 		'team_name_pattern':team_name_pattern,
 		'phone_pattern':phone_pattern,
+		'more_active': True,
 		}
 
 		return render(request, 'ca/venue.html', context)
@@ -128,7 +131,7 @@ def home(request):
 	elif not ca_dets.ca_profile_complete :
 		return redirect('ca:questionnare')
 	else :
-		return render(request, 'ca/home.html')
+		return render(request, 'ca/home.html', { 'home_active': True })
 
 
 @login_required
@@ -139,7 +142,7 @@ def guidelines(request):
 	elif not ca_dets.ca_profile_complete :
 		return redirect('ca:questionnare')
 	else :
-		return render(request, 'ca/guidelines.html')
+		return render(request, 'ca/guidelines.html', { 'guidelines_active': True })
 
 
 @login_required
@@ -161,7 +164,7 @@ def hospitality(request):
 	elif not ca_dets.ca_profile_complete :
 		return redirect('ca:questionnare')
 	else :
-		return render(request, 'ca/hospitality.html')
+		return render(request, 'ca/hospitality.html', {'more_active': True})
 
 
 @login_required
@@ -172,4 +175,14 @@ def poc(request):
 	elif not ca_dets.ca_profile_complete :
 		return redirect('ca:questionnare')
 	else :
-		return render(request, 'ca/poc.html')
+		return render(request, 'ca/poc.html', {'more_active': True})
+
+@login_required
+def standings(request):
+	ca_dets = request.user.ca_details
+	if ca_dets.ca_profile_complete and not ca_dets.ca_approval :
+		return redirect('ca:pending')
+	elif not ca_dets.ca_profile_complete :
+		return redirect('ca:questionnare')
+	else :
+		return render(request, 'ca/standings.html', {'more_active': True})

@@ -387,13 +387,7 @@ input:hover,
 </head>
 <body style="   background: #942c2c;
     background: linear-gradient(to bottom right, #942c2c, #762a77);;">
-    {% if messages %}
-        {% for message in messages %}
-         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
-
-        {% endfor %}
-
-    {% endif %}
+   
     
     <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PPSHCGJ"
@@ -408,6 +402,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div style="margin-left: auto;margin-right: auto;max-width: 600px;margin-top:10px;">
                         
 <div class="container">
+	 {% if messages %}
+        {% for message in messages %}
+        {% if message.tags %} <script>alert('{{message}}')</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
   <form action="" method="POST" onsubmit="return is_valid_ca_login_form()">
   	{% csrf_token %}
     <div class="row">
