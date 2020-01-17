@@ -90,7 +90,7 @@
 						<p class='complaint_header'>Facing a problem? Have a query? Want to book a complaint?</p>
 
 						<select class='ui fluid selection dropdown' id='complaint_book_category'>
-							<option value='0'>Select a category</option>
+							<option value=''>Select a category</option>
 							<option value='General'>General</option>
 							<option value='Technical'>Technical</option>
 							<option value='Competition'>Competition</option>
@@ -302,6 +302,8 @@
 
 								$('.complaints').prepend("<div class='complaint'><div class='complaint_stat'><i class='warning icon pending'></i><p>Pending</p></div><div class='complaint_content'><div class='complaint_header'><p class='complaint_grievance_id'>Grievance ID: "+grievance_id+"</p><p class='complaint_complaint_category'>"+complaint_category+"</p></div><div class='complaint_text'><p>"+complaint_text+"</p></div></div></div>");
 								$('.no_complaint').slideUp();
+
+								$('.complaint_book').find('textarea').val('');
 							}
 
 							if(response.stat=="FAILURE"){

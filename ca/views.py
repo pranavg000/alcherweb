@@ -3,6 +3,17 @@ from ca.models import *
 from auths.models import CA_Detail
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from random import randint
+from django.core.validators import RegexValidator
+
+
+def generateGrievanceId():
+	try:
+		lpk = Complaints.objects.last().pk+1
+	except Exception as e:
+		lpk = 1
+	return "CX"+str(randint(1563,9874))+str(lpk)
+
 
 
 @login_required
@@ -31,8 +42,11 @@ def contactUs(request):
 		else :
 			complaint_text = request.POST['complaint_text']
 			complaint_category = request.POST['complaint_category']
+			grievance_id = generateGrievanceId()
+
 			Complaints.objects.create(user=request.user, complaint_text=complaint_text, 
-				complaint_category=complaint_category)
+				complaint_category=complaint_category, grievance_id=grievance_id)
+			data['grievance_id']= grievance_id
 			data['stat'] = "SUCCESS"
 
 		return JsonResponse(data)
@@ -56,23 +70,32 @@ def contactUs(request):
 @login_required
 def submitIdea(request):
 	if request.method == 'POST':
-			data = {}
-			if request.POST['idea_category'] == '':
-				 data['category'] = "Category Empty"
+		IDEA_CATEGORY_CHOICES = {
+		('Competition', 'Competition'),
+		('Workshop', 'Workshop'),
+		('Hospitality', 'Hospitality'),
+		('Artist', 'Artist'),
+		('Crowd Experience', 'Crowd Experience'),
+		('Other', 'Other'),
+		}
+		idea_category_list = [x[0] for x in IDEA_CATEGORY_CHOICES]
+		data = {}
+		if request.POST['idea_category'] == '' or request.POST['idea_category'] not in idea_category_list:
+			 data['category'] = "Category Empty"
 
-			if request.POST['idea_desc'] == '':
-				 data['desc'] = "Desc Empty"
+		if request.POST['idea_desc'] == '':
+			 data['desc'] = "Desc Empty"
 
-			if data.get('category') or data.get('desc'):
-				data['stat'] = "Failure"
-				return JsonResponse(data)
-			else :
-				idea = request.POST['idea_desc']
-				idea_category = request.POST['idea_category']
-				Idea.objects.create(user=request.user, idea=idea, idea_category=idea_category)
-				data['stat'] = "Success"
-
+		if data.get('category') or data.get('desc'):
+			data['stat'] = "Failure"
 			return JsonResponse(data)
+		else :
+			idea = request.POST['idea_desc']
+			idea_category = request.POST['idea_category']
+			Idea.objects.create(user=request.user, idea=idea, idea_category=idea_category)
+			data['stat'] = "Success"
+
+		return JsonResponse(data)
 	else:
 		ca_dets = request.user.ca_details
 		if ca_dets.ca_profile_complete and not ca_dets.ca_approval :
@@ -113,26 +136,63 @@ def faqs(request):
 
 @login_required
 def venue(request):
-	ca_dets = request.user.ca_details
-	if ca_dets.ca_profile_complete and not ca_dets.ca_approval :
-		return redirect('ca:pending')
-	elif not ca_dets.ca_profile_complete :
-		return redirect('ca:questionnare')
-	else :
-		venues = Venue.objects.filter(user=request.user).order_by('-pk')
-		name_pattern = "A-Za-z ";
-		team_name_pattern = "A-Za-z0-9, ";
-		phone_pattern = "0-9";
+	if request.method == 'POST':
+		
+		data = {}
+		if request.POST['venue_name'] == '':
+			data['venue_name'] = "Venue Name Empty"
+		
+		if request.POST['contact_person'] == '':
+			data['contact_person'] = "Contact Person Empty"
 
-		context = {
-		'venues': venues,
-		'name_pattern':name_pattern,
-		'team_name_pattern':team_name_pattern,
-		'phone_pattern':phone_pattern,
-		'more_active': True,
-		}
+		if request.POST['contact_number'] == '':
+			data['contact_number'] = "Contact Number Empty"
 
-		return render(request, 'ca/venue.html', context)
+		if request.POST['venue_address'] == '':
+					 data['venue_address'] = "Venue Address Empty"
+
+		contact_number_validator = RegexValidator('^[0-9]{10}$')
+		try:
+			contact_number_validator(request.POST['contact_number'])
+		except Exception as e:
+			data['contact_number'] = "Contact Number REGEX"
+
+		if data.get('venue_name') or data.get('contact_person') or data.get('contact_number') or data.get('venue_address') or data.get('contact_number'):
+			data['stat'] = "FAILURE"
+			return JsonResponse(data)
+		else :
+			venue_name = request.POST['venue_name']
+			contact_person = request.POST['contact_person']
+			contact_number = request.POST['contact_number']
+			venue_address = request.POST['venue_address']
+			remarks = request.POST['remarks']
+			Venue.objects.create(user=request.user, venue_name=venue_name, contact_name=contact_person,
+				contact_number=contact_number, venue_address=venue_address, remarks=remarks)
+			data['stat'] = "Success"
+
+			return JsonResponse(data)
+
+	else:
+		ca_dets = request.user.ca_details
+		if ca_dets.ca_profile_complete and not ca_dets.ca_approval :
+			return redirect('ca:pending')
+		elif not ca_dets.ca_profile_complete :
+			return redirect('ca:questionnare')
+		else :
+			venues = Venue.objects.filter(user=request.user).order_by('-pk')
+			name_pattern = "[A-Za-z ]+";
+			team_name_pattern = "[A-Za-z0-9, ]+";
+			phone_pattern = "[0-9]{10}";
+
+			context = {
+			'venues': venues,
+			'name_pattern':name_pattern,
+			'team_name_pattern':team_name_pattern,
+			'phone_pattern':phone_pattern,
+			'more_active': True,
+			}
+
+			return render(request, 'ca/venue.html', context)
 
 
 

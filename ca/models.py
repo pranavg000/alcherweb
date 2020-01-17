@@ -19,7 +19,10 @@ class Complaints(models.Model):
 	complaint_category = models.CharField(choices=COMPLAINT_CATEGORY_CHOICES,default='general',max_length=15)
 	complaint_text = models.CharField(max_length=500)
 	complaint_stat = models.BooleanField(default=False)
-	complaint_report = models.CharField(max_length=500, null=True)
+	complaint_report = models.CharField(max_length=500, null=True, blank=True)
+
+	def __str__(self):
+		return self.grievance_id
 
 
 class FAQ(models.Model):
@@ -88,12 +91,15 @@ class POC(models.Model):
 class Venue(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	venue_name = models.CharField(max_length=200)
-	venue_add = models.CharField(max_length=500)
+	venue_address = models.CharField(max_length=500)
 	contact_name = models.CharField(max_length=100)
-	contact_no = models.CharField(max_length=13)
+	contact_number = models.CharField(max_length=13)
 	remarks = models.CharField(max_length=500, blank=True)
 	timestamp = models.DateTimeField(auto_now_add=True)
 	approval = models.IntegerField(default=0)
+
+	def __str__(self):
+		return self.venue_name
 
 
 

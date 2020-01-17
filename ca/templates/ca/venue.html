@@ -20,7 +20,8 @@
 					</div>
 
 					<div class="content_venue_submit">
-
+					<form method="POST">
+						{% csrf_token %}
 						<div class="venue_name_div">
 
 							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -86,68 +87,14 @@
 
 						</div>
 
-						<button class='venue_submit ui button'>SUBMIT</button>
-
+						<button type="button" class='venue_submit ui button'>SUBMIT</button>
+					</form>
 					</div>
 
 					<div class="content_venue_submitted">
 
 						<p>Submitted Venues</p>
-						{% if venues|length > 0 %}
-							{% for venue in venues %}
-								
-								<div class='venue'>
-									<div class='venue_name'>
-									<i class='material-icons'>event_available</i>
-									<p>{{venue.venue_name}}</p>
-									</div>
-									<div class='contact_person'>
-										<i class='material-icons'>person</i>
-										<p>{{venue.contact_name}}</p>
-									</div>
-									<div class='contact_number'>
-										<i class='material-icons'>call</i>
-										<p>{{venue.contact_no}}</p>
-									</div>
-									<div class='venue_address'>
-										<i class='material-icons'>domain</i>
-										<p>{{venue.venue_add}}</p>
-									</div>
-									<div class='remarks'>
-										<i class='material-icons'>description</i>
-										<p>{% if venue.remarks %}
-												{{venue.remarks}}												
-											{% else %}
-												No Remarks
-											{% endif %}</p>
-									</div>
-
-									{% if venue.approval == 1 %}
-									<div class='venue_address'><br>
-										<i class='material-icons' style='color:#006621;font-size:12px;'>verified_user</i>
-										<p style='color:#006621;font-size:12px;'>Approved by Admin</p>
-									</div>
-									{% else %}
-										{% if venue.approval == -1 %}
-										<div class='venue_address'><br>
-											<i class='material-icons' style='color:#dd4b39;font-size:12px;'>cancel</i>
-											<p style='color:#dd4b39;font-size:12px;'>Disapproved by Admin</p>
-										</div>
-										{% else %}
-										<div class='venue_address'><br>
-											<i class='material-icons' style='color:#4885ed;font-size:12px;'>schedule</i>
-											<p style='color:#4885ed;font-size:12px;'>Pending</p>
-										</div>
-										{% endif %}
-
-									{% endif %}
-								</div>
-							{% endfor %}
-							{% else %}
-							<div class='no_venue error_box'>
-								<p>You haven't submitted any venues yet.</p>
-							</div>
-							{% endif %}
+						
 						<!-- <?php
 
 							$venue_query = mysqli_query($connect_ca,
@@ -231,7 +178,61 @@
 							}
 
 						?> -->
+						{% if venues|length > 0 %}
+							{% for venue in venues %}
+								
+								<div class='venue'>
+									<div class='venue_name'>
+									<i class='material-icons'>event_available</i>
+									<p>{{venue.venue_name}}</p>
+									</div>
+									<div class='contact_person'>
+										<i class='material-icons'>person</i>
+										<p>{{venue.contact_name}}</p>
+									</div>
+									<div class='contact_number'>
+										<i class='material-icons'>call</i>
+										<p>{{venue.contact_number}}</p>
+									</div>
+									<div class='venue_address'>
+										<i class='material-icons'>domain</i>
+										<p>{{venue.venue_address}}</p>
+									</div>
+									<div class='remarks'>
+										<i class='material-icons'>description</i>
+										<p>{% if venue.remarks %}
+												{{venue.remarks}}												
+											{% else %}
+												No Remarks
+											{% endif %}</p>
+									</div>
 
+									{% if venue.approval == 1 %}
+									<div class='venue_address'><br>
+										<i class='material-icons' style='color:#006621;font-size:12px;'>verified_user</i>
+										<p style='color:#006621;font-size:12px;'>Approved by Admin</p>
+									</div>
+									{% else %}
+										{% if venue.approval == -1 %}
+										<div class='venue_address'><br>
+											<i class='material-icons' style='color:#dd4b39;font-size:12px;'>cancel</i>
+											<p style='color:#dd4b39;font-size:12px;'>Disapproved by Admin</p>
+										</div>
+										{% else %}
+										<div class='venue_address'><br>
+											<i class='material-icons' style='color:#4885ed;font-size:12px;'>schedule</i>
+											<p style='color:#4885ed;font-size:12px;'>Pending</p>
+										</div>
+										{% endif %}
+
+									{% endif %}
+								</div>
+							{% endfor %}
+							{% else %}
+							<div class='no_venue error_box'>
+								<p>You haven't submitted any venues yet.</p>
+							</div>
+							{% endif %}
 					</div>
 
 				</div>
@@ -322,9 +323,10 @@
 
 						$.ajax({
 							type: "POST",
-							url: "venue_submit.php",
+							url: "{% url 'ca:venue' %}",
 							dataType: "json",
-							data: ({venue_name: venue_name, contact_person: contact_person,
+							data: ({csrfmiddlewaretoken : $("input[name=csrfmiddlewaretoken]").val(),
+								venue_name: venue_name, contact_person: contact_person,
 								contact_number: contact_number, venue_address: venue_address,
 								remarks: remarks}),
 							success: function(response){
@@ -369,7 +371,7 @@
 								}
 
 								if(response.contact_number == "Contact Number REGEX"){
-									$('.contact_number_error').html("Only digits from 0-9 are allowed");
+									$('.contact_number_error').html("Only digits from 0-9 are allowed and Must have 10 digits");
 									$('.contact_number_error').slideDown().delay(2000).slideUp();
 								}
 
@@ -381,8 +383,9 @@
 									};
 									notification.MaterialSnackbar.showSnackbar(data);
 
-									$('.content_venue_submitted').append("<div class='venue'><div class='venue_name'><i class='material-icons'>event_available</i><p>"+venue_address+"</p></div><div class='contact_person'><i class='material-icons'>person</i><p>"+contact_person+"</p></div><div class='contact_number'><i class='material-icons'>call</i><p>"+contact_number+"</p></div><div class='venue_address'><i class='material-icons'>domain</i><p>"+venue_address+"</p></div><div class='remarks'><i class='material-icons'>description</i><p>"+remarks+"</p></div></div>");
+									$('.content_venue_submitted').append("<div class='venue'><div class='venue_name'><i class='material-icons'>event_available</i><p>"+venue_name+"</p></div><div class='contact_person'><i class='material-icons'>person</i><p>"+contact_person+"</p></div><div class='contact_number'><i class='material-icons'>call</i><p>"+contact_number+"</p></div><div class='venue_address'><i class='material-icons'>domain</i><p>"+venue_address+"</p></div><div class='remarks'><i class='material-icons'>description</i><p>"+remarks+"</p></div></div>");
 									$('.no_venue').slideUp();
+									 $this.closest('form').find("input, textarea").val("");
 								}
 
 								if(response.stat == "Failure"){
