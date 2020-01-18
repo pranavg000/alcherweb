@@ -124,6 +124,61 @@
 
 						<p>Submitted Contacts</p>
 
+						{% if ca_dets|length > 0 %}
+							{% for poc_query in ca_dets %}
+								<div class="poc">
+									<div class='genre_college'>
+										<i class='material-icons'>account_balance</i>
+										<p>{{ poc_query.genre }}</p>,
+										<p>{{ poc_query.colg }}</p>
+									</div>
+
+									<div class='name_designation'>
+										<i class='material-icons'>person</i>
+										<p>{{ poc_query.name_con }}</p>,
+										<p>{{ poc_query.desg }}</p>
+									</div>
+
+									<div class='phone_email'>
+										<i class='material-icons'>call</i>
+										<p>{{ poc_query.phone }}</p>,
+										<p>{{ poc_query.email }}</p>
+									</div>
+
+									<div class='fb'>
+										<i class='material-icons'>link</i>
+										<p>{{ poc_query.fb }}</p>
+									</div>"
+									{% if poc_query.approval == 1 %}
+										<div class='phone_email'>
+											<i class='material-icons' style='color:#006621;font-size:12px;'>verified_user</i>
+											<p style='color:#006621;font-size:12px;'>Approved by Admin</p>
+										</div>
+
+									{% elif poc_query.approval == -1 %}
+										<div class='phone_email'>
+											<i class='material-icons' style='color:#dd4b39;font-size:12px;'>cancel</i>
+											<p style='color:#dd4b39;font-size:12px;'>Disapproved by Admin</p>
+										</div>
+									{% else %}
+										<div class='phone_email'>
+											<i class='material-icons' style='color:#4885ed;font-size:12px;'>schedule</i>
+											<p style='color:#4885ed;font-size:12px;'>Pending</p>
+										</div>
+									{% endif %}
+								</div>
+							{% endfor %}
+						{% else %}
+							<div class='no_poc error_box'>
+								<p>You haven't submitted any contacts yet.</p>
+							</div>
+						{% endif %}
+
+
+
+
+
+
 						<!-- <?php
 
 							$poc_query = mysqli_query($connect_ca,
