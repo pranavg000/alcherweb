@@ -208,7 +208,6 @@ def questionnare(request):
 		por = request.POST['por']
 		referral_code = request.POST['referral']
 
-		print(alt_contact, acad,"$$$$$$$$$$$$$$$$$$$$")
 
 		CA_Questionnaire.objects.create(user = request.user, alt_contact=alt_contact, acad=acad,
 			college_name=college_name, city=city, mailing_address=mailing_address, fb=fb, por=por,
@@ -336,7 +335,12 @@ def poc(request):
 		elif not ca_dets.ca_profile_complete :
 			return redirect('ca:questionnare')
 		else :
-			return render(request, 'ca/poc.html', {'more_active': True})
+			poc_queries = POC.objects.filter(user=request.user)
+			context = {
+				'more_active': True,
+				'poc_queries': poc_queries
+			}
+			return render(request, 'ca/poc.html', context)
 
 @login_required
 def standings(request):

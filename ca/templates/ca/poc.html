@@ -45,7 +45,7 @@
 
 							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 								<input class="mdl-textfield__input" type="text" id="college_name"
-									>
+									value="{{request.user.profile.college}}">
 								<label class="mdl-textfield__label" for="college_name">College/Institution</label>
 								<span class="mdl-textfield__error">Only letters, digits, comma and space are allowed</span>
 							</div>
@@ -116,7 +116,7 @@
 
 						</div>
 
-						<button class='poc_submit ui button'>SUBMIT</button>
+						<button type="button" class='poc_submit ui button'>SUBMIT</button>
 					
 					</div>
 					</form>
@@ -124,8 +124,8 @@
 
 						<p>Submitted Contacts</p>
 
-						{% if ca_dets|length > 0 %}
-							{% for poc_query in ca_dets %}
+						{% if poc_queries|length > 0 %}
+							{% for poc_query in poc_queries %}
 								<div class="poc">
 									<div class='genre_college'>
 										<i class='material-icons'>account_balance</i>
@@ -148,7 +148,7 @@
 									<div class='fb'>
 										<i class='material-icons'>link</i>
 										<p>{{ poc_query.fb }}</p>
-									</div>"
+									</div>
 									{% if poc_query.approval == 1 %}
 										<div class='phone_email'>
 											<i class='material-icons' style='color:#006621;font-size:12px;'>verified_user</i>
@@ -288,7 +288,6 @@
 			$('.poc_genre_select').dropdown();
 
 			$('.poc_submit').click(function(){
-
 				$(this).addClass('loading disabled');
 
 				var $this = $(this);
