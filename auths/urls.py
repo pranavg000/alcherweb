@@ -1,8 +1,8 @@
-from django.urls import path
+from django.urls import path, re_path
 from . import views as auths_views
 from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
-from django.conf.urls import url,include
+from django.conf.urls import include
 
 
 
@@ -15,8 +15,8 @@ urlpatterns = [
     path('verifymail/', auths_views.verifyEmail, name='verifyEmail'),
     path('logout/', auths_views.logout_, name='logout'),
     path('social-auth/', include('social_django.urls', namespace="social")),
-    url(r'^account_activation_sent/$', auths_views.account_activation_sent, name='account_activation_sent'),
-    url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+    path('account_activation_sent/', auths_views.account_activation_sent, name='account_activation_sent'),
+    re_path(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
     	auths_views.activate, name='activate'),
     path('resendmail/' , auths_views.resendMail, name='resendMail'),
     
