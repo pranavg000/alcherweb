@@ -162,7 +162,7 @@ def venue(request):
 		
 		
 
-		if data.get('venue_name') or data.get('contact_person') or data.get('contact_number') or data.get('venue_address') or data.get('contact_number'):
+		if data:
 			data['stat'] = "FAILURE"
 			return JsonResponse(data)
 		else :
@@ -276,7 +276,7 @@ def questionnare(request):
 				data['alt_contact_stat'] = "ALT CONTACT REGEX"
 
 
-		if data.get('acad_stat') or data.get('alt_contact_stat') or data.get('fb_stat') or data.get('mailing_address_stat') or data.get('city_stat') or data.get('por_stat') or data.get('referral_stat') or data.get('college_name_stat'):
+		if data:
 			data['stat'] = "FAILURE"
 			return JsonResponse(data)
 		else:
@@ -399,7 +399,7 @@ def poc(request):
 
 		
 
-		if data.get('genre') or data.get('college') or data.get('poc_name') or data.get('designation') or data.get('phone') or data.get('email') or data.get('fb'):
+		if data:
 			data['stat'] = "FAILURE"
 			return JsonResponse(data)
 		else :

@@ -460,7 +460,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <p>Or sign in manually:</p>
         </div>
         <div class="sign_up_error" style="color:#d50000;font-size:11px;">
-							<?php if(isset($_POST['ca_login'])){echo $login_error;} ?>
+							{{login_error}}
 	    </div>
         
 
@@ -473,7 +473,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 											<span class="mdl-textfield__error">Please enter a valid Email ID</span>
 										</div>
 
-										<div class="email_error input_error"><p><?php if(isset($_POST['ca_login'])){echo $email_error;} ?></p></div>
+										<div class="email_error input_error"><p>{{ email_error }}</p></div>
 
 									</div>
 
@@ -485,7 +485,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 											<span class="mdl-textfield__error">Please enter a valid Phone No</span>
 										</div>
 
-										<div class="password_error  input_error"><p><?php if(isset($_POST['ca_login'])){echo $password_error;} ?></p></div>
+										<div class="password_error  input_error"><p>{{password_error}}</p></div>
 
 									</div>
 

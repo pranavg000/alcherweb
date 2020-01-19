@@ -12,10 +12,12 @@ from django.http import HttpResponse
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.validators import EmailValidator
+
 
 name_pattern = "[A-Za-z ]*"
 team_name_pattern = "[A-Za-z0-9, ]*"
-phone_pattern = "[0-9]*"
+phone_pattern = "[0-9]{10}"
 interests_list = Interest.objects.all()
 
 def generateAlcherId(fullname):
@@ -112,17 +114,33 @@ def login(request):
 	if request.POST:
 		email = request.POST['ca_email']
 		password = request.POST['ca_password']
+
+		data = {}
+		try:
+			email_validator = EmailValidator()
+			email_validator(email)
+		except Exception as e:
+			data['email_error'] = "Please enter a valid Email ID"
+
+		if password == '':
+			data['password_error'] = "Password is required"
+
+		if data:
+			return render(request, 'auths/ca_login.html', data)
+
 		user_obj = User.objects.filter(email=email)
 		if len(user_obj) == 0:
 			print("No user with this email exists!")
-			return redirect('auths:login')
+			data['login_error'] = "Sorry! Invalid credentials. Try again."
+			return render(request, 'auths/ca_login.html', data)
 		else:
 			user = authenticate(username=user_obj[0].username, password=password)
 			if user is None:
 				print("Please enter the correct password for your account.")
-				return redirect('auths:login')
+				data['login_error'] = "Sorry! Invalid credentials. Try again."
+				return render(request, 'auths/ca_login.html', data)
 
-			
+
 			user_obj = user_obj.filter(profile__emailVerified=True)
 
 			if len(user_obj) == 0:
@@ -179,5 +197,5 @@ def resendMail(request):
 def logout_(request):
 	if request.user:
 		logout(request)
-	messages.success(request, 'Logged out successfully!!')
+	# messages.success(request, 'Logged out successfully!!')
 	return redirect('auths:login')
