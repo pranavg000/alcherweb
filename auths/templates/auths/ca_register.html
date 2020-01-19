@@ -300,10 +300,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-PPSHCGJ');</script>
 <!-- End Google Tag Manager -->
-<?php  
-    include 'analyticstracking.php';
-    include 'structured_data.php';
-    ?>
+
     <style>
 @import url('https://fonts.googleapis.com/css?family=Fira+Sans+Condensed');
         
@@ -559,7 +556,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           
         </div>
         <div class="sign_up_error" style="color:#d50000;font-size:11px;">
-			<?php if(isset($_POST['create_account'])){echo $signup_error;} ?>
+			{{signup_error}}
 						
 	    </div>
         
@@ -576,7 +573,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 									<span class="mdl-textfield__error">Only letters and white spaces are allowed</span>
 								</div>
 
-								<div class="fullname_error input_error"><p><?php if(isset($_POST['create_account'])){echo $fullname_error;} ?></p></div>
+								<div class="fullname_error input_error"><p>{{fullname_error}}</p></div>
 
 							</div>
 
@@ -589,7 +586,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 									<span class="mdl-textfield__error">Please enter a valid Email ID</span>
 								</div>
 
-								<div class="email_error input_error"><p><?php if(isset($_POST['create_account'])){echo $email_error;} ?></p></div>
+								<div class="email_error input_error"><p>{{email_error}}</p></div>
 
 							</div>
 
@@ -602,7 +599,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 									<span class="mdl-textfield__error">Please enter a valid Phone No</span>
 								</div>
 
-								<div class="phone_error input_error"><p><?php if(isset($_POST['create_account'])){echo $phone_error;} ?></p></div>
+								<div class="phone_error input_error"><p>{{phone_error}}</p></div>
 
 							</div>
 
@@ -618,7 +615,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 									<span class="mdl-radio__label">Female</span>
 								</label>
 
-								<div class="gender_error input_error"><p><?php if(isset($_POST['create_account'])){echo $gender_error;} ?></p></div>
+								<div class="gender_error input_error"><p>{{gender_error}}</p></div>
 							</div>
 
 							<div class="team_name_div">
@@ -630,7 +627,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 									<span class="mdl-textfield__error">Only letters, digits, comma and space are allowed</span>
 								</div>
 
-								<div class="team_name_error input_error"><p><?php if(isset($_POST['create_account'])){echo $team_name_error;} ?></p></div>
+								<div class="team_name_error input_error"><p>{{team_name_error}}</p></div>
 
 							</div>
 
@@ -644,7 +641,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 								</select>
 
-								<div class="interests_error input_error"><p><?php if(isset($_POST['create_account'])){echo $interests_error;} ?></p></div>
+								<div class="interests_error input_error"><p>{{interests_error}}</p></div>
 							</div>
 
 							<div class="password_div">
@@ -655,7 +652,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 									<span class="mdl-textfield__error">White spaces are not allowed</span>
 								</div>
 
-								<div class="password_error  input_error"><p><?php if(isset($_POST['create_account'])){echo $password_error;} ?></p></div>
+								<div class="password_error  input_error"><p>{{password_error}}</p></div>
 
 							</div>
 
