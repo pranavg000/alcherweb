@@ -41,7 +41,6 @@ def register(request):
 		interests = request.POST.getlist('interests[]')
 		interests_int = [int(x) for x in interests]
 		alcher_id = generateAlcherId(fullname)
-		print(alcher_id)
 		if User.objects.filter(email=email).filter(profile__emailVerified=True):
 			print("Same Email or phone no. already present")
 			return redirect('auths:register')
@@ -114,16 +113,18 @@ def login(request):
 		email = request.POST['ca_email']
 		password = request.POST['ca_password']
 		user_obj = User.objects.filter(email=email)
-
 		if len(user_obj) == 0:
 			print("No user with this email exists!")
-			return render(request,'auths/ca_login.html')
+			return redirect('auths:login')
 		else:
 			user = authenticate(username=user_obj[0].username, password=password)
 			if user is None:
 				print("Please enter the correct password for your account.")
 				return redirect('auths:login')
+
+			
 			user_obj = user_obj.filter(profile__emailVerified=True)
+
 			if len(user_obj) == 0:
 				print("Email not verified yet!")
 				return redirect('auths:verifyEmail')
