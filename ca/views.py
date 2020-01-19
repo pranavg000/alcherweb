@@ -4,7 +4,7 @@ from auths.models import CA_Detail
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from random import randint
-from django.core.validators import RegexValidator, EmailValidator
+from django.core.validators import RegexValidator, EmailValidator, URLValidator
 
 
 def generateGrievanceId():
@@ -144,6 +144,14 @@ def venue(request):
 		
 		if request.POST['contact_person'] == '':
 			data['contact_person'] = "Contact Person Empty"
+		else:
+			contact_number_validator = RegexValidator('^[0-9]{10}$')
+			try:
+				contact_number_validator(request.POST['contact_number'])
+			except Exception as e:
+				data['contact_number'] = "Contact Number REGEX"
+
+
 
 		if request.POST['contact_number'] == '':
 			data['contact_number'] = "Contact Number Empty"
@@ -151,11 +159,8 @@ def venue(request):
 		if request.POST['venue_address'] == '':
 					 data['venue_address'] = "Venue Address Empty"
 
-		contact_number_validator = RegexValidator('^[0-9]{10}$')
-		try:
-			contact_number_validator(request.POST['contact_number'])
-		except Exception as e:
-			data['contact_number'] = "Contact Number REGEX"
+		
+		
 
 		if data.get('venue_name') or data.get('contact_person') or data.get('contact_number') or data.get('venue_address') or data.get('contact_number'):
 			data['stat'] = "FAILURE"
@@ -199,24 +204,102 @@ def venue(request):
 @login_required
 def questionnare(request):
 	if request.method == 'POST':
-		alt_contact = request.POST['alt_contact']
-		acad = request.POST['acad']
-		college_name = request.POST['college_name']
-		city = request.POST['city']
-		mailing_address = request.POST['mailing_address']
-		fb = request.POST['fb']
-		por = request.POST['por']
-		referral_code = request.POST['referral']
+
+		data = {}
+		if request.POST['acad'] == '':
+			data['acad_stat'] = "ACAD EMPTY"
+		else:
+			ACAD_OPTIONS = ['1st Year', '2nd Year', '3rd Year', '4th Year', '5th Year']
+			if request.POST['acad'] not in ACAD_OPTIONS:
+				data['acad_stat'] = "ACAD REGEX"
+
+		college_name_validator = RegexValidator('^[a-zA-z0-9, ]*$')
+		if request.POST['college_name'] == '':
+			data['college_name_stat'] = "COLLEGE NAME EMPTY"
+		else:
+			try:
+				college_name_validator(request.POST['college_name'])
+			except Exception as e:
+				data['college_name_stat'] = "COLLEGE NAME REGEX"
+
+		try:
+			college_name_validator(request.POST['referral'])
+		except Exception as e:
+			data['referral_stat'] = "REFERRAL REGEX"
+		else:
+			if request.POST['referral'] == request.user.username:
+				data['referral_stat'] = "ALCHER ID"
+
+		try:
+			college_name_validator(request.POST['por'])
+		except Exception as e:
+			data['por_stat'] = "POR REGEX"
+
+		city_validator = RegexValidator('^[a-zA-z0-9,-: ]+$')
+		if request.POST['city'] == '':
+			data['city_stat'] = "CITY EMPTY"
+		else:
+			try:
+				city_validator(request.POST['city'])
+			except Exception as e:
+				data['city_stat'] = "CITY REGEX"
+				
 
 
-		CA_Questionnaire.objects.create(user = request.user, alt_contact=alt_contact, acad=acad,
-			college_name=college_name, city=city, mailing_address=mailing_address, fb=fb, por=por,
-			referral_code=referral_code)
+		if request.POST['mailing_address'] == '':
+			data['mailing_address_stat'] = "MAILING ADDRESS EMPTY"
+		else:
+			try:
+				city_validator(request.POST['mailing_address'])
+			except Exception as e:
+				data['mailing_address_stat'] = "MAILING ADDRESS REGEX"
 
-		ca_det_user = CA_Detail.objects.get(user=request.user)
-		ca_det_user.ca_profile_complete = True
-		ca_det_user.save()
-		return redirect('ca:pending')
+		
+
+		if request.POST['fb'] == '':
+			data['fb_stat'] = "FB EMPTY"
+		else:
+			url_validator = URLValidator()
+			try:
+				url_validator(request.POST['fb'])
+			except Exception as e:
+				data['fb_stat'] = "FB REGEX"
+
+
+		contact_number_validator = RegexValidator('^[0-9]{10}$')
+		if len(request.POST['alt_contact']) < 10:
+			data['alt_contact_stat'] = "ALT CONTACT LENGTH"
+		else:
+			try:
+				contact_number_validator(request.POST['alt_contact'])
+			except Exception as e:
+				data['alt_contact_stat'] = "ALT CONTACT REGEX"
+
+
+		if data.get('acad_stat') or data.get('alt_contact_stat') or data.get('fb_stat') or data.get('mailing_address_stat') or data.get('city_stat') or data.get('por_stat') or data.get('referral_stat') or data.get('college_name_stat'):
+			data['stat'] = "FAILURE"
+			return JsonResponse(data)
+		else:
+			alt_contact = request.POST['alt_contact']
+			acad = request.POST['acad']
+			college_name = request.POST['college_name']
+			city = request.POST['city']
+			mailing_address = request.POST['mailing_address']
+			fb = request.POST['fb']
+			por = request.POST['por']
+			referral_code = request.POST['referral']
+
+
+			CA_Questionnaire.objects.create(user = request.user, alt_contact=alt_contact, acad=acad,
+				college_name=college_name, city=city, mailing_address=mailing_address, fb=fb, por=por,
+				referral_code=referral_code)
+
+			ca_det_user = CA_Detail.objects.get(user=request.user)
+			ca_det_user.ca_profile_complete = True
+			ca_det_user.save()
+			data['stat'] = "SUCCESS"
+
+			return JsonResponse(data)
 	else :
 		ca_dets = request.user.ca_details
 		if ca_dets.ca_profile_complete and ca_dets.ca_approval :
@@ -295,21 +378,26 @@ def poc(request):
 
 		if request.POST['poc_phone'] == '':
 					 data['phone'] = "Phone Empty"
+		else:
+			contact_number_validator = RegexValidator('^[0-9]{10}$')
+			try:
+				contact_number_validator(request.POST['poc_phone'])
+			except Exception as e:
+				data['phone'] = "Phone REGEX"
+
 
 		if request.POST['poc_email'] == '':
 					 data['email'] = "Email Empty"
+		else:
+			email_validator = EmailValidator()
+			try:
+				email_validator(request.POST['poc_email'])
+			except Exception as e:
+				data['email'] = "Email REGEX"
 
-		contact_number_validator = RegexValidator('^[0-9]{10}$')
-		email_validator = EmailValidator()
-		try:
-			contact_number_validator(request.POST['poc_phone'])
-		except Exception as e:
-			data['phone'] = "Phone REGEX"
+		
 
-		try:
-			email_validator(request.POST['poc_email'])
-		except Exception as e:
-			data['email'] = "Email REGEX"
+		
 
 		if data.get('genre') or data.get('college') or data.get('poc_name') or data.get('designation') or data.get('phone') or data.get('email') or data.get('fb'):
 			data['stat'] = "FAILURE"
