@@ -135,7 +135,7 @@ else{
 
 						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 							<input class="mdl-textfield__input" type="tel" id="alt_contact" name="alt_contact"
-								pattern="[0-9]*">
+								pattern="[0-9]{10}">
 							<label class="mdl-textfield__label" for="alt_contact">Alternate Contact</label>
 							<span class="mdl-textfield__error">Please enter a valid Phone No</span>
 						</div>
@@ -210,7 +210,7 @@ else{
 
 					</div>
 
-					<button class="submit_questionnaire ui button">SUBMIT</button>
+					<button type="button" class="submit_questionnaire ui button">SUBMIT</button>
 
 				</div> <!-- questionnaire_content -->
 			</form>
@@ -404,11 +404,12 @@ else{
 								type: "POST",
 								url: "{% url 'ca:questionnare' %}",
 								dataType: "json",
-								data: ({acad: acad, college_name: college_name,
+								data: ({csrfmiddlewaretoken : $("input[name=csrfmiddlewaretoken]").val(),
+									acad: acad, college_name: college_name,
 										alt_contact: alt_contact, city: city, mailing_address: mailing_address,
-										fb: fb, por: por, referral: referral}),
+										fb: fb, por: por, referral: referral, }),
 								success: function(response){
-
+									console.log(response);
 									$this.removeClass('loading');
 
 									if(response.session == "Session Error"){
@@ -507,8 +508,8 @@ else{
 										  timeout: 2000
 										};
 										notification.MaterialSnackbar.showSnackbar(data);
-
-										window.location.href = "pending.php";
+										console.log("{% url 'ca:pending' %}")
+										window.location.href = "{% url 'ca:pending' %}";
 									}
 
 									if(response.stat=="FAILURE"){
