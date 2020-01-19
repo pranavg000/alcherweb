@@ -12,13 +12,10 @@ from django.http import HttpResponse
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.validators import EmailValidator
+from django.core.validators import EmailValidator, RegexValidator
 
 
-name_pattern = "[A-Za-z ]*"
-team_name_pattern = "[A-Za-z0-9, ]*"
-phone_pattern = "[0-9]{10}"
-interests_list = Interest.objects.all()
+
 
 def generateAlcherId(fullname):
 	latUserID = User.objects.latest('id').id
@@ -33,15 +30,74 @@ def generateAlcherId(fullname):
 def register(request):
 
 	if request.method == 'POST':
-		
+		print(request.POST, "$$$$$$$$$$$$$$$$$$$$$")
 		password = request.POST['password']
 		fullname = request.POST['fullname']
-		gender = request.POST['gender']
+		gender = request.POST.get('gender')
 		team_name = request.POST['team_name']
 		email = request.POST['email']
 		phone = request.POST['phone']
 		interests = request.POST.getlist('interests[]')
 		interests_int = [int(x) for x in interests]
+		data = {}
+		name_validator = RegexValidator('^[A-Za-z ]+$')
+		if fullname == '':
+			data['fullname_error'] = "Please enter your Full Name"
+		else:
+			try:
+				name_validator(fullname)
+			except Exception as e:
+				data['fullname_error'] = "Only letters and white spaces"
+
+
+		if email == '':
+			data['email_error'] = "Please enter a valid Email ID"
+		else:
+			try:
+				email_validator = EmailValidator()
+				email_validator(email)
+			except Exception as e:
+				data['email_error'] = "Invalid email format"
+
+
+		if phone == '':
+			data['phone_error'] = "Please enter a valid Phone No"
+		else:
+			try:
+				phone_number_validator = RegexValidator('^[0-9]{10}$')
+				phone_number_validator(phone)
+			except Exception as e:
+				data['phone_error'] = "Must have 10 digits and only digits from 0 to 9 allowed"
+
+
+
+
+
+		if gender == None:
+			data['gender_error'] = "Gender is mandatory"
+
+		if team_name == '':
+			data['team_name_error'] = "Please enter your Team Name"
+		else:
+			try:
+				name_validator(team_name)
+			except Exception as e:
+				data['team_name_error'] = "Only letters and white spaces"
+
+		if password == '':
+			data['password_error'] = "Password is required"
+		else:
+			if len(password) < 8:
+				data['password_error'] = "Minimum 8 characters"
+
+		if len(interests_int) == 0:
+			data['interests_error'] = "Please select one or more interests"
+
+		if data:
+			print(data, "$$$$$$$$$$$$$$$$$$$$$")
+			return render(request, 'auths/ca_register.html', data)
+
+
 		alcher_id = generateAlcherId(fullname)
 		if User.objects.filter(email=email).filter(profile__emailVerified=True):
 			print("Same Email or phone no. already present")
@@ -71,6 +127,10 @@ def register(request):
 				return redirect('auths:register')
 
 	else:
+		name_pattern = "[A-Za-z ]*"
+		team_name_pattern = "[A-Za-z0-9, ]*"
+		phone_pattern = "[0-9]{10}"
+		interests_list = Interest.objects.all()
 		context = {
 		'name_pattern': name_pattern,
 		'team_name_pattern' : team_name_pattern,
