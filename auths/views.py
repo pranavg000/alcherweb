@@ -11,6 +11,7 @@ from django.template.loader import render_to_string
 from django.http import HttpResponse
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 name_pattern = "[A-Za-z ]*"
 team_name_pattern = "[A-Za-z0-9, ]*"
