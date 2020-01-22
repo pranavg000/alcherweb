@@ -63,6 +63,11 @@ class Idea(models.Model):
 	admin_reply = models.CharField(max_length=200, null=True, blank=True)
 	timestamp = models.DateTimeField(auto_now_add=True)
 	approval = models.IntegerField(default=0)
+	ideascore = models.IntegerField(default=0)
+	triweeklyidea = models.IntegerField(default=0)
+
+	def __str__(self):
+		return f'{self.user.username} - {self.idea_category}'
 
 
 class POC(models.Model):
@@ -86,6 +91,11 @@ class POC(models.Model):
 	email = models.EmailField(max_length=254)
 	timestamp = models.DateTimeField(auto_now_add=True)
 	approval = models.IntegerField(default=0)
+	POCscore = models.IntegerField(default=0)
+	triweeklyPOC = models.IntegerField(default=0)
+
+	def __str__(self):
+		return f'{self.user.username} - {self.name_con}'
 
 
 class Venue(models.Model):
@@ -97,9 +107,11 @@ class Venue(models.Model):
 	remarks = models.CharField(max_length=500, blank=True)
 	timestamp = models.DateTimeField(auto_now_add=True)
 	approval = models.IntegerField(default=0)
+	venuescore = models.IntegerField(default=0)
+	triweeklyvenue = models.IntegerField(default=0)
 
 	def __str__(self):
-		return self.venue_name
+		return f'{self.user.username} - {self.venue_name}'
 
 
 

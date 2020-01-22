@@ -106,8 +106,11 @@
           <br>
         <div class="card-text">
         <div style="float: left;"> Alcher ID: </div><div style="float: right;"> {{ user.username }}</div><br><br>
-          Team Members:<br><br>
-          Events Registered:<br><br>
+        <div style="float: left;"> Score: </div><div style="float: right;"> {{ user.ca_details.score }}</div><br><br>
+        <div style="float: left;"> Tri-weekly Score: </div><div style="float: right;">
+          {{ user.ca_details.triweekly }}
+        </div>
+        <br><br>
         </div>
       </div>
     </div>
