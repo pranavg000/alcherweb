@@ -1,0 +1,12 @@
+{% extends 'admin/change_list.html' %}
+<br>
+{% block object-tools %}
+    <div>
+        <form action="resetscore/" method="POST">
+            {% csrf_token %}
+                <button style="background-color: red; cursor: pointer;" type="submit"><h3 style="color: white;">Reset Triweekly Scores</h3></button>
+        </form>
+    </div>
+    <br>
+    {{ block.super }}
+{% endblock %}
