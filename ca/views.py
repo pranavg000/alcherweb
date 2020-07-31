@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from random import randint
 from django.core.validators import RegexValidator, EmailValidator, URLValidator
-
+from auths.models import CA_Detail
 
 def generateGrievanceId():
 	try:
@@ -438,4 +438,31 @@ def standings(request):
 	elif not ca_dets.ca_profile_complete :
 		return redirect('ca:questionnare')
 	else :
-		return render(request, 'ca/standings.html', {'more_active': True})
+		idea_count = Idea.objects.filter(user=request.user, approval=1).count()
+		poc_count = POC.objects.filter(user=request.user, approval=1).count()
+		venue_count = Venue.objects.filter(user=request.user, approval=1).count()
+		# share_count = Idea.objects.filter(user=request.user).count()
+		referral_count = CA_Questionnaire.objects.filter(referral_code=request.user.username).count()
+
+		ca_deets = CA_Detail.objects.get(user=request.user)
+
+		triweekly_score = ca_deets.triweekly
+
+		top5Triweekly = CA_Detail.objects.all().order_by('-triweekly')[:5]
+		top5Overall = CA_Detail.objects.all().order_by('-score')[:5]
+		if TriweekyWinner.objects.all().count() > 0:
+			last_triweekly_winner = TriweekyWinner.objects.all().order_by('-pk')[0]
+		else :
+			last_triweekly_winner = None
+		context = {
+			'idea_count': idea_count,
+			'poc_count': poc_count,
+			'venue_count': venue_count,
+			'referral_count': referral_count,
+			'triweekly_score': triweekly_score,
+			'triweekly_standings': top5Triweekly,
+			'overall_standings': top5Overall,
+			'last_triweekly_winner': last_triweekly_winner,
+			'more_active': True
+		}
+		return render(request, 'ca/standings.html', context)

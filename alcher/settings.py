@@ -131,6 +131,12 @@ AUTHENTICATION_BACKENDS = [
         'django.contrib.auth.backends.AllowAllUsersModelBackend',
     ]
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': 'ca/cache',
+    }
+}
 
 SOCIAL_AUTH_FACEBOOK_KEY = '535569483886586'       
 SOCIAL_AUTH_FACEBOOK_SECRET = "661093c7bda3e266d52e3c99be1ca11e"  

@@ -1,10 +1,10 @@
+
 {% extends 'ca/base.html' %}
-    {% load static %}
+    {% load static cache %}
 
 {% block title %}Standings | Campus Ambassador | Alcheringa, IIT Guwahati{% endblock %}
 
 	<!-- <?php require 'meta.php'; ?> -->
-
 
 {% block body %}
 	<div class="col-lg-6">
@@ -46,16 +46,16 @@
 										$venue_count = $score['venue_count'];
 										$share_count = $score['share_count'];
 										$total = $score['total'];
+										?> -->
+										<table>
+											<tr><td>Total Score</td><td>{{ triweekly_score }}</td></tr>
+											<tr><td>Idea Submitted</td><td>{{ idea_count }}</td></tr>
+											<tr><td>POC Submitted</td><td>{{ poc_count }}</td></tr>
+											<tr><td>Venue Submitted</td><td>{{ venue_count }}</td></tr>
+											<tr><td>FB Shares</td><td>{{ fb_score }}</td></tr>
+										</table>
 
-										echo "<table>
-											<tr><td>Total Score</td><td>".$total."</td></tr>
-											<tr><td>Idea Submitted</td><td>".$idea_count."</td></tr>
-											<tr><td>POC Submitted</td><td>".$poc_count."</td></tr>
-											<tr><td>Venue Submitted</td><td>".$venue_count."</td></tr>
-											<tr><td>FB Shares</td><td>".$share_count."</td></tr>
-										</table>";
-
-									?> -->
+									
 
 								</div>
 
@@ -83,106 +83,65 @@
 										$share_count = $score['share_count'];
 										$referral_count = $score['referral_count'];
 										$total = $score['total'];
-
-										echo "<table>
-											<tr><td>Total Score</td><td>".$total."</td></tr>
-											<tr><td>Idea Submitted</td><td>".$idea_count."</td></tr>
-											<tr><td>POC Submitted</td><td>".$poc_count."</td></tr>
-											<tr><td>Venue Submitted</td><td>".$venue_count."</td></tr>
-											<tr><td>FB Shares</td><td>".$share_count."</td></tr>
-											<tr><td>Referred CAs</td><td>".$referral_count."</td></tr>
-										</table>";
-
 									?> -->
+										
+										<table>
+											
+										</table>
+										<table>
+											<tr><td>Total Score</td><td>{{ triweekly_score }}</td></tr>
+											<tr><td>Idea Submitted</td><td>{{ idea_count }}</td></tr>
+											<tr><td>POC Submitted</td><td>{{ poc_count }}</td></tr>
+											<tr><td>Venue Submitted</td><td>{{ venue_count }}</td></tr>
+											<tr><td>FB Shares</td><td>{{ fb_score }}</td></tr>
+											<tr><td>Referred CAs</td><td>{{ referral_count }}</td></tr>
+										</table>
+
 
 								</div>
 
 							</div><!-- myscore -->
-
+							{% cache 30 leaderboard %}
 							<div class="mdl-tabs__panel" id="leaderboard">
 
 								<div class="triweekly">
 
 									<p>Tri Weekly Leaderboard</p>
 
-									<!-- <?php
+									
+										<table>
 
+											<tr><th>Rank</th><th>ALCHER ID</th><th>Name</th><th>Score</th></tr>
+											{% for person in triweekly_standings %}
+												<tr><td>{{forloop.counter}}</td><td> {{person.user.username}} </td><td> {{person.user.profile.fullname}} </td><td>{{person.triweekly}}</td></tr>
 
-										$ca_query = mysqli_query($connect_ca,
-											"SELECT ca_details.alcher_id as alcher_id, ca_details.fullname as name, COUNT(distinct idea_tri.id) as idea_count, COUNT(distinct poc_tri.id) as poc_count, COUNT(distinct venue1_tri.id) as venue_count, COALESCE(shares_count_tri.shares,0) as share_count,
-											(((COUNT(distinct idea_tri.id))*50)+((COUNT(distinct poc_tri.id))*50)+((COUNT(distinct venue1_tri.id))*300)+((COALESCE(shares_count_tri.shares,0))*15)) as total FROM ca_details
-											LEFT JOIN idea_tri ON ca_details.alcher_id = idea_tri.alcher_id and idea_tri.approval = 1
-											LEFT JOIN poc_tri ON ca_details.alcher_id = poc_tri.alcher_id and poc_tri.approval = 1
-											LEFT JOIN shares_count_tri ON ca_details.alcher_id = shares_count_tri.alcher_id
-											LEFT JOIN venue1_tri ON ca_details.alcher_id = venue1_tri.alcher_id and venue1_tri.approval = 1
-											GROUP BY ca_details.alcher_id
-											ORDER BY (((COUNT(distinct idea_tri.id))*50)+((COUNT(distinct poc_tri.id))*50)+((COUNT(distinct venue1_tri.id))*300)+((COALESCE(shares_count_tri.shares,0))*15)) DESC
-											LIMIT 5 OFFSET 0"
-											);
+											{% endfor %}
+											
 
-										echo "<table>";
-
-											echo "<tr><th>Rank</th><th>ALCHER ID</th><th>Name</th><th>Score</th></tr>";
-											$i = 1;
-
-											while($ca = $ca_query->fetch_assoc()){
-
-												$ca_alcher_id = $ca['alcher_id'];
-												$ca_name = $ca['name'];
-												$ca_score = $ca['total'];
-
-												echo "<tr><td>".$i."</td><td>".$ca_alcher_id."</td><td>".$ca_name."</td><td>".$ca_score."</td></tr>";
-												$i++;
-
-											}
-
-										echo "</table>";
-
-									?>
-
+										</table>
+										
 								</div>
 
 								<div class="overall">
 
 									<p>Overall Leaderboard</p>
 
-									<?php
+									
 
-										$ca_query = mysqli_query($connect_ca,
-											"SELECT ca_details.alcher_id as alcher_id, ca_details.fullname as name, COUNT(distinct idea.id) as idea_count, COUNT(distinct poc.id) as poc_count, COUNT(distinct venue1.id) as venue_count, COALESCE(shares_count.shares,0) as share_count,
-											(((COUNT(distinct idea.id))*50)+((COUNT(distinct poc.id))*50)+((COUNT(distinct venue1.id))*300)+((COALESCE(shares_count.shares,0))*15)+((COUNT(distinct ca_questionnaire.alcher_id))*20)) as total FROM ca_details
-											LEFT JOIN idea ON ca_details.alcher_id = idea.alcher_id and idea.approval = 1
-											LEFT JOIN poc ON ca_details.alcher_id = poc.alcher_id and poc.approval = 1
-											LEFT JOIN shares_count ON ca_details.alcher_id = shares_count.alcher_id
-											LEFT JOIN venue1 ON ca_details.alcher_id = venue1.alcher_id and venue1.approval = 1
-											LEFT JOIN ca_questionnaire ON ca_details.alcher_id = ca_questionnaire.referral_code
-											GROUP BY ca_details.alcher_id
-											ORDER BY (((COUNT(distinct idea.id))*50)+((COUNT(distinct poc.id))*50)+((COUNT(distinct venue1.id))*300)+((COALESCE(shares_count.shares,0))*15)+((COUNT(distinct ca_questionnaire.alcher_id))*20)) DESC
-											LIMIT 5 OFFSET 0"
-											);
+										<table>
 
-										echo "<table>";
+											<tr><th>Rank</th><th>ALCHER ID</th><th>Name</th><th>Score</th></tr>
+											{% for person in overall_standings %}
+												<tr><td>{{forloop.counter}}</td><td> {{person.user.username}} </td><td> {{person.user.profile.fullname}} </td><td>{{person.score}}</td></tr>
 
-											echo "<tr><th>Rank</th><th>ALCHER ID</th><th>Name</th><th>Score</th></tr>";
-											$i = 1;
+											{% endfor %}
+											
 
-											while($ca = $ca_query->fetch_assoc()){
+										</table>
 
-												$ca_alcher_id = $ca['alcher_id'];
-												$ca_name = $ca['name'];
-												$ca_score = $ca['total'];
-
-												echo "<tr><td>".$i."</td><td>".$ca_alcher_id."</td><td>".$ca_name."</td><td>".$ca_score."</td></tr>";
-												$i++;
-
-											}
-
-										echo "</table>";
-
-									?> -->
 
 								</div>
-
+								{% if last_triweekly_winner %}
 								<div class="winners">
 
 									<p>Previous Triweekly Winners</p>
@@ -209,13 +168,13 @@
 										}
 
 									?> -->
-
+										<tr><td>1</td><td>{{last_triweekly_winner.user.profile.fullname}}</td><td>{{last_triweekly_winner.user.username}}</td></tr>
 									</table>
 
 								</div>
-
+								{% endif %}
 							</div><!-- overall -->
-
+							{% endcache %}
 					</div>
 
 				</div> <!-- content_standings -->

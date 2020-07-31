@@ -1,18 +1,9 @@
 from django.db import models
 from django.core.validators import MaxValueValidator,MinValueValidator
 from django.contrib.auth.models import User
-
+from .choices import *
 
 class Complaints(models.Model):
-
-	COMPLAINT_CATEGORY_CHOICES = {
-		('General', 'General'),
-		('Technical', 'Technical'),
-		('Competition', 'Competition'),
-		('Festival', 'Festival'),
-		('Payment', 'Payment'),
-		}
-
 	# complaint_id = models.IntegerField(default=0,validators=[MinValueValidator(0)])
 	grievance_id = models.CharField(max_length=15)
 	user = models.ForeignKey(User,on_delete=models.CASCADE)
@@ -26,14 +17,6 @@ class Complaints(models.Model):
 
 
 class FAQ(models.Model):
-	FAQ_CATEGORY_CHOICES = {
-	('general', 'GENERAL'),
-	('portal', 'PORTAL'),
-	('competition', 'COMPETITIONS'),
-	('accommodation', 'ACCOMMODATION'),
-	('audition', 'CITY AUDITION'),
-	}
-
 	faq_category = models.CharField(choices=FAQ_CATEGORY_CHOICES,default='general',max_length=15)
 	faq_question = models.CharField(max_length=500)
 	faq_answer = models.CharField(max_length=500)
@@ -49,14 +32,7 @@ class Notifications(models.Model):
 
 
 class Idea(models.Model):
-	IDEA_CATEGORY_CHOICES = {
-	('Competition', 'Competition'),
-	('Workshop', 'Workshop'),
-	('Hospitality', 'Hospitality'),
-	('Artist', 'Artist'),
-	('Crowd Experience', 'Crowd Experience'),
-	('Other', 'Other'),
-	}
+	
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	idea_category = models.CharField(choices=IDEA_CATEGORY_CHOICES,default='Other',max_length=20)
 	idea = models.CharField(max_length=200)
@@ -71,16 +47,6 @@ class Idea(models.Model):
 
 
 class POC(models.Model):
-	GENRE_CHOICES = {
-	('Dance','Dance'),
-	('Music','Music'),
-	('Drama','Drama'),
-	('Arts','Arts'),
-	('Fashion','Fashion'),
-	('Literary and Debate','Literary and Debate'),
-	('Sports','Sports'),	
-	}
-
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	genre = models.CharField(choices=GENRE_CHOICES,default='dance',max_length=30)
 	name_con = models.CharField(max_length=60)
@@ -116,7 +82,7 @@ class Venue(models.Model):
 
 
 class CA_Questionnaire(models.Model):
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='ca_questionnaire')
 	alt_contact = models.CharField(max_length=13)
 	acad = models.CharField(max_length=100)
 	college_name = models.CharField(max_length=200)
@@ -125,3 +91,7 @@ class CA_Questionnaire(models.Model):
 	fb = models.URLField(max_length=200)
 	por = models.CharField(max_length=500)
 	referral_code = models.CharField(max_length=200)
+
+
+class TriweekyWinner(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE) 
