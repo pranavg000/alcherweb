@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '0xcmctyp*2&496*q#eqbyu#a%04c&brdgm3*ji&5o$n50!%jfy'
+SECRET_KEY = 'KEY'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -138,11 +138,11 @@ CACHES = {
     }
 }
 
-SOCIAL_AUTH_FACEBOOK_KEY = '535569483886586'       
-SOCIAL_AUTH_FACEBOOK_SECRET = "661093c7bda3e266d52e3c99be1ca11e"  
+SOCIAL_AUTH_FACEBOOK_KEY = 'ss'       
+SOCIAL_AUTH_FACEBOOK_SECRET = "ss"  
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1068393908321-qhk9bc1dfceq3ttc1kefsrbrfdqsp9k7.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'kRvC1BFBxGbwkco0YeAm6zeC'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'ss'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'ss'
 
 
 
