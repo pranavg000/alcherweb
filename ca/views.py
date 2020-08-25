@@ -6,6 +6,8 @@ from django.http import JsonResponse
 from random import randint
 from django.core.validators import RegexValidator, EmailValidator, URLValidator
 from auths.models import CA_Detail
+from .decorators import profile_required
+
 
 def generateGrievanceId():
 	try:
@@ -17,6 +19,7 @@ def generateGrievanceId():
 
 
 @login_required
+@profile_required
 def contactUs(request):
 	if request.method == 'POST':
 		COMPLAINT_CATEGORY_CHOICES = {
@@ -51,23 +54,19 @@ def contactUs(request):
 
 		return JsonResponse(data)
 	else:
-		ca_dets = request.user.ca_details
-		if ca_dets.ca_profile_complete and not ca_dets.ca_approval :
-			return redirect('ca:pending')
-		elif not ca_dets.ca_profile_complete :
-			return redirect('ca:questionnare')
-		else :
-			prevQueries = Complaints.objects.filter(user=request.user).order_by('-pk')
+		
+		prevQueries = Complaints.objects.filter(user=request.user).order_by('-pk')
 
-			context = {
-			'prevQueries': prevQueries,
-			'more_active': True,
-			}
+		context = {
+		'prevQueries': prevQueries,
+		'more_active': True,
+		}
 
-			return render(request, 'ca/contacts.html', context)
+		return render(request, 'ca/contacts.html', context)
 
 
 @login_required
+@profile_required
 def submitIdea(request):
 	if request.method == 'POST':
 		IDEA_CATEGORY_CHOICES = {
@@ -97,22 +96,18 @@ def submitIdea(request):
 
 		return JsonResponse(data)
 	else:
-		ca_dets = request.user.ca_details
-		if ca_dets.ca_profile_complete and not ca_dets.ca_approval :
-			return redirect('ca:pending')
-		elif not ca_dets.ca_profile_complete :
-			return redirect('ca:questionnare')
-		else :
-			ideaQueries = Idea.objects.filter(user=request.user).order_by('-pk')
+		
+		ideaQueries = Idea.objects.filter(user=request.user).order_by('-pk')
 
-			context = {
-				'ideaQueries': ideaQueries,
-				'idea_active': True,
-			}
+		context = {
+			'ideaQueries': ideaQueries,
+			'idea_active': True,
+		}
 
-			return render(request, 'ca/idea.html', context)
+		return render(request, 'ca/idea.html', context)
 
 @login_required
+@profile_required
 def faqs(request):
 	if request.method == 'POST':
 		faq_category = request.POST['faq_category']
@@ -125,16 +120,11 @@ def faqs(request):
 		return render(request, 'ca/faq_response.html', context)
 
 	else:
-		ca_dets = request.user.ca_details
-		if ca_dets.ca_profile_complete and not ca_dets.ca_approval :
-			return redirect('ca:pending')
-		elif not ca_dets.ca_profile_complete :
-			return redirect('ca:questionnare')
-		else :
-			return render(request, 'ca/faq.html', {'more_active': True})
+		return render(request, 'ca/faq.html', {'more_active': True})
 
 
 @login_required
+@profile_required
 def venue(request):
 	if request.method == 'POST':
 		
@@ -178,26 +168,21 @@ def venue(request):
 			return JsonResponse(data)
 
 	else:
-		ca_dets = request.user.ca_details
-		if ca_dets.ca_profile_complete and not ca_dets.ca_approval :
-			return redirect('ca:pending')
-		elif not ca_dets.ca_profile_complete :
-			return redirect('ca:questionnare')
-		else :
-			venues = Venue.objects.filter(user=request.user).order_by('-pk')
-			name_pattern = "[A-Za-z ]+";
-			team_name_pattern = "[A-Za-z0-9, ]+";
-			phone_pattern = "[0-9]{10}";
+		
+		venues = Venue.objects.filter(user=request.user).order_by('-pk')
+		name_pattern = "[A-Za-z ]+";
+		team_name_pattern = "[A-Za-z0-9, ]+";
+		phone_pattern = "[0-9]{10}";
 
-			context = {
-			'venues': venues,
-			'name_pattern':name_pattern,
-			'team_name_pattern':team_name_pattern,
-			'phone_pattern':phone_pattern,
-			'more_active': True,
-			}
+		context = {
+		'venues': venues,
+		'name_pattern':name_pattern,
+		'team_name_pattern':team_name_pattern,
+		'phone_pattern':phone_pattern,
+		'more_active': True,
+		}
 
-			return render(request, 'ca/venue.html', context)
+		return render(request, 'ca/venue.html', context)
 
 
 
@@ -304,37 +289,27 @@ def questionnare(request):
 		ca_dets = request.user.ca_details
 		if ca_dets.ca_profile_complete and ca_dets.ca_approval :
 			return redirect('ca:home')
-		elif ca_dets.ca_profile_complete and not ca_dets.ca_approval :
-			return redirect('ca:questionnare')
-		else :
-			context = {
-				'email': request.user.email,
-				'phone_no': request.user.profile.phone,
-				'college': request.user.profile.college,
-			}
-			return render(request, 'ca/questionnare.html', context)
+		if ca_dets.ca_profile_complete :
+			return redirect('ca:pending')
+		context = {
+			'email': request.user.email,
+			'phone_no': request.user.profile.phone,
+			'college': request.user.profile.college,
+		}
+		return render(request, 'ca/questionnare.html', context)
 
 
 @login_required
+@profile_required
 def home(request):
-	ca_dets = request.user.ca_details
-	if ca_dets.ca_profile_complete and not ca_dets.ca_approval :
-		return redirect('ca:pending')
-	elif not ca_dets.ca_profile_complete :
-		return redirect('ca:questionnare')
-	else :
-		return render(request, 'ca/home.html', { 'home_active': True })
+	return render(request, 'ca/home.html', { 'home_active': True })
 
 
 @login_required
+@profile_required
 def guidelines(request):
-	ca_dets = request.user.ca_details
-	if ca_dets.ca_profile_complete and not ca_dets.ca_approval :
-		return redirect('ca:pending')
-	elif not ca_dets.ca_profile_complete :
-		return redirect('ca:questionnare')
-	else :
-		return render(request, 'ca/guidelines.html', { 'guidelines_active': True })
+	
+	return render(request, 'ca/guidelines.html', { 'guidelines_active': True })
 
 
 @login_required
@@ -344,22 +319,17 @@ def pending(request):
 		return redirect('ca:home')
 	elif not ca_dets.ca_profile_complete :
 		return redirect('ca:questionnare')
-	else :
-		return render(request, 'ca/pending.html')
+	return render(request, 'ca/pending.html')
 
 
 @login_required
+@profile_required
 def hospitality(request):
-	ca_dets = request.user.ca_details
-	if ca_dets.ca_profile_complete and not ca_dets.ca_approval :
-		return redirect('ca:pending')
-	elif not ca_dets.ca_profile_complete :
-		return redirect('ca:questionnare')
-	else :
-		return render(request, 'ca/hospitality.html', {'more_active': True})
+	return render(request, 'ca/hospitality.html', {'more_active': True})
 
 
 @login_required
+@profile_required
 def poc(request):
 	if request.method == 'POST':
 		
@@ -417,52 +387,43 @@ def poc(request):
 
 			return JsonResponse(data)
 	else:
-		ca_dets = request.user.ca_details
-		if ca_dets.ca_profile_complete and not ca_dets.ca_approval :
-			return redirect('ca:pending')
-		elif not ca_dets.ca_profile_complete :
-			return redirect('ca:questionnare')
-		else :
-			poc_queries = POC.objects.filter(user=request.user)
-			context = {
-				'more_active': True,
-				'poc_queries': poc_queries
-			}
-			return render(request, 'ca/poc.html', context)
+		
+		poc_queries = POC.objects.filter(user=request.user)
+		context = {
+			'more_active': True,
+			'poc_queries': poc_queries
+		}
+		return render(request, 'ca/poc.html', context)
 
 @login_required
+@profile_required
 def standings(request):
-	ca_dets = request.user.ca_details
-	if ca_dets.ca_profile_complete and not ca_dets.ca_approval :
-		return redirect('ca:pending')
-	elif not ca_dets.ca_profile_complete :
-		return redirect('ca:questionnare')
+	
+	idea_count = Idea.objects.filter(user=request.user, approval=1).count()
+	poc_count = POC.objects.filter(user=request.user, approval=1).count()
+	venue_count = Venue.objects.filter(user=request.user, approval=1).count()
+	# share_count = Idea.objects.filter(user=request.user).count()
+	referral_count = CA_Questionnaire.objects.filter(referral_code=request.user.username).count()
+
+	ca_deets = CA_Detail.objects.get(user=request.user)
+
+	triweekly_score = ca_deets.triweekly
+
+	top5Triweekly = CA_Detail.objects.all().order_by('-triweekly')[:5]
+	top5Overall = CA_Detail.objects.all().order_by('-score')[:5]
+	if TriweekyWinner.objects.all().count() > 0:
+		last_triweekly_winner = TriweekyWinner.objects.all().order_by('-pk')[0]
 	else :
-		idea_count = Idea.objects.filter(user=request.user, approval=1).count()
-		poc_count = POC.objects.filter(user=request.user, approval=1).count()
-		venue_count = Venue.objects.filter(user=request.user, approval=1).count()
-		# share_count = Idea.objects.filter(user=request.user).count()
-		referral_count = CA_Questionnaire.objects.filter(referral_code=request.user.username).count()
-
-		ca_deets = CA_Detail.objects.get(user=request.user)
-
-		triweekly_score = ca_deets.triweekly
-
-		top5Triweekly = CA_Detail.objects.all().order_by('-triweekly')[:5]
-		top5Overall = CA_Detail.objects.all().order_by('-score')[:5]
-		if TriweekyWinner.objects.all().count() > 0:
-			last_triweekly_winner = TriweekyWinner.objects.all().order_by('-pk')[0]
-		else :
-			last_triweekly_winner = None
-		context = {
-			'idea_count': idea_count,
-			'poc_count': poc_count,
-			'venue_count': venue_count,
-			'referral_count': referral_count,
-			'triweekly_score': triweekly_score,
-			'triweekly_standings': top5Triweekly,
-			'overall_standings': top5Overall,
-			'last_triweekly_winner': last_triweekly_winner,
-			'more_active': True
-		}
-		return render(request, 'ca/standings.html', context)
+		last_triweekly_winner = None
+	context = {
+		'idea_count': idea_count,
+		'poc_count': poc_count,
+		'venue_count': venue_count,
+		'referral_count': referral_count,
+		'triweekly_score': triweekly_score,
+		'triweekly_standings': top5Triweekly,
+		'overall_standings': top5Overall,
+		'last_triweekly_winner': last_triweekly_winner,
+		'more_active': True
+	}
+	return render(request, 'ca/standings.html', context)
