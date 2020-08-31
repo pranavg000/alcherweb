@@ -1,3 +1,4 @@
+    
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -119,11 +120,16 @@
 {% block body %}
 {% endblock %}
 
+
    <div class="col-lg-3 d-none d-lg-block" style="padding-right: 3rem;">
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">Notification</h4>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        {% for notification in notifications %}
+        <hr>
+        <p class="card-text" > {{ notification.notification_content }}</p>
+        <hr>
+        {% endfor %}
         <a href="#">See All </a>
       </div>
     </div>

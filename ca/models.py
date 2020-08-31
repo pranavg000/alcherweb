@@ -23,7 +23,7 @@ class FAQ(models.Model):
 
 
 class Notifications(models.Model):
-	notification_sender = models.CharField(max_length=200)
+	notification_sender = models.CharField(max_length=200, default="Alcheringa Team")
 	notification_receiver = models.ForeignKey(User, on_delete=models.CASCADE)
 	# notification_receiver = models.CharField(max_length=200)
 	notification_content = models.CharField(max_length=500, null=True, blank=True)
@@ -95,3 +95,5 @@ class CA_Questionnaire(models.Model):
 
 class TriweekyWinner(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE) 
+
+

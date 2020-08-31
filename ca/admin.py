@@ -91,5 +91,6 @@ admin.site.register(POC,POCAdmin)
 admin.site.register(Venue, VenueAdmin)
 admin.site.register(CA_Questionnaire)
 admin.site.register(TriweekyWinner)
+admin.site.register(Notifications)
 
 
