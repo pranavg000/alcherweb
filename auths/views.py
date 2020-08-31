@@ -13,18 +13,11 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.validators import EmailValidator, RegexValidator
+from .utilities import generateAlcherId
 
 
 
 
-def generateAlcherId(fullname):
-	latUserID = User.objects.latest('id').id
-	newUserID=latUserID+1
-	fullname_trim = fullname.replace(" ","")
-	fullname_trim = fullname_trim.replace("'","")
-	fullname_trim = fullname_trim[:3].upper()
-	alcher_id= "ALC-"+fullname_trim+"-"+str(newUserID)
-	return alcher_id
 
 
 def register(request):
@@ -108,7 +101,7 @@ def register(request):
 			if user is not None:
 				user.is_active=False
 				user.save()
-				profUser = Profile(user=user, fullname=fullname, phone=phone, college=team_name, gender=gender)
+				profUser = Profile(user=user, alcher_id=alcher_id, fullname=fullname, phone=phone, college=team_name, gender=gender)
 				profUser.save()
 				profUser.interests.add(*interests_int)
 				profUser.save()
@@ -138,6 +131,79 @@ def register(request):
 		'interests_list' : interests_list,
 		}
 		return render(request, 'auths/ca_register.html', context)
+
+
+def register_oauth(request):
+
+	if request.method == 'POST':
+		print(request.POST, "$$$$$$$$$$$$$$$$$$$$$")
+		gender = request.POST.get('gender')
+		team_name = request.POST['team_name']
+		phone = request.POST['phone']
+		interests = request.POST.getlist('interests[]')
+		interests_int = [int(x) for x in interests]
+		data = {}
+		name_validator = RegexValidator('^[A-Za-z ]+$')
+
+
+		if phone == '':
+			data['phone_error'] = "Please enter a valid Phone No"
+		else:
+			try:
+				phone_number_validator = RegexValidator('^[0-9]{10}$')
+				phone_number_validator(phone)
+			except Exception as e:
+				data['phone_error'] = "Must have 10 digits and only digits from 0 to 9 allowed"
+
+
+
+
+
+		if gender == None:
+			data['gender_error'] = "Gender is mandatory"
+
+		if team_name == '':
+			data['team_name_error'] = "Please enter your Team Name"
+		else:
+			try:
+				name_validator(team_name)
+			except Exception as e:
+				data['team_name_error'] = "Only letters and white spaces"
+
+
+		if len(interests_int) == 0:
+			data['interests_error'] = "Please select one or more interests"
+
+		if data:
+			print(data, "$$$$$$$$$$$$$$$$$$$$$")
+			return render(request, 'auths/ca_oauth_register.html', data)
+
+		if Profile.objects.filter(phone=phone):
+			print("Same Phone no. already present")
+			return redirect('auths:register_oauth')
+
+		fullname = request.user.first_name + " " + request.user.last_name
+		alcher_id = generateAlcherId(fullname)
+		CA_Detail.objects.create(user = request.user)
+		profUser = Profile(user=request.user, alcher_id=alcher_id, fullname=fullname, phone=phone, college=team_name, gender=gender)
+		profUser.save()
+		profUser.interests.add(*interests_int)
+		profUser.save()
+		return redirect('ca:home')
+		
+
+	else:
+		name_pattern = "[A-Za-z ]*"
+		team_name_pattern = "[A-Za-z0-9, ]*"
+		phone_pattern = "[0-9]{10}"
+		interests_list = Interest.objects.all()
+		context = {
+		'name_pattern': name_pattern,
+		'team_name_pattern' : team_name_pattern,
+		'phone_pattern' : phone_pattern,
+		'interests_list' : interests_list,
+		}
+		return render(request, 'auths/ca_oauth_register.html', context)
 
 
 def activate(request, uidb64, token, backend= 'django.contrib.auth.backends.ModelBackend'):

@@ -15,6 +15,7 @@ urlpatterns = [
     path('verifymail/', auths_views.verifyEmail, name='verifyEmail'),
     path('logout/', auths_views.logout_, name='logout'),
     path('social-auth/', include('social_django.urls', namespace="social")),
+    path('register_oauth/', auths_views.register_oauth, name="register_oauth"),
     path('account_activation_sent/', auths_views.account_activation_sent, name='account_activation_sent'),
     re_path(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
     	auths_views.activate, name='activate'),

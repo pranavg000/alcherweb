@@ -66,6 +66,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -138,8 +140,12 @@ CACHES = {
     }
 }
 
-SOCIAL_AUTH_FACEBOOK_KEY = 'ss'       
-SOCIAL_AUTH_FACEBOOK_SECRET = "ss"  
+SOCIAL_AUTH_FACEBOOK_KEY = '2696150583932611'       
+SOCIAL_AUTH_FACEBOOK_SECRET = "557fe28317353c99939bc354b2da647b"  
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'id,name,email', 
+}
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'ss'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'ss'
