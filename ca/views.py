@@ -212,7 +212,7 @@ def questionnare(request):
 		except Exception as e:
 			data['referral_stat'] = "REFERRAL REGEX"
 		else:
-			if request.POST['referral'] == request.user.username:
+			if request.POST['referral'] == request.user.profile.alcher_id:
 				data['referral_stat'] = "ALCHER ID"
 
 		try:
@@ -403,7 +403,7 @@ def standings(request):
 	poc_count = POC.objects.filter(user=request.user, approval=1).count()
 	venue_count = Venue.objects.filter(user=request.user, approval=1).count()
 	# share_count = Idea.objects.filter(user=request.user).count()
-	referral_count = CA_Questionnaire.objects.filter(referral_code=request.user.username).count()
+	referral_count = CA_Questionnaire.objects.filter(referral_code=request.user.profile.alcher_id).count()
 
 	ca_deets = CA_Detail.objects.get(user=request.user)
 

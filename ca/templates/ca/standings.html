@@ -113,7 +113,7 @@
 
 											<tr><th>Rank</th><th>ALCHER ID</th><th>Name</th><th>Score</th></tr>
 											{% for person in triweekly_standings %}
-												<tr><td>{{forloop.counter}}</td><td> {{person.user.username}} </td><td> {{person.user.profile.fullname}} </td><td>{{person.triweekly}}</td></tr>
+												<tr><td>{{forloop.counter}}</td><td> {{person.user.profile.alcher_id}} </td><td> {{person.user.profile.fullname}} </td><td>{{person.triweekly}}</td></tr>
 
 											{% endfor %}
 											
@@ -132,7 +132,7 @@
 
 											<tr><th>Rank</th><th>ALCHER ID</th><th>Name</th><th>Score</th></tr>
 											{% for person in overall_standings %}
-												<tr><td>{{forloop.counter}}</td><td> {{person.user.username}} </td><td> {{person.user.profile.fullname}} </td><td>{{person.score}}</td></tr>
+												<tr><td>{{forloop.counter}}</td><td> {{person.user.profile.alcher_id}} </td><td> {{person.user.profile.fullname}} </td><td>{{person.score}}</td></tr>
 
 											{% endfor %}
 											
@@ -168,7 +168,7 @@
 										}
 
 									?> -->
-										<tr><td>1</td><td>{{last_triweekly_winner.user.profile.fullname}}</td><td>{{last_triweekly_winner.user.username}}</td></tr>
+										<tr><td>1</td><td>{{last_triweekly_winner.user.profile.fullname}}</td><td>{{last_triweekly_winner.user.profile.alcher_id}}</td></tr>
 									</table>
 
 								</div>
