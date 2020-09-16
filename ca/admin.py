@@ -22,9 +22,9 @@ class IdeaAdmin(admin.ModelAdmin):
 		obj.user.ca_details.save()
 
 	def delete_model(self,request,obj):
-		if obj.ideascore!=0:
+		if obj.ideascore == 1:
 			obj.user.ca_details.score-=50
-		if obj.triweeklyidea!=0:
+		if obj.triweeklyidea == 1:
 			obj.user.ca_details.triweekly-=50
 		super().delete_model(request,obj)
 		obj.user.ca_details.save()
@@ -49,9 +49,9 @@ class POCAdmin(admin.ModelAdmin):
 		obj.user.ca_details.save()
 
 	def delete_model(self,request,obj):
-		if obj.POCscore!=0:
+		if obj.POCscore == 1:
 			obj.user.ca_details.score-=50
-		if obj.triweeklyPOC!=0:
+		if obj.triweeklyPOC == 1:
 			obj.user.ca_details.triweekly-=50
 		super().delete_model(request,obj)
 		obj.user.ca_details.save()
@@ -75,9 +75,9 @@ class VenueAdmin(admin.ModelAdmin):
 		obj.user.ca_details.save()
 
 	def delete_model(self,request,obj):
-		if obj.venuescore!=0:
+		if obj.venuescore == 1:
 			obj.user.ca_details.score-=300
-		if obj.triweeklyvenue!=0:
+		if obj.triweeklyvenue == 1:
 			obj.user.ca_details.triweekly-=300
 		super().delete_model(request,obj)
 		obj.user.ca_details.save()
