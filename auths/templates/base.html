@@ -1,11 +1,253 @@
+
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<meta charset="UTF-8">
-	<title>Document</title>
+	<title> {% block title %} Campus Ambassador | Alcheringa, IIT Guwahati {% endblock %}</title>
+	
+
+	
+
+	<meta name="description" content="Register now for competitions happening during Alcheringa, IIT Guwahati - one of the largest college cultural festivals in India.">
+	<meta name="keywords" content="alcheringa,alcher,iit,guwahati,iitg,largest,cultural,festival,fest,india,competition,participant,participation,member,event,assam,northeast,2016,2017,2018,2019,january,february,rock,rocko,rock-o-phonix,rockophonix,rockophoenix,rock-o-phoenix,northeast rock,assam rock,battle,bands,thundermarch,silchar,Guwahati,Gauhati,dispur,weekender,kamakhya,mumbai,dance,music,fest,art,drama,prize,2.5 lacs,auditions,prelims,eliminations,holy,grail,metal,campus,ambassador,ca,date,release,31st Jan 2019 to 3rd Feb 2019,31st jan,3rd feb,2019 fest, city eliminations, auditions iitg, jaipur, delhi, lucknow, indore, pune, kolkata, shillong, jorhat, portal, electric,heels,electric heels,halla bol, halla,bol, monodrama,mono,so you think you can dance, sytycd, sutucd, alcher sutucd, theatrix, haute, couture,voguenation, vogue, nation, Glamour nova, glamour, nova, papyrus, array, crossfade, dj, dj battle, battle, faceoff,face, off, war, edm, electronic, music, roadies, fashion, games, informal, informals, class, apart, classapart, abcd, any body can dance, stagecraft, agt, Alcher got talent, step up, step, dancing duo, navras, raga high, high, raga, unplugged, voice of alcheringa, voice, choir, mun, model, united, nations, model united nations, model united nation, iitgmun, JAM, just a minute, mehfil, mehfil-e-alcheringa, parliamentary debate, iitg pd, iitgpd, pd, poetry, poetry slam, slam, clay, modelling, clay modelling, ink the tee, t-shirt, painting, t-shirt painting, Face art, face painting, graffiti, live sketching, sketching, rangoli, face art, football, futsal ,basketball, arm, arm wrestling, wrestling, gully cricket, cricket, gully, volleyball, online, competitions, digital, dexterity, custom, brush, doodle, pad, alcher diva, alcher hunk, xpressions, zephyr, lights, camera, action, directors cut, director, movie making, movie, short movie, snapthrillz, quiz, travel reimbursement, reaching iitg, accomodation, general, championship,  general championship, bounties, bounty">
+
+	<!-- <meta property="og:url" content="http://www.alcheringa.in/registrations/index.php"> -->
+	<meta property="og:image" content="http://www.alcheringa.in/registrations/image.jpg">
+	<meta property="og:description" content="Register now for competitions happening during Alcheringa, IIT Guwahati - one of the largest college cultural festivals in India.">
+	<meta property="og:title" content="Registrations | Alcheringa, IIT Guwahati">
+	<meta property="og:type" content="website">
+	<meta property="og:site_name" content="Alcheringa, IIT Guwahati">
+	<meta property="og:see_also" content="http://alcheringa.in">
+
+	<meta name="twitter:card" content="summary_large_image">
+	<!-- <meta name="twitter:url" content="http://www.alcheringa.in/registrations/index.php"> -->
+	<meta name="twitter:title" content="Registrations | Alcheringa, IIT Guwahati">
+	<meta name="twitter:description" content="Register now for competitions happening during Alcheringa, IIT Guwahati - one of the largest college cultural festivals in India.">
+	<meta name="twitter:image" content="http://www.alcheringa.in/registrations/image.jpg">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" href="images/favicon.png" type="image/png" sizes="32x32">
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PPSHCGJ');</script>
+<!-- End Google Tag Manager -->
+
+    <style>
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans+Condensed');
+        
+        html,body{
+        background-image: url('http://getwallpapers.com/wallpaper/full/6/e/b/90114.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 100%;
+        font-family: 'Fira Sans Condensed', sans-serif;
+        }
+        
+        .container{
+        height: 100%;
+        align-content: center;
+        }
+        
+        .card{
+        
+        margin-top: auto;
+        margin-bottom: auto;
+        width: 400px;
+        background-color: rgba(0,0,0,0.5) !important;
+        }
+        
+
+* {
+  box-sizing: border-box;
+}
+
+/* style the container */
+.container {
+  position: relative;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px 0 30px 0;
+  -webkit-box-shadow: 0 0 5px 2px #aaa;
+    -moz-box-shadow: 0 0 5px 2px #aaa;
+    box-shadow: 0 0 5px 2px #aaa;
+} 
+
+/* style inputs and link buttons */
+input,
+.btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  margin: 5px 0 !important;
+  opacity: 0.85;
+  display: inline-block;
+  font-size: 14px;
+  line-height: 20px;
+
+  text-decoration: none; /* remove underline from anchors */
+}
+
+input:hover,
+.btn:hover {
+  opacity: 1;
+}
+
+/* add appropriate colors to fb, twitter and google buttons */
+.fb {
+  background-color: #3B5998;
+  color: white;
+}
+
+.twitter {
+  background-color: #55ACEE;
+  color: white;
+}
+
+.google {
+  background-color: #dd4b39;
+  color: white;
+}
+
+/* style the submit button */
+#ca_login_button {
+  background-color: #1A73E8;
+  color: white;
+  cursor: pointer;
+}
+
+#ca_login_button:hover {
+  background-color: #1c61bd;
+}
+
+/* Two-column layout */
+.col {
+  float: left;
+  width: 50%;
+  margin: auto;
+  padding: 0 50px;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* vertical line */
+.vl {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  border: 2px solid #ddd;
+  height: 175px;
+}
+
+/* text inside the vertical line */
+.vl-innertext {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  padding: 8px 10px;
+  width: auto;
+}
+
+/* hide some text on medium and large screens */
+.hide-md-lg {
+  display: none;
+}
+
+/* bottom container */
+.bottom-container {
+  text-align: center;
+  background-color: #666;
+  border-radius: 0px 0px 4px 4px;
+}
+
+/* Responsive layout - when the screen is less than 650px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 650px) {
+  .col {
+    width: 100%;
+    margin-top: 0;
+  }
+  /* hide the vertical line */
+  .vl {
+    display: none;
+  }
+  /* show the hidden text on small screens */
+  .hide-md-lg {
+    display: block;
+    text-align: center;
+  }
+}
+.ca_login_email_error {
+    display: none;
+    font-size:11px;
+    color:#d50000;
+}
+
+.ca_login_password_error {
+    display: none;
+    font-size:11px;
+    color:#d50000;
+}
+.email_error_input_error{
+    font-size:11px;
+    color:#d50000;
+}
+.password_error_input_error{
+    font-size:11px;
+    color:#d50000;
+}
+
+</style>
+<link rel="stylesheet" href="{% static 'ca/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'ca/css/index.css' %}">
+  <link rel="stylesheet" href="{% static 'ca/css/font-awesome.min.css' %}">
+  <link rel="stylesheet" href="{% static 'ca/css/Roboto.css' %}">
+  <link rel="stylesheet" href="{% static 'ca/css/normalize.css' %}">
+  	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  	<link href="https://fonts.googleapis.com/css?family=Fira+Sans|Roboto" rel="stylesheet">
+  	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css">
+  	<link rel="stylesheet" href="{% static 'ca/css/semantic.min.css' %}">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
 </head>
-<body>
-	{% block body %}
+<body style="
+    background: #942c2c;
+    background: linear-gradient(to bottom right, #942c2c, #762a77);
+    ">
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PPSHCGJ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+	<header class="w3-bar w3-black" style="max-height: 80px; box-shadow:0 3px 9px 0 rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04);font:13px/27px 'Roboto','RobotoDraft',Arial,sans-serif;-webkit-box-shadow:0 3px 9px 0 rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04);transition: box-shadow 250ms;color: #757575;padding-top:3px;padding-bottom:3px;padding-left: 24px;padding-right: 24px;white-space: nowrap;">
+  <a href="https://www.alcheringa.in/" alt="Alcheringa" style='padding:0;margin:0;'>
+      <img src="{% static 'ca/images/avatar3.png' %}" style="width: 158px !important;height:74px !important;display: block;" ></a>
+</header>
+	{% block content %}
 	{% endblock %}
+
+    
+    <script type="text/javascript" src="{% static 'ca/js/jquery.js' %}"></script>
+	<script type="text/javascript" src="{% static 'ca/js/drawer.js' %}"></script>
+	<script type="text/javascript" src="{% static 'ca/js/functions.js' %}"></script>
+	<script type="text/javascript" src="{% static 'ca/js/jquery_ui/jquery-ui.min.js' %}"></script>
+	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+	<script type="text/javascript" src="{% static 'ca/js/semantic.min.js' %}"></script>
+	{% block js %}
+	{% endblock %}
+					
+					
 </body>
 </html>

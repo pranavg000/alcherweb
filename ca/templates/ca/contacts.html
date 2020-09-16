@@ -218,16 +218,9 @@
 
 	</div><!-- .wrapper -->
 
-	<div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar">
-	    <div class="mdl-snackbar__text"></div>
-	    <button type="button" class="mdl-snackbar__action"></button>
-	</div>
+	{% endblock %}
 
-	<script type="text/javascript" src="{% static 'ca/js/jquery.js' %}"></script>
-	<script type="text/javascript" src="{% static 'ca/js/drawer.js' %}"></script>
-	<script type="text/javascript" src="{% static 'ca/js/jquery_ui/jquery-ui.min.js' %}"></script>
-	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-	<script type="text/javascript" src="{% static 'ca/semantic/dist/semantic.min.js' %}"></script>
+	{% block js %}
 	<script type="text/javascript">
 		$(function(){
 			$('#complaint_book_category').dropdown();

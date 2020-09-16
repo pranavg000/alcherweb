@@ -93,8 +93,8 @@ def register(request):
 
 		alcher_id = generateAlcherId(fullname)
 		if User.objects.filter(email=email).filter(profile__emailVerified=True):
-			print("Same Email or phone no. already present")
-			return redirect('auths:register')
+			data['form_general_error'] = "Same Email or phone no. already present"
+			return render(request, 'auths/ca_register.html', data)
 		else:
 			User.objects.create_user(alcher_id, email, password)
 			user = authenticate(username=alcher_id, password=password)
