@@ -41,7 +41,7 @@
           <p>Or sign up manually:</p>
           
         </div>
-        <div class="sign_up_error" style="color:#d50000;font-size:11px;">
+        <div class="sign_up_error" style="color:#d50000;font-size:15px;">
 			{{signup_error}}
 						
 	    </div>
@@ -57,9 +57,9 @@
 									value="" pattern="{{name_pattern}}">
 									<label class="mdl-textfield__label" for="fullname">Full Name</label>
 									<span class="mdl-textfield__error">Only letters and white spaces are allowed</span>
+									<span class="fullname_error input_error">{{fullname_error}}</span>
 								</div>
 
-								<div class="fullname_error input_error"><p>{{fullname_error}}</p></div>
 
 							</div>
 
@@ -70,9 +70,9 @@
 									value="">
 									<label class="mdl-textfield__label" for="email">Email ID</label>
 									<span class="mdl-textfield__error">Please enter a valid Email ID</span>
+									<span class="email_error input_error"><p>{{email_error}}</span>
 								</div>
 
-								<div class="email_error input_error"><p>{{email_error}}</p></div>
 
 							</div>
 
@@ -83,9 +83,9 @@
 									value="" pattern="{{phone_pattern}}">
 									<label class="mdl-textfield__label" for="phone">Phone Number</label>
 									<span class="mdl-textfield__error">Please enter a valid Phone No</span>
+									<span class="phone_error input_error">{{phone_error}}</span>
 								</div>
 
-								<div class="phone_error input_error"><p>{{phone_error}}</p></div>
 
 							</div>
 
@@ -100,8 +100,9 @@
 									value="F">
 									<span class="mdl-radio__label">Female</span>
 								</label>
+								<br>
+								<span class="gender_error input_error">{{gender_error}}</span>
 
-								<div class="gender_error input_error"><p>{{gender_error}}</p></div>
 							</div>
 
 							<div class="team_name_div">
@@ -111,9 +112,9 @@
 										value="" pattern="{{team_name_pattern}}">
 									<label class="mdl-textfield__label" for="team_name">College/Institute/Team Name</label>
 									<span class="mdl-textfield__error">Only letters, digits, comma and space are allowed</span>
+									<span class="team_name_error input_error">{{team_name_error}}</span>
 								</div>
 
-								<div class="team_name_error input_error"><p>{{team_name_error}}</p></div>
 
 							</div>
 
@@ -127,7 +128,7 @@
 
 								</select>
 
-								<div class="interests_error input_error"><p>{{interests_error}}</p></div>
+								<span class="interests_error input_error">{{interests_error}}</span>
 							</div>
 
 							<div class="password_div">
@@ -136,13 +137,12 @@
 									<input class="mdl-textfield__input" type="password" id="password" name="password" pattern="[^\s]+">
 									<label class="mdl-textfield__label" for="password">Password (min 8 chars required.)</label>
 									<span class="mdl-textfield__error">White spaces are not allowed</span>
+									<span class="password_error  input_error">{{password_error}}</span>
 								</div>
 
-								<div class="password_error  input_error"><p>This is an error{{password_error}}</p></div>
 
               </div>
-              {{form_general_error}}
-              <div class="form_general_error input_error style='display: block "><p>{{form_general_error}}</p></div>
+              {% comment %} <div class="form_general_error input_error style='display: block "><p>{{form_general_error}}</p></div> {% endcomment %}
 
 							<div class="sign_up">
 							    <button style="" name="create_account" id="ca_login_button" class="btn">CREATE ACCOUNT</button>
