@@ -442,6 +442,40 @@
 									  timeout: 2000
 									};
 									notification.MaterialSnackbar.showSnackbar(data);
+
+									
+
+
+									$('.content_poc_submitted').append(`<div class="poc">
+									<div class='genre_college'>
+										<i class='material-icons'>account_balance</i>
+										<p>${ poc_genre }</p>,
+										<p>${ poc_college }</p>
+									</div>
+
+									<div class='name_designation'>
+										<i class='material-icons'>person</i>
+										<p>${poc_name}</p>,
+										<p>${poc_designation}</p>
+									</div>
+
+									<div class='phone_email'>
+										<i class='material-icons'>call</i>
+										<p>${poc_phone}</p>,
+										<p>${poc_email}</p>
+									</div>
+
+									<div class='fb'>
+										<i class='material-icons'>link</i>
+										<p>${poc_fb}</p>
+									</div>
+									
+									<div class='phone_email'>
+										<i class='material-icons' style='color:#4885ed;font-size:12px;'>schedule</i>
+										<p style='color:#4885ed;font-size:12px;'>Pending</p>
+									</div>
+								</div>`);
+									$('.no_poc').slideUp();
 									$this.closest('form').find("input, textarea").val("");
 								}
 
