@@ -77,7 +77,7 @@ body{
 }
 
 .input_error{
-	display: none;
+	/* display: none; */
 	color: red;
 	font-size: 12px !important;
 }

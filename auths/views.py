@@ -63,7 +63,11 @@ def register(request):
 				data['phone_error'] = "Must have 10 digits and only digits from 0 to 9 allowed"
 
 
-
+		# data['phone_error'] = "Testing"
+		# data['gender_error'] = "Testing"
+		# data['team_name_error'] = "Testing"
+		# data['fullname_error'] = "Testing"
+		# data['interests_error'] = "Testing"
 
 
 		if gender == None:
@@ -81,10 +85,10 @@ def register(request):
 			data['password_error'] = "Password is required"
 		else:
 			if len(password) < 8:
-				data['password_error'] = "Minimum 8 characters"
+				data['password_error'] = "Password should have minimum 8 characters"
 
 		if len(interests_int) == 0:
-			data['interests_error'] = "Please select one or more interests"
+			data['interests_error'] = "Select one or more interests"
 
 		if data:
 			print(data, "$$$$$$$$$$$$$$$$$$$$$")
@@ -93,7 +97,7 @@ def register(request):
 
 		alcher_id = generateAlcherId(fullname)
 		if User.objects.filter(email=email).filter(profile__emailVerified=True):
-			data['form_general_error'] = "Same Email or phone no. already present"
+			data['signup_error'] = "Same Email or phone no. already present"
 			return render(request, 'auths/ca_register.html', data)
 		else:
 			User.objects.create_user(alcher_id, email, password)
