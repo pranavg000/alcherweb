@@ -103,7 +103,7 @@ def register(request):
 				user.save()
 				profUser = Profile(user=user, alcher_id=alcher_id, fullname=fullname, phone=phone, college=team_name, gender=gender)
 				profUser.save()
-				profUser.emailVerified = True
+				profUser.emailVerified = False
 				profUser.interests.add(*interests_int)
 				profUser.save()
 				current_site = get_current_site(request)

@@ -465,7 +465,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 									</div>
 
 									<div class="forgot_password_div">
-										<a href='#'>Forgot Password</a>
+										<a href="{% url 'password_reset' %}">Forgot Password</a>
 									</div>
 
 									<input type='submit' name='ca_login' value='LOG IN' class='btn'>
@@ -482,7 +482,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a href="{% url 'auths:register' %}" style="color:white" class="btn">Sign up</a>
     </div>
     <div class="col">
-      <a href="forgot_password.php" style="color:white" class="btn">Forgot password?</a>
+      <a href="{% url 'password_reset' %}" style="color:white" class="btn">Forgot password?</a>
     </div>
 	<div class="col">
       <a href="{% url 'auths:social:begin' 'facebook' %}" style="color:white" class="btn">Signin with Facebook</a>
