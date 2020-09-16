@@ -1,186 +1,4 @@
 
-
-<!-- <?php
-	require 'db_connect.php';
-	require 'functions.php';
-	//require_once __DIR__ . '/src/Facebook/autoload.php';
-	require 'facebook_login/php-graph-sdk-5.x/src/Facebook/autoload.php';
-	include 'analyticstracking.php';
-    include 'structured_data.php';
-
-	session_start();
-	
-	if (!empty($_SESSION['alcher_id'])) {
-	    
-        header('Location: ../caportal/dashboard.php');
-        
-        
-    }
-					
-			if(isset($_POST['ca_login'])){
-
-			//server side validation
-
-			$email= test_input($_POST['ca_email']);
-
-			$password= $_POST['ca_password'];
-			$password= stripslashes($password);
-			$password= htmlspecialchars($password, ENT_QUOTES);
-
-			//error reporting
-
-			$email_error= $password_error= $login_error= "";
-			$error_status= 0;
-
-			if(empty($email)){
-				$email_error= "Please enter a valid Email ID";
-				$error_status= 1;
-			}
-			if(empty($password)){
-				$password_error= "Password is required";
-				$error_status= 1;
-			}
-
-			if($error_status==0){
-
-				if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-
-					$email_error = "Invalid email format";
-					$error_status= 1;
-				}
-
-				if($error_status==0){
-
-					//process the form
-
-					//encrypt the password
-
-					$password= hash("sha512", $password);
-
-					//check if such account exists
-
-					$search_account= mysqli_query($connect_users,
-						"SELECT * FROM user_details WHERE email='$email' AND password='$password' "
-						);
-
-					$search_account_email = mysqli_query($connect_users,
-						"SELECT * FROM user_details WHERE email='$email' AND password='' AND fb_id!='' "
-					);
-
-					if(($search_account && $search_account->num_rows==0) && ($search_account_email && $search_account_email->num_rows==0)){
-						$login_error= "Sorry! Invalid credentials. Try again.";
-					}
-
-					elseif(($search_account && $search_account->num_rows==0) && ($search_account_email && $search_account_email->num_rows==1)){
-						$login_error= "It seems that you created your account with Facebook Authentication. So please choose 'Login with Facebook' option.";
-					}
-
-					elseif($search_account && $search_account->num_rows==1){
-
-						$search= $search_account->fetch_assoc();
-						$user_id= $search['user_id'];
-						$alcher_id= $search['alcher_id'];
-						$fullname= $search['fullname'];
-						$email= $search['email'];
-						$phone= $search['phone'];
-						$gender= $search['gender'];
-						$team_name= $search['team_name'];
-						$interests= $search['interests'];
-
-						//if not previously logged in, insert the data into ca details database
-
-						//if previously logged in, redirect to ca portal
-
-						$login_query= mysqli_query($connect_ca,
-							"SELECT * FROM ca_details WHERE alcher_id='$alcher_id';"
-							);
-
-						if($login_query->num_rows==0){
-
-							//the user hasn't previously logged in
-
-							//copy the data into ca_details database
-
-							date_default_timezone_set("Asia/Kolkata");
-							$date= date("d-m-Y");
-							$time= date("h:i:sa");
-							$timestamp= $date." ".$time;
-
-							$insert_ca= mysqli_query($connect_ca,
-								"INSERT INTO ca_details VALUES ('','$alcher_id',
-									'$fullname','$email','$phone','$gender','$team_name','','',
-									'$interests','0','0','$timestamp');"
-								);
-
-							//first 0 is for ca_profile_complete
-
-							//second 0 is for ca_approval
-
-						}
-
-						//now ca login procedure for both first login or repeated login
-
-						$ca_query= mysqli_query($connect_ca,
-							"SELECT * FROM ca_details WHERE alcher_id='$alcher_id';"
-							);
-						if($ca_query && $ca_query->num_rows==1){
-
-							$ca= $ca_query->fetch_assoc();
-							$ca_id= $ca['ca_id'];
-							$alcher_id= $ca['alcher_id'];
-							$fullname= $ca['fullname'];
-							$team_name= $ca['team_name'];
-							$ca_approval= $ca['ca_approval'];
-							$ca_profile_complete= $ca['ca_profile_complete'];
-
-							//three cases
-
-							//1. if the ca is approved, show him main portal
-							//2. if the ca questionnaire is complete, but hasn't been approved, show him pending msg
-							//3. if the ca questionnaire is not complete, show him the questionnaire
-
-							$_SESSION['ca_id']= $ca_id;
-							$_SESSION['alcher_id']= $alcher_id;
-							$_SESSION['name']= $fullname;
-							$_SESSION['team_name'] = $team_name;
-
-							if($ca_approval==1){
-
-								header('Location: ../caportal/home.php');
-
-							}
-
-							else{
-
-								if($ca_profile_complete==1){
-
-									header('Location: ../caportal/pending.php');
-
-								}
-
-								else{
-
-									//header('Location: ../caportal/closed.php');
-                                    header('Location: https://www.alcheringa.in/caportal/questionnaire.php');
-								}
-
-							}
-
-						}
-
-						else{
-							$login_error= "Problem logging you in. Please try again later.";
-						}
-					}
-
-				}
-
-			}
-
-	}
-
-	?> -->
-
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -425,7 +243,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <div class="col">
           
-
+		<a href="{% url 'auths:social:begin' 'facebook' %}" class='fb btn'>
+			<i class='fa fa-facebook fa-fw'></i> Login with Facebook
+		</a>
         
         
       </div>
@@ -464,9 +284,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 									</div>
 
-									<div class="forgot_password_div">
+									<!-- <div class="forgot_password_div">
 										<a href="{% url 'password_reset' %}">Forgot Password</a>
-									</div>
+									</div> -->
 
 									<input type='submit' name='ca_login' value='LOG IN' class='btn'>
         
@@ -484,9 +304,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="col">
       <a href="{% url 'password_reset' %}" style="color:white" class="btn">Forgot password?</a>
     </div>
-	<div class="col">
+	<!-- <div class="col">
       <a href="{% url 'auths:social:begin' 'facebook' %}" style="color:white" class="btn">Signin with Facebook</a>
-    </div>
+    </div> -->
   </div>
 </div>
 </div>
