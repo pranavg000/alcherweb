@@ -362,7 +362,7 @@ else{
 					if(por!=""){
 
 						function isPOR(por){
-							var regex= /^[a-zA-z0-9, ]*$/;
+							var regex= /^[a-zA-Z0-9, ]*$/;
 							return regex.test(por);
 						}
 
@@ -378,7 +378,8 @@ else{
 					if(referral!=""){
 
 						function isAlcher(alcher_id){
-							var regex = /^[a-zA-Z0-9-]*$/;
+							var regex = /^((ALC)-[A-Z]{3}-[0-9]*)?$/;
+							console.log(alcher_id, regex.test(alcher_id));
 							return regex.test(alcher_id);
 						}
 

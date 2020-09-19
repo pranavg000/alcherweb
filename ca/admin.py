@@ -115,6 +115,8 @@ class VenueAdmin(admin.ModelAdmin):
 
 
 
+
+
 admin.site.register(Complaints)
 admin.site.register(FAQ)
 admin.site.register(Idea,IdeaAdmin)

@@ -24,40 +24,7 @@
 
 							<div class="mdl-tabs__panel is-active" id="myscore">
 
-								<div class="triweekly">
-
-									<p>Tri Weekly Score</p>
-
-									<!-- <?php
-
-										$score_query = mysqli_query($connect_ca,
-											"SELECT ca_details.alcher_id as alcher_id, ca_details.fullname as name, COUNT(distinct idea_tri.id) as idea_count, COUNT(distinct poc_tri.id) as poc_count, COUNT(distinct venue1_tri.id) as venue_count, COALESCE(shares_count_tri.shares,0) as share_count,
-											(((COUNT(distinct idea_tri.id))*50)+((COUNT(distinct poc_tri.id))*50)+((COUNT(distinct venue1_tri.id))*300)+((COALESCE(shares_count_tri.shares,0))*15)) as total FROM ca_details
-											LEFT JOIN idea_tri ON ca_details.alcher_id = idea_tri.alcher_id and idea_tri.approval = 1
-											LEFT JOIN poc_tri ON ca_details.alcher_id = poc_tri.alcher_id and poc_tri.approval = 1
-											LEFT JOIN shares_count_tri ON ca_details.alcher_id = shares_count_tri.alcher_id
-											LEFT JOIN venue1_tri ON ca_details.alcher_id = venue1_tri.alcher_id and venue1_tri.approval = 1
-											WHERE ca_details.alcher_id = '$alcher_id'"
-											);
-
-										$score = $score_query->fetch_assoc();
-										$idea_count = $score['idea_count'];
-										$poc_count = $score['poc_count'];
-										$venue_count = $score['venue_count'];
-										$share_count = $score['share_count'];
-										$total = $score['total'];
-										?> -->
-										<table>
-											<tr><td>Total Score</td><td>{{ triweekly_score }}</td></tr>
-											<tr><td>Idea Submitted</td><td>{{ idea_count }}</td></tr>
-											<tr><td>POC Submitted</td><td>{{ poc_count }}</td></tr>
-											<tr><td>Venue Submitted</td><td>{{ venue_count }}</td></tr>
-											<tr><td>FB Shares</td><td>{{ fb_score }}</td></tr>
-										</table>
-
-									
-
-								</div>
+								
 
 								<div class="overall">
 
@@ -104,7 +71,7 @@
 							{% cache 30 leaderboard %}
 							<div class="mdl-tabs__panel" id="leaderboard">
 
-								<div class="triweekly">
+								{% comment %} <div class="triweekly">
 
 									<p>Tri Weekly Leaderboard</p>
 
@@ -120,7 +87,7 @@
 
 										</table>
 										
-								</div>
+								</div> {% endcomment %}
 
 								<div class="overall">
 
@@ -141,7 +108,7 @@
 
 
 								</div>
-								{% if last_triweekly_winner %}
+								{% comment %} {% if last_triweekly_winner %}
 								<div class="winners">
 
 									<p>Previous Triweekly Winners</p>
@@ -150,29 +117,12 @@
 
 									<tr><td>S/L</td><td>Name</td><td>ALCHER ID</td></tr>
 
-									<!-- <?php
-
-										$winner_query = mysqli_query($connect_ca,
-											"SELECT * FROM winner_tri WHERE 1 ORDER BY id DESC"
-											);
-										$i = 1;
-
-										while($winner = $winner_query->fetch_assoc()){
-
-											$winner_name = $winner['name'];
-											$winner_alcher_id = $winner['alcher_id'];
-
-											echo "<tr><td>".$i."</td><td>".$winner_name."</td><td>".$winner_alcher_id."</td></tr>";
-											$i++;
-
-										}
-
-									?> -->
+									
 										<tr><td>1</td><td>{{last_triweekly_winner.user.profile.fullname}}</td><td>{{last_triweekly_winner.user.profile.alcher_id}}</td></tr>
 									</table>
 
 								</div>
-								{% endif %}
+								{% endif %} {% endcomment %}
 							</div><!-- overall -->
 							{% endcache %}
 					</div>

@@ -2,6 +2,9 @@ from django.db import models
 from django.core.validators import MaxValueValidator,MinValueValidator
 from django.contrib.auth.models import User
 from .choices import *
+from auths.models import Profile
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
 
 class Complaints(models.Model):
 	# complaint_id = models.IntegerField(default=0,validators=[MinValueValidator(0)])
@@ -93,7 +96,22 @@ class CA_Questionnaire(models.Model):
 	referral_code = models.CharField(max_length=200)
 
 
+
 class TriweekyWinner(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE) 
+
+
+
+@receiver(pre_delete, sender=CA_Questionnaire, dispatch_uid='questionnare_delete_signal')
+def update_referrer_score(sender, instance, using, **kwargs):
+	ref_code = instance.referral_code
+	if ref_code and instance.user.ca_details.ca_approval:
+		try:
+			referrer_ca_details = Profile.objects.get(alcher_id=ref_code).user.ca_details
+			referrer_ca_details.score -= 50
+			referrer_ca_details.save()
+		except:
+			pass
+		
 
 

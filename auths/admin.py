@@ -22,6 +22,31 @@ class CAadmin(admin.ModelAdmin):
 		self.message_user(request, "triweekly scores have been reset")
 		return HttpResponseRedirect("../")
 
+	def save_model(self, request, obj, form, change):
+		if 'ca_approval' in form.changed_data:
+			ref_code = ""
+			delta = -50
+			if obj.pk:
+				ref_code = obj.user.ca_questionnaire.referral_code
+				if obj.ca_approval:
+					delta *= -1
+				
+
+			if ref_code:
+				try:
+					referrer_ca_details = Profile.objects.get(alcher_id=ref_code).user.ca_details
+					referrer_ca_details.score += delta
+					referrer_ca_details.save()
+				except:
+					pass
+
+
+		super().save_model(request, obj, form, change)
+
+
+	
+
+
 admin.site.register(Interest)
 admin.site.register(Profile)
 admin.site.register(CA_Detail, CAadmin)

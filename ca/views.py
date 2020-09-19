@@ -208,7 +208,8 @@ def questionnare(request):
 				data['college_name_stat'] = "COLLEGE NAME REGEX"
 
 		try:
-			college_name_validator(request.POST['referral'])
+			alcherid_validator = RegexValidator('^((ALC)-[A-Z]{3}-[0-9]*)?$')
+			alcherid_validator(request.POST['referral'])
 		except Exception as e:
 			data['referral_stat'] = "REFERRAL REGEX"
 		else:
@@ -274,6 +275,7 @@ def questionnare(request):
 			por = request.POST['por']
 			referral_code = request.POST['referral']
 
+			
 
 			CA_Questionnaire.objects.create(user = request.user, alt_contact=alt_contact, acad=acad,
 				college_name=college_name, city=city, mailing_address=mailing_address, fb=fb, por=por,
