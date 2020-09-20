@@ -7,20 +7,17 @@ class IdeaAdmin(admin.ModelAdmin):
 	readonly_fields = ['ideascore','triweeklyidea',]
 	def save_model(self, request, obj, form, change):
 		if 'approval' in form.changed_data:
+			delta = 50
 			if obj.pk:
 				old_value = Idea.objects.get(pk=obj.pk).approval
-				delta = 50
 				if old_value == 1:
 					delta = -50
 				elif (old_value == -1 and obj.approval == 0) or (old_value == 0 and obj.approval == -1):
 					delta = 0
+			
+			elif obj.approval != 1:
+				delta = 0
 
-				
-			else:
-				if obj.approval == 1:
-					delta = 50
-				else:
-					delta = -50
 
 			obj.ideascore+=delta
 			obj.user.ca_details.score+=delta
@@ -44,20 +41,17 @@ class POCAdmin(admin.ModelAdmin):
 	readonly_fields = ['POCscore','triweeklyPOC',]
 	def save_model(self, request, obj, form, change):
 		if 'approval' in form.changed_data:
+			delta = 50
 			if obj.pk:
 				old_value = POC.objects.get(pk=obj.pk).approval
-				delta = 50
 				if old_value == 1:
 					delta = -50
 				elif (old_value == -1 and obj.approval == 0) or (old_value == 0 and obj.approval == -1):
 					delta = 0
 
 				
-			else:
-				if obj.approval == 1:
-					delta = 50
-				else:
-					delta = -50
+			elif obj.approval != 1:
+				delta = 0
 
 			obj.POCscore+=delta
 			obj.user.ca_details.score+=delta
@@ -81,20 +75,17 @@ class VenueAdmin(admin.ModelAdmin):
 	def save_model(self, request, obj, form, change):
 		if 'approval' in form.changed_data:
 
+			delta = 300
 			if obj.pk:
 				old_value = Venue.objects.get(pk=obj.pk).approval
-				delta = 300
 				if old_value == 1:
 					delta = -300
 				elif (old_value == -1 and obj.approval == 0) or (old_value == 0 and obj.approval == -1):
 					delta = 0
 
 				
-			else:
-				if obj.approval == 1:
-					delta = 300
-				else:
-					delta = -300
+			elif obj.approval != 1:
+				delta = 0
 
 			obj.venuescore+=delta
 			obj.user.ca_details.score+=delta
