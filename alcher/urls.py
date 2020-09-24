@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('auths.urls', namespace='home')),
     path('caportal/', include('ca.urls', namespace='ca')),
+    path("fbshare/",include("fbshare.urls",namespace="fbshare")),
     url(r'^password_reset/$', auth_views.PasswordResetView.as_view(template_name="auths/password_reset_form.html"), name='password_reset'),
     url(r'^password_reset/done/$', auth_views.PasswordResetDoneView.as_view(template_name="auths/password_reset_done.html"), name='password_reset_done'),
     url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,32})/$',
