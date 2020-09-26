@@ -13,11 +13,7 @@ class Tag(models.Model) :
 
 class BasePost(models.Model) :
     post_id = models.CharField(max_length=255)
-    message = models.TextField(default="")
-    description = models.TextField(default="")
     created_at = models.TextField(default ="")
-    picture = models.URLField(blank=True)
-    full_picture = models.URLField(blank=True)
     likes_cnt = models.IntegerField(default=0)
     shares_cnt = models.IntegerField(default=0)
 

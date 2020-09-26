@@ -16,13 +16,13 @@ app_token = "963688477438734|QVCfBB1RC4ssBWVKQACXrio4ovI"
 def get_page_posts() :
     api = facebook.GraphAPI(access_token=page_access_token ,version="2.12")
     page = api.get_object(id="101854044992923")
-    posts = api.get_connections(id=page["id"] ,connection_name="posts",fields="message,id,message_tags,picture,full_picture,likes,shares,from,created_time")
+    posts = api.get_connections(id=page["id"] ,connection_name="posts",fields="id,message_tags,likes,shares,from,created_time")
     for post in posts["data"] :
     
         post_id = post["id"]
         print(post)
         P,created = PagePost.objects.get_or_create(post_id = post_id,from_name = post["from"]["name"],from_id= post["from"]["id"],created_at = post["created_time"])
-        P.message = post["message"] 
+        
         P.share_cnt = post["shares"]["count"] if "shares" in post.keys() else 0
         if "likes" in post.keys() :
           for like in post["likes"]["data"] :
@@ -33,7 +33,7 @@ def get_page_posts() :
                   #give parent_post like points 10 maybe
         if "message_tags" in post.keys() :
           for tag in post["message_tags"] :
-            tag,tag_create = Tag.objects.get_or_create(tag_id= tag["id"] ,tag= tag["tag"] )
+            tag,tag_create = Tag.objects.get_or_create(tag_id= tag["id"] ,tag= tag["name"] )
             if tag not in P.tags.all() :
                 P.tags.add(tag) 
         P.save()
@@ -43,8 +43,8 @@ def get_page_posts() :
 def get_user_posts() :
     api = facebook.GraphAPI(access_token=app_token ,version="2.12")
     for user in User.objects.filter(ca_details__ca_approval =True,ca_details__ca_profile_complete=True) :
-            user_posts = api.get_connections(id=user.social_auth.get(provider="facebook").uid ,connection_name="posts",fields="description,id,parent_id,message,full_picture,picture,created_time,reactions,shares,message_tags",limit=100)
-            
+            user_posts = api.get_connections(id=user.social_auth.get(provider="facebook").uid ,connection_name="feed",fields="id,parent_id,created_time,reactions,shares,message_tags")
+            post_all =[]
             for post in user_posts["data"] :
                 if PagePost.objects.filter(post_id = post["parent_id"]).exists() :
 
@@ -54,8 +54,13 @@ def get_user_posts() :
                     fbshare,created = UserSharedPost.objects.get_or_create(user = user ,post_id = post["id"] ,shared_post=shared_post)
                     fbshare.shares_cnt = post["shares"]["count"] if "shares" in post.keys() else 0
                     fbshare.likes_cnt = len(post["reactions"]["data"]) if "reactions" in post.keys() else 0
-                    fbshare.message = post["message"] if "message" in post.keys() else ""
-                    fbshare.description = post["description"] if "description" in post.keys() else ""
+                    
+
+                    if "message_tags" in post.keys() :
+                        for tag in post["message_tags"] :
+                            if Tag.objects.filter(tag_id = tag["id"]).exists() :
+                                fbshare.tags.add(Tag.objects.get(tag_id = tag["id"]))
+
                     
                     if created :
                         fbshare.created_at = post["created_time"]
@@ -68,5 +73,21 @@ def get_user_posts() :
                         #revaluate tag,likes ,shares of shared post points 
                     
                     fbshare.save()
+                    post_all.append(fbshare.pk)
+
+
+
+
+            posts_q = UserSharedPost.objects.filter(user = user).exclude(pk__in=post_all).all()
+            for p in posts_q :
+                p.delete()
+
+
+
+
+
+
+             
+
         
 
