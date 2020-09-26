@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
 # Create your models here.
 
 
@@ -13,11 +15,7 @@ class Tag(models.Model) :
 
 class BasePost(models.Model) :
     post_id = models.CharField(max_length=255)
-    message = models.TextField(default="")
-    description = models.TextField(default="")
     created_at = models.TextField(default ="")
-    picture = models.URLField(blank=True)
-    full_picture = models.URLField(blank=True)
     likes_cnt = models.IntegerField(default=0)
     shares_cnt = models.IntegerField(default=0)
 
@@ -27,6 +25,9 @@ class PagePost(BasePost) :
      liked_by = models.ManyToManyField(User,related_name ="liked_page_posts")
      from_name = models.TextField(default="")
      from_id = models.TextField(default="")
+
+     def __str__(self):
+         return str(self.post_id)
 
      
 
@@ -40,3 +41,25 @@ class UserSharedPost(BasePost) :
     shares_score = models.IntegerField(default = 0) 
     post_share_score = models.IntegerField(default = 0)
     parent_post_like_score = models.IntegerField(default = 0)
+    admin_approval = models.BooleanField(default=True)
+
+    def save(self, *args, **kwargs):
+        delta = 30
+        if (self.post_share_score!=0) or (not self.admin_approval):
+            delta = 0
+        self.post_share_score+=delta
+        self.user.ca_details.score+=delta
+        super(UserSharedPost, self).save(*args, **kwargs) # Call the real save() method
+
+
+    def __str__(self):
+        return str(self.post_id)
+
+
+@receiver(pre_delete,sender=UserSharedPost,dispatch_uid='shared_post_delete_signal')
+def update_share_score(sender,instance,using,**kwargs):
+    delta = 30
+    if instance.post_share_score==0:
+        delta=0
+    instance.user.ca_details.score-=delta
+    

@@ -5,6 +5,8 @@ from django.conf import settings
 from fbshare.models import *
 
 
+
+
 page_access_token ="EAANseDVfMw4BAJ8obz4y0Hm7yIW2vZBiiZARx9BC8tZBkEYq1ri1IXA6xaZAWSdw4w2kQjoodUe5brCmOVxBSU1VckkyqE60jLMOj6hsTB4AYSiM4DD3szT2siqgziJICTFjfYWYmdktQRtz9okBKzP3z2KZAAvJTgQFZC7ymsh11i9uZCR95lZB"
 app_id = settings.SOCIAL_AUTH_FACEBOOK_KEY 
 app_secret = settings.SOCIAL_AUTH_FACEBOOK_SECRET 
@@ -22,7 +24,6 @@ def get_page_posts() :
         post_id = post["id"]
         print(post)
         P,created = PagePost.objects.get_or_create(post_id = post_id,from_name = post["from"]["name"],from_id= post["from"]["id"],created_at = post["created_time"])
-        P.message = post["message"] 
         P.share_cnt = post["shares"]["count"] if "shares" in post.keys() else 0
         if "likes" in post.keys() :
           for like in post["likes"]["data"] :
@@ -54,8 +55,6 @@ def get_user_posts() :
                     fbshare,created = UserSharedPost.objects.get_or_create(user = user ,post_id = post["id"] ,shared_post=shared_post)
                     fbshare.shares_cnt = post["shares"]["count"] if "shares" in post.keys() else 0
                     fbshare.likes_cnt = len(post["reactions"]["data"]) if "reactions" in post.keys() else 0
-                    fbshare.message = post["message"] if "message" in post.keys() else ""
-                    fbshare.description = post["description"] if "description" in post.keys() else ""
                     
                     if created :
                         fbshare.created_at = post["created_time"]
