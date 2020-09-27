@@ -2,8 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
-# Create your models here.
-
+from ca.scores import FB_SHARE_SCORE
 
 
 
@@ -44,7 +43,7 @@ class UserSharedPost(BasePost) :
     admin_approval = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
-        delta = 30
+        delta = FB_SHARE_SCORE
         if (self.post_share_score!=0) or (not self.admin_approval):
             delta = 0
         self.post_share_score+=delta
@@ -58,8 +57,19 @@ class UserSharedPost(BasePost) :
 
 @receiver(pre_delete,sender=UserSharedPost,dispatch_uid='shared_post_delete_signal')
 def update_share_score(sender,instance,using,**kwargs):
-    delta = 30
-    if instance.post_share_score==0:
-        delta=0
-    instance.user.ca_details.score-=delta
+    instance.user.ca_details.score-=instance.post_share_score
+    instance.user.ca_details.save()
     
+
+class UserManualSharedPost(models.Model) :
+    user= models.ForeignKey(User,on_delete=models.CASCADE,related_name="fbmanualsharedposts")
+    shared_post_url = models.URLField(max_length=1000)
+    admin_approval = models.BooleanField(default=False)
+    post_share_score = models.IntegerField(default= 0)
+
+
+@receiver(pre_delete,sender=UserManualSharedPost,dispatch_uid='manual_shared_post_delete_signal')
+def update_manual_share_score(sender,instance,using,**kwargs):
+    instance.user.ca_details.score-=instance.post_share_score
+    instance.user.ca_details.save()
+

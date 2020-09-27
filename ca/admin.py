@@ -1,17 +1,17 @@
 from django.contrib import admin
 from .models import *
 from auths.models import *
-
+from ca.scores import IDEA_SCORE, POC_SCORE, VENUE_SCORE
 
 class IdeaAdmin(admin.ModelAdmin):
 	readonly_fields = ['ideascore','triweeklyidea',]
 	def save_model(self, request, obj, form, change):
 		if 'approval' in form.changed_data:
-			delta = 50
+			delta = IDEA_SCORE
 			if obj.pk:
 				old_value = Idea.objects.get(pk=obj.pk).approval
 				if old_value == 1:
-					delta = -50
+					delta = -IDEA_SCORE
 				elif (old_value == -1 and obj.approval == 0) or (old_value == 0 and obj.approval == -1):
 					delta = 0
 			
@@ -29,10 +29,10 @@ class IdeaAdmin(admin.ModelAdmin):
 		obj.user.ca_details.save()
 
 	def delete_model(self,request,obj):
-		if obj.ideascore == 50:
-			obj.user.ca_details.score-=50
-		if obj.triweeklyidea == 50:
-			obj.user.ca_details.triweekly-=50
+		if obj.ideascore == IDEA_SCORE:
+			obj.user.ca_details.score-=IDEA_SCORE
+		if obj.triweeklyidea == IDEA_SCORE:
+			obj.user.ca_details.triweekly-=IDEA_SCORE
 		super().delete_model(request,obj)
 		obj.user.ca_details.save()
 
@@ -41,11 +41,11 @@ class POCAdmin(admin.ModelAdmin):
 	readonly_fields = ['POCscore','triweeklyPOC',]
 	def save_model(self, request, obj, form, change):
 		if 'approval' in form.changed_data:
-			delta = 50
+			delta = POC_SCORE
 			if obj.pk:
 				old_value = POC.objects.get(pk=obj.pk).approval
 				if old_value == 1:
-					delta = -50
+					delta = -POC_SCORE
 				elif (old_value == -1 and obj.approval == 0) or (old_value == 0 and obj.approval == -1):
 					delta = 0
 
@@ -63,10 +63,10 @@ class POCAdmin(admin.ModelAdmin):
 		obj.user.ca_details.save()
 
 	def delete_model(self,request,obj):
-		if obj.POCscore == 50:
-			obj.user.ca_details.score-=50
-		if obj.triweeklyPOC == 50:
-			obj.user.ca_details.triweekly-=50
+		if obj.POCscore == POC_SCORE:
+			obj.user.ca_details.score-=POC_SCORE
+		if obj.triweeklyPOC == POC_SCORE:
+			obj.user.ca_details.triweekly-=POC_SCORE
 		super().delete_model(request,obj)
 		obj.user.ca_details.save()
 
@@ -75,11 +75,11 @@ class VenueAdmin(admin.ModelAdmin):
 	def save_model(self, request, obj, form, change):
 		if 'approval' in form.changed_data:
 
-			delta = 300
+			delta = VENUE_SCORE
 			if obj.pk:
 				old_value = Venue.objects.get(pk=obj.pk).approval
 				if old_value == 1:
-					delta = -300
+					delta = -VENUE_SCORE
 				elif (old_value == -1 and obj.approval == 0) or (old_value == 0 and obj.approval == -1):
 					delta = 0
 
@@ -97,10 +97,10 @@ class VenueAdmin(admin.ModelAdmin):
 		obj.user.ca_details.save()
 
 	def delete_model(self,request,obj):
-		if obj.venuescore == 300:
-			obj.user.ca_details.score-=300
-		if obj.triweeklyvenue == 300:
-			obj.user.ca_details.triweekly-=300
+		if obj.venuescore == VENUE_SCORE:
+			obj.user.ca_details.score-=VENUE_SCORE
+		if obj.triweeklyvenue == VENUE_SCORE:
+			obj.user.ca_details.triweekly-=VENUE_SCORE
 		super().delete_model(request,obj)
 		obj.user.ca_details.save()
 

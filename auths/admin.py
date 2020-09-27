@@ -3,7 +3,7 @@ from django.urls import path
 from django.http import HttpResponseRedirect
 from .models import *
 from ca.models import Idea,Venue,POC
-
+from ca.scores import REFERRAL_SCORE
 
 class CAadmin(admin.ModelAdmin):
 	readonly_fields=['score','triweekly']
@@ -25,7 +25,7 @@ class CAadmin(admin.ModelAdmin):
 	def save_model(self, request, obj, form, change):
 		if 'ca_approval' in form.changed_data:
 			ref_code = ""
-			delta = -50
+			delta = -REFERRAL_SCORE
 			if obj.pk:
 				ref_code = obj.user.ca_questionnaire.referral_code
 				if obj.ca_approval:

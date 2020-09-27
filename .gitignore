@@ -89,3 +89,5 @@ migrations/
 alcherweb/*
 ca/cache/*
 !ca/cache/.gitkeep
+
+db.sqlite3
