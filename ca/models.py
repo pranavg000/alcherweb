@@ -112,6 +112,3 @@ def update_referrer_score(sender, instance, using, **kwargs):
 			referrer_ca_details.save()
 		except:
 			pass
-		
-
-

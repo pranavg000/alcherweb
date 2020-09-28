@@ -36,3 +36,19 @@ class UserSharedPost(BasePost) :
     shares_score = models.IntegerField(default = 0) 
     post_share_score = models.IntegerField(default = 0)
     parent_post_like_score = models.IntegerField(default = 0)
+
+
+class InviteAll(models.Model) :
+    user = models.OneToOneField(User,on_delete =models.CASCADE ,related_name = "fb_invites_pic")
+    image = models.ImageField(upload_to= "invitePics/" ,default = "") 
+    invitesScore = models.IntegerField(default = 0)
+    approval = models.IntegerField(default = 0)
+    uploaded_at = models.DateField(auto_now = False,auto_now_add = True)
+    triweekly_invite = models.IntegerField(default = 0)
+
+    class Meta :
+        ordering = ["-uploaded_at" ]
+
+
+
+

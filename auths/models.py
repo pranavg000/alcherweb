@@ -40,8 +40,9 @@ class CA_Detail(models.Model):
 	ca_profile_complete = models.BooleanField(default=False)
 	ca_approval = models.BooleanField(default=False)
 	timestamp = models.DateTimeField(auto_now_add=True)
-	score = models.IntegerField(default=0)
-	triweekly=models.IntegerField(default=0,verbose_name='Tri-weekly score')
+        triweekly = models.IntegerField(default =0 ,verbose_name = 'Tri-weekly Score')
+        score = models.IntegerField(default = 0)
+
 
 	def __str__(self):
 		return f'{self.user.username} ca_detail '

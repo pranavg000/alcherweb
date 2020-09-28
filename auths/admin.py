@@ -6,7 +6,7 @@ from ca.models import Idea,Venue,POC
 
 
 class CAadmin(admin.ModelAdmin):
-	readonly_fields=['score','triweekly']
+	readonly_fields=['score','triweekly','fbscore']
 	change_list_template = "auths/CAadmin.html"
 
 	def get_urls(self):
