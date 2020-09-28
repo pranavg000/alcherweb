@@ -5,6 +5,8 @@ from django.conf import settings
 from fbshare.models import *
 from django.db.models import Q
 
+
+
 page_access_token ="EAANseDVfMw4BAJ8obz4y0Hm7yIW2vZBiiZARx9BC8tZBkEYq1ri1IXA6xaZAWSdw4w2kQjoodUe5brCmOVxBSU1VckkyqE60jLMOj6hsTB4AYSiM4DD3szT2siqgziJICTFjfYWYmdktQRtz9okBKzP3z2KZAAvJTgQFZC7ymsh11i9uZCR95lZB"
 app_id = settings.SOCIAL_AUTH_FACEBOOK_KEY 
 app_secret = settings.SOCIAL_AUTH_FACEBOOK_SECRET 

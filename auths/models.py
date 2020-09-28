@@ -36,13 +36,14 @@ class Profile(models.Model):
 
 
 class CA_Detail(models.Model):
-	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='ca_details')
-	ca_profile_complete = models.BooleanField(default=False)
-	ca_approval = models.BooleanField(default=False)
-	timestamp = models.DateTimeField(auto_now_add=True)
-        triweekly = models.IntegerField(default =0 ,verbose_name = 'Tri-weekly Score')
-        score = models.IntegerField(default = 0)
+	
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='ca_details')
+    ca_profile_complete = models.BooleanField(default=False)
+    ca_approval = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    triweekly = models.IntegerField(default =0,verbose_name='Tri-weekly Score')
+    score = models.IntegerField(default = 0)
+    fbscore = models.IntegerField(default =0)
 
-
-	def __str__(self):
-		return f'{self.user.username} ca_detail '
+    def __str__(self):
+       return f'{self.user.username} ca_detail'

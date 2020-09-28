@@ -5,6 +5,8 @@ from .choices import *
 from auths.models import Profile
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
+from ca.scores import REFERRAL_SCORE
+
 
 class Complaints(models.Model):
 	# complaint_id = models.IntegerField(default=0,validators=[MinValueValidator(0)])
@@ -108,7 +110,7 @@ def update_referrer_score(sender, instance, using, **kwargs):
 	if ref_code and instance.user.ca_details.ca_approval:
 		try:
 			referrer_ca_details = Profile.objects.get(alcher_id=ref_code).user.ca_details
-			referrer_ca_details.score -= 50
+			referrer_ca_details.score -= REFERRAL_SCORE
 			referrer_ca_details.save()
 		except:
 			pass
