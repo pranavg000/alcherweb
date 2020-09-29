@@ -34,18 +34,18 @@
 						<p>Submitted Image</p>
                         {% if invites|length > 0 %}
                             {% for submission in invites %}
-			    <div class="invite_image_div" style ="display:flex;justify-content : space-between ;padding : 10px 20px ;background-color:white ;align-items :center ;height :300px ;flex-wrap:wrap">
-				    <div class="status" style="flex:1">
-					    <p>Status</p>
+			    <div class="invite_image_div" style ="display:flex;justify-content : space-between ;padding : 10px 20px ;background-color:white ;align-items :center ;flex-wrap:wrap">
+				    <div class="status" >
+					    <p id="{{ submission.approval }}">Status</p>
 					    {% if submission.approval == 1 %}
 					      <p style="color:green">Admin approved </p>
-					    {% elif submision.approval == -1 %}
+					    {% elif submission.approval == -1 %}
 					     <p style="color:red"> Admin disapproved </p>
 					     {% else %}
 					     <p style ="color:#2d2d2d">Pending<p>
 					     {% endif %}
 				   </div>
-				   <img src="{{ request.scheme }}://{{ request.META.HTTP_HOST }}/media/{{ submission.image }}" style="flex:0.4 ; object-fit: cover;object-position: center; max-height: 400px;height: 100%;
+				   <img src="{{ request.scheme }}://{{ request.META.HTTP_HOST }}/media/{{ submission.image }}" style="max-width:300px; object-fit: cover;object-position: center; max-height: 400px;height: 100%;
 					     box-shadow: 2px 2px 2px grey;">
 
 			    </div>
@@ -138,12 +138,12 @@
 								notification.MaterialSnackbar.showSnackbar(data);
 
                                                                    $('.submitted_ideas').append(`
-                              <div class="invite_image_div" style ="display:flex;justify-content : space-between ;padding : 10px 20px ;background-color:white ;align-items :center ;height :300px ;flex-wrap:wrap">
-				    <div class="status" style="flex:1">
+                              <div class="invite_image_div" style ="display:flex;justify-content : space-between ;padding : 10px 20px ;background-color:white ;align-items :center ;flex-wrap:wrap">
+				    <div class="status" >
 					    <p>Status</p>
 					     <p style ="color:#2d2d2d">Pending<p>				     
 				   </div>
-				   <img src="{{ request.scheme }}://{{ request.META.HTTP_HOST }}${response.image}" style="flex:0.4 ; object-fit: cover;object-position: center; max-height: 400px;height: 100%;
+				   <img src="{{ request.scheme }}://{{ request.META.HTTP_HOST }}${response.image}" style="max-width:300px ; object-fit: cover;object-position: center; max-height: 400px;height: 100%;
 					     box-shadow: 2px 2px 2px grey;">
 
 			    </div>`
