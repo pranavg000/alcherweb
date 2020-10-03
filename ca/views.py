@@ -16,7 +16,10 @@ def generateGrievanceId():
                 lpk = 1
         return "CX"+str(randint(1563,9874))+str(lpk)
 
-
+@login_required
+@profile_required
+def notifications(request):
+        return render(request, "ca/notifications.html");
 
 @login_required
 @profile_required

@@ -96,7 +96,7 @@ def register(request):
 
 
 		alcher_id = generateAlcherId(fullname)
-		if User.objects.filter(email=email).filter(profile__emailVerified=True):
+		if User.objects.filter(email=email).filter(profile__emailVerified=True).exists():
 			data['signup_error'] = "Same Email or phone no. already present"
 			return render(request, 'auths/ca_register.html', data)
 		else:

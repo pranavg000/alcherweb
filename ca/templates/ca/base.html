@@ -141,11 +141,12 @@
       <div class="card-body">
         <h4 class="card-title">Notification</h4>
         {% for notification in notifications %}
-        <hr>
-        <p class="card-text" > {{ notification.notification_content }}</p>
+        <a href="{{notification.notification_href}}" style="color: inherit; ">
+        <p class="card-text" > {{ notification.notification_content|truncatechars:120 }}</p>
+        </a>
         <hr>
         {% endfor %}
-        <a href="#">See All </a>
+        <a href="{% url 'ca:notifications' %}">See All </a>
       </div>
     </div>
   </div>
