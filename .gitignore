@@ -88,6 +88,6 @@ local_settings.py
 migrations/
 alcherweb/*
 ca/cache/*
-!ca/cache/.gitkeep
 db.sqlite3
-media/*
+media/invitePics
+!ca/cache/.gitkeep
