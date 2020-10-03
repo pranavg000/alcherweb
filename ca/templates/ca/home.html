@@ -68,30 +68,22 @@
 	<script type="text/javascript" src="{% static 'ca/js/drawer.js' %}"></script>
 	<script type="text/javascript" src="{% static 'ca/js/jquery_ui/jquery-ui.min.js' %}"></script>
 	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-	<script>
-
-		(function(d, s, id) {
-			var js, fjs = d.getElementsByTagName(s)[0];
-			if (d.getElementById(id)) return;
-			js = d.createElement(s); js.id = id;
-			js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.9&appId=1648547895459766";
-			fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));
-
-	</script>
+	 <script type="text/javascript">
+  		window.fbAsyncInit = function() {
+  	  FB.init({
+      		appId            : '663307581254511',
+      		autoLogAppEvents : true,
+     		 xfbml            : true,
+      		version          : 'v8.0'
+    	});
+  };
+    </script>
+   <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+    
 	<script type="text/javascript">
 		$(function(){
 
-			window.fbAsyncInit = function() {
-			     FB.init({
-			       appId      : '1648547895459766',
-			       cookie     : true,  // enable cookies to allow the server to access 
-			                           // the session
-			       xfbml      : true,  // parse social plugins on this page
-			       version    : 'v2.7' // use graph api version 2.5
-			     });
-			     
-			 };
+			
 
 			$('.share_referral').click(function(){
 
@@ -99,14 +91,15 @@
 				var $this = $(this);
 				var alcher_id = $this.attr('alcher_id');
 
-				FB.ui(
+		    /* FB.ui(
 					{
 					method: 'share_open_graph',
 					action_type: 'news.publishes',
 					hashtag: '#HailAlcher',
+					share_referral :"sdfafaf" 
 					action_properties: JSON.stringify({
 					    article : {
-					    	   'fb:app_id': '1648547895459766',
+					    	   'fb:app_id': '963688477438734',
 					           'og:url': 'http://www.alcheringa.in/ca/',
 					           'og:type': 'article',
 					           'og:title': 'Be a part of Alcheringa, IIT Guwahati. Use referral code '+alcher_id+'.',
@@ -114,7 +107,16 @@
 					           'og:image': 'http://alcheringa.in/ca/ca_try.png',
 					        }
 					  })
-					}, function(response){
+					}, */ 
+				 FB.ui(
+					{
+						
+					method: 'share',
+					href:"www.alcheringa.in/ca/",
+					hashtag : "#HailAlcher",
+					type:'article',
+					
+				}, function(response){
 
 						$this.removeClass('loading');
 

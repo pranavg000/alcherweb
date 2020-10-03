@@ -1,0 +1,201 @@
+{% extends 'ca/base.html' %}
+    {% load static %}
+
+{% block title %}Submit Idea | Campus Ambassador | Alcheringa, IIT Guwahati{% endblock %}
+
+
+
+{% block body %}
+	<div class="col-lg-6">
+
+
+				<div class="content_idea">
+
+					<div class="content_idea_header">
+
+						<p>Once to invite all your friends to like Alcheringa Page  on facebook ,take a scrrenshot and upload it here .Score will be increased once the invites are verifired</p>
+
+					</div>
+					<form method="POST" enctype = "multipart/form-data" class = "image_form content_idea_header pt-3 mt-3">
+						{% csrf_token %}
+						
+
+						<div class="invite_image_div">
+                                                          <label for="image" >Invite all Image </label><br />
+
+                                                           <input type="file" name ="invites_image" id="file" class="file_input" >
+
+						</div>
+
+						<button class="idea_submit ui button mt-5" type="button">SUBMIT</button>
+					</form>
+					<div class="submitted_ideas">
+
+						<p>Submitted Image</p>
+                        {% if invites|length > 0 %}
+                            {% for submission in invites %}
+			    <div class="invite_image_div" style ="display:flex;justify-content : space-between ;padding : 10px 20px ;background-color:white ;align-items :center ;height :300px ;flex-wrap:wrap">
+				    <div class="status" style="flex:1">
+					    <p>Status</p>
+					    {% if submission.approval == 1 %}
+					      <p style="color:green">Admin approved </p>
+					    {% elif submision.approval == -1 %}
+					     <p style="color:red"> Admin disapproved </p>
+					     {% else %}
+					     <p style ="color:#2d2d2d">Pending<p>
+					     {% endif %}
+				   </div>
+				   <img src="{{ request.scheme }}://{{ request.META.HTTP_HOST }}/media/{{ submission.image }}" style="flex:0.4 ; object-fit: cover;object-position: center; max-height: 400px;height: 100%;
+					     box-shadow: 2px 2px 2px grey;">
+
+			    </div>
+
+                           
+
+                                
+                            {% endfor %}
+                        {% else %}
+                            <div class='no_idea error_box'>
+                                <p>You haven't submitted any image yet.</p>
+                            </div>
+                        {% endif %}
+
+
+						
+
+	</div><!-- .wrapper -->
+</div>
+</div>
+	{% endblock %}
+
+	{% block js %}
+	<script type="text/javascript">
+
+		$(function(){
+			
+
+			$('.idea_submit').click(function(){
+				$(this).addClass('loading disabled');
+				var $this = $(this);
+                                var form = $('.image_form')
+                                console.log(form[0],form)
+                                var formData = new FormData(form[0]);
+                                console.log(formData)
+
+
+				
+				
+
+
+
+                                var imgname  =  $('.file_input').val();
+
+
+                               if(imgname) {
+                                var size  =  $('#file')[0].files[0].size; 
+                                console.log(size) ;
+                                }
+                                var ext =  imgname.substr( (imgname.lastIndexOf('.') +1) );
+				if(imgname && (ext=='jpg' || ext=='jpeg' || ext=='png' || ext=='gif' || ext=='PNG' || ext=='JPG' || ext=='JPEG') && size<2048*1000){
+				 
+
+					$.ajax({
+						type: "POST",
+						url: "{% url 'fb:invite_all' %}",
+						contentType :false ,
+                                                cache : false,
+                                                processData : false ,
+                                                 headers: {
+                                                'X-CSRF-Token': $("input[name=csrfmiddlewaretoken]").val()
+                                                 },
+						data: formData,
+						success: function(response){
+							console.log(response);
+							$this.removeClass('loading disabled');
+
+							if(response.session == "Session Error"){
+								var notification = document.querySelector('.mdl-js-snackbar');
+								var data = {
+								  message: 'Session Expired',
+								  timeout: 2000
+								};
+								notification.MaterialSnackbar.showSnackbar(data);
+
+								setTimeout(function(){
+									window.location.href = "../registrations/";
+								}, 3000);
+							}
+
+							
+
+
+							if(response.stat == "Success"){
+								var notification = document.querySelector('.mdl-js-snackbar');
+								var data = {
+								  message: response.message,
+								  timeout: 2000
+								};
+								notification.MaterialSnackbar.showSnackbar(data);
+
+                                                                   $('.submitted_ideas').append(`
+                              <div class="invite_image_div" style ="display:flex;justify-content : space-between ;padding : 10px 20px ;background-color:white ;align-items :center ;height :300px ;flex-wrap:wrap">
+				    <div class="status" style="flex:1">
+					    <p>Status</p>
+					     <p style ="color:#2d2d2d">Pending<p>				     
+				   </div>
+				   <img src="{{ request.scheme }}://{{ request.META.HTTP_HOST }}${response.image}" style="flex:0.4 ; object-fit: cover;object-position: center; max-height: 400px;height: 100%;
+					     box-shadow: 2px 2px 2px grey;">
+
+			    </div>`
+                  )
+               $('.no_idea').slideUp()
+                                                    
+
+
+								
+							}
+
+							if(response.stat == "Failure"){
+								var notification = document.querySelector('.mdl-js-snackbar');
+                                                                 var data = {
+								  message: response.message,
+								  timeout: 2000
+								};
+                                                                 notification.MaterialSnackbar.showSnackbar(data);
+								              
+
+								
+							}
+
+						}
+					});
+
+				}else{
+                                    if(size>2048*1000){
+                                                               var notification = document.querySelector('.mdl-js-snackbar');
+                                                                var data = {
+								  message: "Reduce File size below 2mb",
+								  timeout: 2000
+								};
+								notification.MaterialSnackbar.showSnackbar(data);
+                                                                  $this.removeClass('loading disabled');
+
+                                      }else{
+                                                               var notification = document.querySelector('.mdl-js-snackbar');
+                                                               var data = {
+ 								  message: "Image should be of type jpg|png|PNG|JPG|JPEG",
+								  timeout: 2000
+								};
+								notification.MaterialSnackbar.showSnackbar(data);
+                                                                   $this.removeClass('loading disabled');
+
+                                      }
+                                   }
+
+
+			});
+		});
+
+	</script>
+
+{% endblock %}

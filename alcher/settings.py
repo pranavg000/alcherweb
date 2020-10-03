@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'social_django',
     'auths',
     'ca',
+    'fbshare',
     'crispy_forms',
 ]
 
@@ -131,6 +132,10 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'staticfiles'),
 )
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 LOGIN_REDIRECT_URL = 'ca:home'
 LOGIN_URL = 'auths:login'
@@ -148,9 +153,9 @@ CACHES = {
     }
 }
 
-SOCIAL_AUTH_FACEBOOK_KEY = '2696150583932611'       
-SOCIAL_AUTH_FACEBOOK_SECRET = "557fe28317353c99939bc354b2da647b"  
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_KEY = '963688477438734'       
+SOCIAL_AUTH_FACEBOOK_SECRET = "a1d614041b7e15d82f5ff0e4f2207a19"  
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email','user_posts','user_likes']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'id,name,email', 
 }
