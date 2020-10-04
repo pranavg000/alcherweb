@@ -1,10 +1,10 @@
 from django.contrib import admin
-from .models import Tag, PagePost, UserSharedPost, UserManualSharedPost,InviteAll
+from .models import Tag, PagePost, UserSharedPost,InviteAll
 from ca.scores import FB_SHARE_SCORE
 
 class UserSharedPostAdmin(admin.ModelAdmin):
-    readonly_fields = ['likes_score','tags_score','shares_score','post_share_score','parent_post_like_score']
-    def save_model(self,request,obj,form,change):
+    readonly_fields = ['likes_score','tags_score','shares_score','post_share_score']
+    ''' def save_model(self,request,obj,form,change):
         if 'admin_approval' in form.changed_data:
             delta = -FB_SHARE_SCORE
             if obj.pk:
@@ -13,11 +13,12 @@ class UserSharedPostAdmin(admin.ModelAdmin):
                     pass
                 else:
                     delta = 0
-        obj.post_share_score+=delta
-        obj.user.ca_details.score+=delta
-        obj.user.ca_details.fbscore+=delta
-        super().save_model(request, obj, form, change)
-        obj.user.ca_details.save()
+                obj.post_share_score+=delta
+                obj.user.ca_details.score+=delta
+                obj.user.ca_details.fbscore+=delta
+
+                super().save_model(request, obj, form, change)
+                obj.user.ca_details.save()   '''
 
 
 
@@ -61,7 +62,7 @@ class InviteAdmin(admin.ModelAdmin):
 
 
 
-class UserManualSharedPostAdmin(admin.ModelAdmin):
+"""class UserManualSharedPostAdmin(admin.ModelAdmin):
     readonly_fields = ['post_share_score']
     def save_model(self,request,obj,form,change):
         if 'admin_approval' in form.changed_data:
@@ -80,7 +81,7 @@ class UserManualSharedPostAdmin(admin.ModelAdmin):
         obj.user.ca_details.fbscore+=delta
         obj.user.ca_details.score+=delta
         super().save_model(request, obj, form, change)
-        obj.user.ca_details.save()
+        obj.user.ca_details.save()"""
 
 
 
@@ -92,6 +93,6 @@ admin.site.register(PagePost)
 
 admin.site.register(InviteAll,InviteAdmin)
 
-admin.site.register(UserManualSharedPost, UserManualSharedPostAdmin)
+#admin.site.register(UserManualSharedPost, UserManualSharedPostAdmin)
 # Register your models here
 admin.site.register(UserSharedPost,UserSharedPostAdmin)

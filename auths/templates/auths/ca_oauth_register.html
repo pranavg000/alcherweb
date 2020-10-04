@@ -48,6 +48,19 @@
         
         <form id='create_account_form' action='' method='POST'>
             {% csrf_token %}
+                                                        <div class="email_div">
+
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+									<input class="mdl-textfield__input" type="email" id="email" name="email"
+									value="{{ user.email }}">
+									<label class="mdl-textfield__label" for="email">Email Id</label>
+									<span class="mdl-textfield__error">Please enter a valid Email ID</span>
+									<span class="email_error input_error"><p>{{email_error}}</span>
+								</div>
+
+
+							</div>
+
 
 							
 
@@ -63,6 +76,7 @@
 								<div class="phone_error input_error"><p>{{phone_error}}</p></div>
 
 							</div>
+
 
 							<div class="gender_div">
 								<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="gender_male">
@@ -91,7 +105,7 @@
 								<div class="team_name_error input_error"><p>{{team_name_error}}</p></div>
 
 							</div>
-
+                                                         
 							<div class="interests_div">
 								Pick Your Interests
 								<select name='interests[]' form='create_account_form' multiple id='interests' class="ui fluid search dropdown">

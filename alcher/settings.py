@@ -155,7 +155,7 @@ CACHES = {
 
 SOCIAL_AUTH_FACEBOOK_KEY = '963688477438734'       
 SOCIAL_AUTH_FACEBOOK_SECRET = "a1d614041b7e15d82f5ff0e4f2207a19"  
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email','user_posts','user_likes']
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email','user_posts','user_likes','read_insights']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'id,name,email', 
 }

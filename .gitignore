@@ -91,3 +91,5 @@ ca/cache/*
 !ca/cache/.gitkeep
 db.sqlite3
 media/*
+media/
+media
