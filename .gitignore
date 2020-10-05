@@ -89,7 +89,8 @@ migrations/
 alcherweb/*
 ca/cache/*
 db.sqlite3
-
+media/profile/*
+!media/profile/.gitkeep
 media/invitePics/*
 !media/invitePics/.gitkeep
 !ca/cache/.gitkeep

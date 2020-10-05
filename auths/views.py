@@ -192,7 +192,12 @@ def register_oauth(request):
 
                 fullname = request.user.first_name + " " + request.user.last_name
                 alcher_id = generateAlcherId(fullname)                
-                profUser = Profile(user=request.user, alcher_id=alcher_id, fullname=fullname, phone=phone, college=team_name, gender=gender)
+                profUser,_ = Profile.objects.get_or_create(user=request.user)
+                profUser.alcher_id = alcher_id
+                profUser.fullname =fullname
+                profUser.gender = gender
+                profUser.college = team_name
+                profUser.phone = phone
                 profUser.save()
                 profUser.interests.add(*interests_int)
                 CA_Detail.objects.create(user = request.user)
