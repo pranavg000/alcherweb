@@ -17,7 +17,7 @@ class Profile(models.Model):
         fullname = models.CharField(max_length=200)
         phone = models.CharField(max_length=11)
         college = models.CharField(max_length=100)
-        profile_image = models.ImageField(upload_to ='profile/' ,default="")
+        profile_image = models.ImageField(upload_to ='profile/' ,default="profile/profile.png")
         GENDER_CHOICES = [
         ('M', 'Male'),
         ('F', 'Female'),

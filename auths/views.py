@@ -139,7 +139,6 @@ def register(request):
 
 
 def register_oauth(request):
-
         if request.method == 'POST':
                 print(request.POST, "$$$$$$$$$$$$$$$$$$$$$")
                 gender = request.POST.get('gender')
