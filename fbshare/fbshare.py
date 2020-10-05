@@ -69,8 +69,8 @@ def get_user_posts() :
                     
                     if UserSharedPost.objects.filter(user = user,shared_post = shared_post,post_id = post["id"]).exists() : 
                           fbshare = UserSharedPost.objects.get(user = user ,post_id = post["id"] ,shared_post=shared_post)
-                          fbshare.shares_cnt = post["shares"]["count"] if "shares" in post.keys() else 0
-                          fbshare.likes_cnt = int(post["reactions"]["summary"]["total_count"]) if "reactions" in post.keys() else 0                                 
+                          fbshare.shares_cnt = min(int(post["shares"]["count"]),MAX_SHARE_CNT) if "shares" in post.keys() else 0
+                          fbshare.likes_cnt = min(int(post["reactions"]["summary"]["total_count"]),MAX_LIKE_CNT) if "reactions" in post.keys() else 0                                 
                      
                                   
                           """if "message_tags" in post.keys() :
@@ -87,8 +87,10 @@ def get_user_posts() :
                     elif total_shared<MAX_SHARE_PER_POST :
                         fbshare = UserSharedPost(user = user ,shared_post = shared_post,post_id = post["id"],created_at = post["created_time"])
                         print("created")
-                        fbshare.shares_cnt = post["shares"]["count"] if "shares" in post.keys() and fbshare.shares_cnt < MAX_SHARE_CNT else fbshare.shares_cnt
-                        fbshare.likes_cnt = int(post["reactions"]["summary"]["total_count"]) if "reactions" in post.keys() and fbshare.likes_cnt<MAX_LIKE_CNT else fbshare.likes_cnt
+                        fbshare.shares_cnt = min(int(post["shares"]["count"]),MAX_SHARE_CNT) if "shares" in post.keys() else MAX_SHARE_CNT
+
+                        
+                        fbshare.likes_cnt = min(int(post["reactions"]["summary"]["total_count"]),MAX_LIKE_CNT) if "reactions" in post.keys() else 0
                     
  
                         """if "message_tags" in post.keys() :
