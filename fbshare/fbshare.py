@@ -112,7 +112,9 @@ def get_user_posts() :
 
 
 
-             
+def fb_data() :
+    get_page_posts()
+    get_user_posts()
 
         
 
