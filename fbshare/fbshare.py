@@ -5,8 +5,8 @@ from django.conf import settings
 from fbshare.models import UserSharedPost,PagePost
 
 
-MAX_LIKE_CNT = 50
-MAX_SHARE_CNT =50
+MAX_LIKE_CNT = 40
+MAX_SHARE_CNT =25
 
 
 page_access_token ="EAANseDVfMw4BAJ8obz4y0Hm7yIW2vZBiiZARx9BC8tZBkEYq1ri1IXA6xaZAWSdw4w2kQjoodUe5brCmOVxBSU1VckkyqE60jLMOj6hsTB4AYSiM4DD3szT2siqgziJICTFjfYWYmdktQRtz9okBKzP3z2KZAAvJTgQFZC7ymsh11i9uZCR95lZB"
@@ -26,13 +26,14 @@ def get_page_posts() :
     for post in posts["data"] :
     
         post_id = post["id"]
-        
+        print("page post :",post)
         likes_users = []
         P,created = PagePost.objects.get_or_create(post_id = post_id,from_name = post["from"]["name"],from_id= post["from"]["id"],created_at = post["created_time"])
         
-        P.share_cnt = post["shares"]["count"] if "shares" in post.keys() else 0
+        P.shares_cnt = post["shares"]["count"] if "shares" in post.keys() else 0
+    
         if "likes" in post.keys() :
-          
+          P.likes_cnt = len(post["likes"]["data"])
           for like in post["likes"]["data"] :
             name = "".join(like["name"].split(" ") )
             user = User.objects.filter(username = name)
@@ -87,7 +88,7 @@ def get_user_posts() :
                     elif total_shared<MAX_SHARE_PER_POST :
                         fbshare = UserSharedPost(user = user ,shared_post = shared_post,post_id = post["id"],created_at = post["created_time"])
                         print("created")
-                        fbshare.shares_cnt = min(int(post["shares"]["count"]),MAX_SHARE_CNT) if "shares" in post.keys() else MAX_SHARE_CNT
+                        fbshare.shares_cnt = min(int(post["shares"]["count"]),MAX_SHARE_CNT) if "shares" in post.keys() else 0
 
                         
                         fbshare.likes_cnt = min(int(post["reactions"]["summary"]["total_count"]),MAX_LIKE_CNT) if "reactions" in post.keys() else 0

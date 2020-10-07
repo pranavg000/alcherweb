@@ -93,8 +93,8 @@ DATABASES = {
 
 CRONTAB_COMMAND_SUFFIX ="2>&1"
 CRONJOBS =[
-        ('*/1 * * * *','fbshare.fbshare.fb_data','>> /home/kunal/Documents/log.json'), #test   every 1 minutes
-        ('55 23 * * *','fbshare.fbshare.fb_data','>> /home/kunal/Documents/log.json')  #production  every day at 11:55pm
+#        ('*/1 * * * *','fbshare.fbshare.fb_data','>> /home/kunal/Documents/log.json'), #test   every 1 minutes
+ #('55 23 * * *','fbshare.fbshare.fb_data','>> /home/kunal/Documents/log.json')  #production  every day at 11:55pm
     
 
         ]

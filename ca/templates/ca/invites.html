@@ -34,7 +34,7 @@
 						<p>Submitted Image</p>
                         {% if invites|length > 0 %}
                             {% for submission in invites %}
-			    <div class="invite_image_div" style ="display:flex;justify-content : space-between ;padding : 10px 20px ;background-color:white ;align-items :center ;flex-wrap:wrap">
+			    <div class="invite_image_div" style ="display:flex;justify-content : space-between ;padding : 10px 20px ;background-color:white ;align-items :center ;flex-wrap:wrap;overflow:hidden">
 				    <div class="status" >
 					    <p id="{{ submission.approval }}">Status</p>
 					    {% if submission.approval == 1 %}
@@ -59,6 +59,17 @@
                                 <p>You haven't submitted any image yet.</p>
                             </div>
                         {% endif %}
+<style>
+
+@media (max-width : 700px){
+.invite_image_div img{
+    max-width : 280px!important ;
+}
+.invite_image_div{
+padding:10px!important ;
+}
+
+</style>
 
 
 						

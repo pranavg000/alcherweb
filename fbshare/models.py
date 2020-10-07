@@ -39,6 +39,7 @@ class UserSharedPost(BasePost) :
     tags_score = models.IntegerField(default = 0)
     shares_score = models.IntegerField(default = 0) 
     post_share_score = models.IntegerField(default = 0)
+    triweekly_share = models.IntegerField(default = 0)
     admin_approval = models.BooleanField(default=True)
     def save(self, *args, **kwargs): 
 
@@ -59,11 +60,13 @@ class UserSharedPost(BasePost) :
 
         self.user.ca_details.fbscore+=(delta_1-self.post_share_score)+(self.likes_cnt*delta_2-self.likes_score)+(self.shares_cnt*delta_3-self.shares_score )
         self.user.ca_details.score+=(delta_1-self.post_share_score)+(self.likes_cnt*delta_2-self.likes_score)+(self.shares_cnt*delta_3-self.shares_score )                                  
-        
+        self.user.ca_details.triweekly+=(delta_1-self.post_share_score)+(self.likes_cnt*delta_2-self.likes_score)+(self.shares_cnt*delta_3-self.shares_score )
 
         self.likes_score = self.likes_cnt*delta_2
         self.shares_score = self.shares_cnt*delta_3
         self.post_share_score=delta_1 
+
+        self.triweekly_share = self.likes_score+self.shares_score+self.post_share_score
 
 
         
@@ -93,6 +96,7 @@ class InviteAll(models.Model) :
 def update_share_score(sender,instance,using,**kwargs):
     instance.user.ca_details.score-=instance.post_share_score+instance.likes_score+instance.shares_score
     instance.user.ca_details.fbscore-=instance.post_share_score+instance.likes_score+instance.shares_score
+    instance.user.ca_details.triweekly-=instance.post_share_score+instance.likes_score+instance.shares_score
     instance.user.ca_details.save()
 
 @receiver(pre_delete,sender = PagePost ,dispatch_uid= 'page_post_delete_signail')
@@ -100,6 +104,7 @@ def change_like_score(sender,instance,using,**kwargs) :
     for u in instance.liked_by.all() :
         u.ca_details.fbscore-=FB_PARENT_POST_LIKE_SCORE
         u.ca_details.score-=FB_PARENT_POST_LIKE_SCORE
+        u.ca_details.triweekly-=FB_PARENT_POST_LIKE_SCORE
         u.ca_details.save()
     
 
@@ -124,9 +129,11 @@ def likedby_changed(sender,instance,action,pk_set,**kwargs) :
     if action =="pre_add" :
         user.ca_details.fbscore+=FB_PARENT_POST_LIKE_SCORE
         user.ca_details.score+=FB_PARENT_POST_LIKE_SCORE
+        user.ca_details.triweekly+=FB_PARENT_POST_LIKE_SCORE
     elif action =="pre_remove" :
         user.ca_details.fbscore-=FB_PARENT_POST_LIKE_SCORE
         user.ca_details.score-=FB_PARENT_POST_LIKE_SCORE
+        user.ca_details.triweekly-=FB_PARENT_POST_LIKE_SCORE
 
     user.ca_details.save()
 
