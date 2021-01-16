@@ -9,7 +9,7 @@ from django.conf.urls import include
 app_name = 'auths'
 
 urlpatterns = [
-    path('register/', auths_views.register, name="register"),
+#    path('register/', auths_views.register, name="register"),
     path('home/', TemplateView.as_view(template_name="auths/home.html"), name="home"),
     path('login/', auths_views.login, name='login'),
     path('verifymail/', auths_views.verifyEmail, name='verifyEmail'),

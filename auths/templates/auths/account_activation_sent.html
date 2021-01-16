@@ -1,43 +1,13 @@
-{% load static %}
-<!DOCTYPE html>
-<html style ="background: url('http://getwallpapers.com/wallpaper/full/6/e/b/90114.jpg');background-color: linear-gradient(to bottom right, #8a4141b0, #762a7782);">
-<title>Signup Process | Campus Ambassador | Alcheringa, IIT Guwahati</title>
-	
-  
-	
+{% extends 'base.html' %}
+    {% load static %}
 
-	<meta name="description" content="Register now for competitions happening during Alcheringa, IIT Guwahati - one of the largest college cultural festivals in India.">
-	<meta name="keywords" content="alcheringa,alcher,iit,guwahati,iitg,largest,cultural,festival,fest,india,competition,participant,participation,member,event,assam,northeast,2016,2017,2018,january,february">
 
-	<meta property="og:url" content="http://www.alcheringa.in/registrations/index.php">
-	<meta property="og:image" content="http://www.alcheringa.in/registrations/image.jpg">
-	<meta property="og:description" content="Register now for competitions happening during Alcheringa, IIT Guwahati - one of the largest college cultural festivals in India.">
-	<meta property="og:title" content="Registrations | Alcheringa, IIT Guwahati">
-	<meta property="og:type" content="website">
-	<meta property="og:site_name" content="Alcheringa, IIT Guwahati">
-	<meta property="og:see_also" content="http://alcheringa.in">
 
-	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:url" content="http://www.alcheringa.in/registrations/index.php">
-	<meta name="twitter:title" content="Registrations | Alcheringa, IIT Guwahati">
-	<meta name="twitter:description" content="Register now for competitions happening during Alcheringa, IIT Guwahati - one of the largest college cultural festivals in India.">
-	<meta name="twitter:image" content="http://www.alcheringa.in/registrations/image.jpg">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<style>
-    .register__header {
-	background-color: #39434DB0 !important;
-}
-    </style>
-<body style="background: #942c2c;
-	     background: linear-gradient(to bottom right, #8a4141b0, #762a7782);min-height: 100vh;">
-<header class="w3-bar register__header" style="max-height: 80px; box-shadow:0 3px 9px 0 rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04);font:13px/27px 'Roboto','RobotoDraft',Arial,sans-serif;-webkit-box-shadow:0 3px 9px 0 rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04);transition: box-shadow 250ms;color: #757575;padding-top:3px;padding-bottom:3px;padding-left: 24px;padding-right: 24px;white-space: nowrap;">
-  <a href="https://www.alcheringa.in/" alt="Alcheringa" style='padding:0;margin:0;'>
-	  <img src="{% static 'ca/images/avatar3.png' %}" style="width: 158px !important;height:74px !important;display: block;" ></a>
-</header>
+{% block title %} Signup | Campus Ambassador | Alcheringa, IIT Guwahati{% endblock %}
 
-<div style="margin-left:auto;margin-right:auto;margin-top:10px;max-width:500px;margin-bottom:100px;" class="w3-container w3-padding">
+{% block content %}
+<div style="display:grid;place-items:center;flex:1 ; height : auto ;max-width:500px" class="w3-container w3-padding">
+<div>
 <div class="w3-container w3-round-large" style="background:#ffffff">
   
   <div class="w3-panel w3-blue w3-card-4 w3-round-large" style="padding:5px 10px 5px 10px">
@@ -63,5 +33,5 @@
   
 </div>
 </div>
-</body>
-</html>
+</div>
+{% endblock %}
