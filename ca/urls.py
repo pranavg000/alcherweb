@@ -15,4 +15,5 @@ urlpatterns = [
     path('poc', views.poc, name='poc'),
     path('submitideas', views.submitIdea, name='submitIdea'),
     path('standings', views.standings, name='standings'),
+    path('notifications', views.notifications, name='notifications')
 ]

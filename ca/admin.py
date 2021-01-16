@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import *
-from auths.models import *
+from .models import Idea, POC, FAQ, Venue, Complaints, Notifications, TriweekyWinner, CA_Questionnaire
+from auths.models import CA_Detail
 from ca.scores import IDEA_SCORE, POC_SCORE, VENUE_SCORE
 
 class IdeaAdmin(admin.ModelAdmin):

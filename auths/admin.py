@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from django.http import HttpResponseRedirect
-from .models import *
+from .models import CA_Detail, Profile, Interest
 from ca.models import Idea,Venue,POC
 from ca.scores import REFERRAL_SCORE
 

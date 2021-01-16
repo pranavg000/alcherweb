@@ -1,0 +1,54 @@
+{% extends 'ca/base.html' %}
+    {% load static %}
+
+
+{% block title %}Guidelines | Campus Ambassador | Alcheringa, IIT Guwahati{% endblock %}
+
+	<!--<?php require 'meta.php'; ?> -->
+
+<body>
+{% block body %}
+	<div class="col-lg-6">
+
+	<!--	<?php include 'header.php'; ?> -->
+
+
+		<!-- <?php include 'leftbar.php'; ?> -->
+
+				<div class="content_guidelines">
+
+					<div class="content_guidelines_header">
+						<h3>NOTIFICATIONS</h3>
+					</div>
+
+					<div class="walkthrough">
+
+                    {% for notification in notifications %}
+                    
+						<h5>{{notification.notification_sender}}:</h5>
+                    <a href="{{notification.notification_href}}" style="color: inherit; ">
+						<p>{{notification.notification_content}}</p>
+                    </a>
+                    {% comment %} <hr> {% endcomment %}
+                    {% endfor %}
+						<br>
+					</div>
+
+					
+					<br>
+				</div>
+
+		<!-- <?php include 'rightbar.php'; ?> -->
+
+	</div><!-- .wrapper -->
+
+	<div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar">
+	    <div class="mdl-snackbar__text"></div>
+	    <button type="button" class="mdl-snackbar__action"></button>
+	</div>
+
+	<script type="text/javascript" src="{% static 'ca/js/jquery.js' %}"></script>
+	<script type="text/javascript" src="{% static 'ca/js/drawer.js' %}"></script>
+	<script type="text/javascript" src="{% static 'ca/js/jquery_ui/jquery-ui.min.js' %}"></script>
+	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+{% endblock %}

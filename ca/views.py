@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from ca.models import * 
+from ca.models import Notifications, Idea, Complaints, FAQ, Venue, CA_Questionnaire, POC, TriweekyWinner
 from auths.models import CA_Detail
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -16,7 +16,10 @@ def generateGrievanceId():
                 lpk = 1
         return "CX"+str(randint(1563,9874))+str(lpk)
 
-
+@login_required
+@profile_required
+def notifications(request):
+        return render(request, "ca/notifications.html")
 
 @login_required
 @profile_required
@@ -170,9 +173,9 @@ def venue(request):
         else:
                 
                 venues = Venue.objects.filter(user=request.user).order_by('-pk')
-                name_pattern = "[A-Za-z ]+";
-                team_name_pattern = "[A-Za-z0-9, ]+";
-                phone_pattern = "[0-9]{10}";
+                name_pattern = "[A-Za-z ]+"
+                team_name_pattern = "[A-Za-z0-9, ]+"
+                phone_pattern = "[0-9]{10}"
 
                 context = {
                 'venues': venues,

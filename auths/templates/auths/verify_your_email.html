@@ -1,18 +1,51 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Verify your Email</title>
-</head>
-<body>
-	<h2>Hello</h2>
-	<p> Your email is not yet verified, you cannot log in. Please go to your email and verify your email address by clicking on the link sent.</p>
-	<br><br>
-	<h3>Did not recieve an email from us?</h3>
-	<p>Enter your email adddress below and click on submit to resend verification email. </p>
-	<form method="POST" action="{% url 'auths:resendMail' %}">
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Verify your email {% endblock %}
+
+
+{% block content %}
+
+
+<div style="margin-left: auto;margin-right: auto;max-width: 600px;margin-top:10px;">
+<div class="container" style="
+    margin-top: 44px;
+    margin-bottom: 44px;
+    background-color: inherit">
+  <div class = "row">
+    <h3 style="text-align: center; color:white;">
+    Hello, your email is not yet verified, you cannot log in. Please go to your email and verify your email address by clicking on the link sent.
+  </h3>
+
+	<h3 style="text-align: center; color:white;">Did not recieve an email from us? Enter your email adddress below and click on submit to resend verification email. </h3>
+	<form style="
+    padding-right: 30px;
+    padding-left: 30px;
+    font-size: large;
+    color: black;
+"  method="POST" action="{% url 'auths:resendMail' %}">
 		{% csrf_token %}
 		<input type="email" name="emailField">
-		<input type='submit'>
+		<input type='submit' style="font-size: larger; color: black;">
 	</form>
-</body>
-</html>
+
+</div>
+</div>
+</div>
+
+<div class="bottom-container">
+  <div class="row">
+    <div class="col">
+      <a href="{% url 'auths:register' %}" style="color:white" class="btn">Sign up</a>
+    </div>
+    <div class="col">
+      <a href="{% url 'password_reset' %}" style="color:white" class="btn">Forgot password?</a>
+    </div>
+  <!-- <div class="col">
+      <a href="{% url 'auths:social:begin' 'facebook' %}" style="color:white" class="btn">Signin with Facebook</a>
+    </div> -->
+  </div>
+</div>
+</div>
+
+{% endblock %}
