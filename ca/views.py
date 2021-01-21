@@ -7,6 +7,7 @@ from random import randint
 from django.core.validators import RegexValidator, EmailValidator, URLValidator
 from auths.models import CA_Detail
 from .decorators import profile_required
+from django.contrib.auth.models import User
 
 
 def generateGrievanceId():
@@ -19,7 +20,11 @@ def generateGrievanceId():
 @login_required
 @profile_required
 def notifications(request):
-        return render(request, "ca/notifications.html")
+        all_notifications = Notifications.objects.filter(notification_receiver = request.user)
+        sendToAll = User.objects.get(username="sendToAll")
+        all_notifications |= Notifications.objects.filter(notification_receiver = sendToAll)
+        all_notifications = all_notifications.order_by('-notification_timestamp')[:5]
+        return render(request, "ca/notifications.html", {'all_notifications': all_notifications})
 
 @login_required
 @profile_required

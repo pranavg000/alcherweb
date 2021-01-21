@@ -21,15 +21,24 @@
 						<h3>NOTIFICATIONS</h3>
 					</div>
 
-					<div class="walkthrough">
+					<div class="walkthrough p-4">
 
-                    {% for notification in notifications %}
-                    
-						<h5>{{notification.notification_sender}}:</h5>
+                    {% for notification in all_notifications %}
+						<div class="row pb-4">
+						<div class="col-9">
+						<h4>{{notification.notification_sender}}:</h4>
+						</div>
+						<div class="col-3">
+						<div class="text-muted float-right">{{notification.notification_timestamp}}</div>
+						</div>
+						</div>
+						
                     <a href="{{notification.notification_href}}" style="color: inherit; ">
 						<p>{{notification.notification_content}}</p>
+						
                     </a>
-                    {% comment %} <hr> {% endcomment %}
+
+                    <hr>
                     {% endfor %}
 						<br>
 					</div>
