@@ -27,8 +27,6 @@ class Profile(models.Model):
                 max_length=1,
                 default='M'
                 )
-        state = models.CharField(max_length=50, blank=True)
-        city = models.CharField(max_length=100, blank=True)
         interests = models.ManyToManyField(Interest)
         # emailVerified = models.BooleanField(default=False)
 

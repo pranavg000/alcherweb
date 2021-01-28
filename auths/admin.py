@@ -10,13 +10,17 @@ from ca.scores import REFERRAL_SCORE
 
 def ca_approve(modeladmin, request, queryset):	
 		for ca in queryset:
-			ca.ca_approval=True
+			if ca.ca_approval==False:
+				ca.score += 50
+				ca.ca_approval=True
 			ca.save()
 ca_approve.short_description = 'Approve all the selected CAs'
 
 def ca_disapprove(modeladmin, request, queryset):	
 		for ca in queryset:
-			ca.ca_approval=False
+			if ca.ca_approval==True:
+				ca.score-=50
+				ca.ca_approval=False
 			ca.save()
 ca_disapprove.short_description = 'Disapprove all the selected CAs'
 
