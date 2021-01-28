@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from ca.models import Notifications, Idea, Complaints, FAQ, Venue, CA_Questionnaire, POC, TriweekyWinner
+# from ca.models import Notifications, Idea, Complaints, FAQ, Venue, CA_Questionnaire, POC, TriweekyWinner
+from ca.models import Notifications, Idea, Complaints, FAQ, Venue, POC, CA_Questionnaire
 from auths.models import CA_Detail
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -199,12 +200,12 @@ def questionnare(request):
         if request.method == 'POST':
 
                 data = {}
-                if request.POST['acad'] == '':
-                        data['acad_stat'] = "ACAD EMPTY"
-                else:
-                        ACAD_OPTIONS = ['1st Year', '2nd Year', '3rd Year', '4th Year', '5th Year']
-                        if request.POST['acad'] not in ACAD_OPTIONS:
-                                data['acad_stat'] = "ACAD REGEX"
+                # if request.POST['acad'] == '':
+                #         data['acad_stat'] = "ACAD EMPTY"
+                # else:
+                #         ACAD_OPTIONS = ['1st Year', '2nd Year', '3rd Year', '4th Year', '5th Year']
+                #         if request.POST['acad'] not in ACAD_OPTIONS:
+                #                 data['acad_stat'] = "ACAD REGEX"
 
                 college_name_validator = RegexValidator('^[a-zA-z0-9, ]*$')
                 if request.POST['college_name'] == '':
@@ -275,7 +276,7 @@ def questionnare(request):
                         return JsonResponse(data)
                 else:
                         alt_contact = request.POST['alt_contact']
-                        acad = request.POST['acad']
+                        # acad = request.POST['acad']
                         college_name = request.POST['college_name']
                         city = request.POST['city']
                         mailing_address = request.POST['mailing_address']
@@ -283,9 +284,8 @@ def questionnare(request):
                         por = request.POST['por']
                         referral_code = request.POST['referral']
 
-                        
-
-                        CA_Questionnaire.objects.create(user = request.user, alt_contact=alt_contact, acad=acad,
+                        # acad=acad
+                        CA_Questionnaire.objects.create(user = request.user, alt_contact=alt_contact,
                                 college_name=college_name, city=city, mailing_address=mailing_address, fb=fb, por=por,
                                 referral_code=referral_code)
 
@@ -416,25 +416,25 @@ def standings(request):
         referral_count = CA_Questionnaire.objects.filter(referral_code=request.user.profile.alcher_id).count()
 
         ca_deets = CA_Detail.objects.get(user=request.user)
-        triweekly_score = ca_deets.triweekly
+        # triweekly_score = ca_deets.triweekly
         fbscore = ca_deets.fbscore
 
-        top5Triweekly = CA_Detail.objects.all().order_by('-triweekly')[:5]
-        top5Overall = CA_Detail.objects.all().order_by('-score')[:5]
-        if TriweekyWinner.objects.all().count() > 0:
-                last_triweekly_winner = TriweekyWinner.objects.all().order_by('-pk')[0]
-        else :
-                last_triweekly_winner = None
+        # top5Triweekly = CA_Detail.objects.all().order_by('-triweekly')[:5]
+        top10Overall = CA_Detail.objects.all().order_by('-score')[:10]
+        # if TriweekyWinner.objects.all().count() > 0:
+        #         last_triweekly_winner = TriweekyWinner.objects.all().order_by('-pk')[0]
+        # else :
+        #         last_triweekly_winner = None
         context = {
                 'fbscore':fbscore,
                 'idea_count': idea_count,
                 'poc_count': poc_count,
                 'venue_count': venue_count,
                 'referral_count': referral_count,
-                'triweekly_score': triweekly_score,
-                'triweekly_standings': top5Triweekly,
-                'overall_standings': top5Overall,
-                'last_triweekly_winner': last_triweekly_winner,
+                # 'triweekly_score': triweekly_score,
+                # 'triweekly_standings': top5Triweekly,
+                'overall_standings': top1Overall,
+                # 'last_triweekly_winner': last_triweekly_winner,
                 'more_active': True
         }
         return render(request, 'ca/standings.html', context)

@@ -24,7 +24,10 @@ class Complaints(models.Model):
 class FAQ(models.Model):
 	faq_category = models.CharField(choices=FAQ_CATEGORY_CHOICES,default='general',max_length=15)
 	faq_question = models.CharField(max_length=500)
-	faq_answer = models.CharField(max_length=500)
+	faq_answer = models.TextField()
+
+	def __str__(self):
+		return self.faq_question
 
 
 class Notifications(models.Model):
@@ -37,15 +40,14 @@ class Notifications(models.Model):
 
 
 class Idea(models.Model):
-	
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	idea_category = models.CharField(choices=IDEA_CATEGORY_CHOICES,default='Other',max_length=20)
 	idea = models.CharField(max_length=200)
 	admin_reply = models.CharField(max_length=200, null=True, blank=True)
 	timestamp = models.DateTimeField(auto_now_add=True)
-	approval = models.IntegerField(default=0)
+	approval = models.BooleanField(default=False)
 	ideascore = models.IntegerField(default=0)
-	triweeklyidea = models.IntegerField(default=0)
+	# triweeklyidea = models.IntegerField(default=0)
 
 	def __str__(self):
 		return f'{self.user.username} - {self.idea_category}'
@@ -58,12 +60,12 @@ class POC(models.Model):
 	desg = models.CharField(max_length=50)
 	colg = models.CharField(max_length=100)
 	phone = models.CharField(max_length=13)
-	fb = models.URLField(max_length=200)
+	fburl = models.URLField(max_length=200)
 	email = models.EmailField(max_length=254)
 	timestamp = models.DateTimeField(auto_now_add=True)
-	approval = models.IntegerField(default=0)
+	approval = models.BooleanField(default=False)
 	POCscore = models.IntegerField(default=0)
-	triweeklyPOC = models.IntegerField(default=0)
+	# triweeklyPOC = models.IntegerField(default=0)
 
 	def __str__(self):
 		return f'{self.user.username} - {self.name_con}'
@@ -74,12 +76,12 @@ class Venue(models.Model):
 	venue_name = models.CharField(max_length=200)
 	venue_address = models.CharField(max_length=500)
 	contact_name = models.CharField(max_length=100)
-	contact_number = models.CharField(max_length=13)
+	contact_number = models.CharField(max_length=10)
 	remarks = models.CharField(max_length=500, blank=True)
 	timestamp = models.DateTimeField(auto_now_add=True)
-	approval = models.IntegerField(default=0)
+	approval = models.BooleanField(default=False)
 	venuescore = models.IntegerField(default=0)
-	triweeklyvenue = models.IntegerField(default=0)
+	# triweeklyvenue = models.IntegerField(default=0)
 
 	def __str__(self):
 		return f'{self.user.username} - {self.venue_name}'
@@ -89,18 +91,17 @@ class Venue(models.Model):
 class CA_Questionnaire(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='ca_questionnaire')
 	alt_contact = models.CharField(max_length=13)
-	acad = models.CharField(max_length=100)
 	college_name = models.CharField(max_length=200)
 	city = models.CharField(max_length=200)
 	mailing_address = models.CharField(max_length=500)
 	fb = models.URLField(max_length=200)
 	por = models.CharField(max_length=500)
-	referral_code = models.CharField(max_length=200)
+	referral_code = models.CharField(max_length=200,blank=True)
 
 
 
-class TriweekyWinner(models.Model):
-	user = models.ForeignKey(User, on_delete=models.CASCADE) 
+# class TriweekyWinner(models.Model):
+# 	user = models.ForeignKey(User, on_delete=models.CASCADE) 
 
 
 
