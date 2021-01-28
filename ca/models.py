@@ -92,6 +92,7 @@ class CA_Questionnaire(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='ca_questionnaire')
 	alt_contact = models.CharField(max_length=13)
 	college_name = models.CharField(max_length=200)
+	state = models.CharField(max_length=50, blank=True)
 	city = models.CharField(max_length=200)
 	mailing_address = models.CharField(max_length=500)
 	fb = models.URLField(max_length=200)
