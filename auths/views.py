@@ -148,9 +148,7 @@ def register_oauth(request):
                 interests_int = [int(x) for x in interests]
                 data = {}
                 name_validator = RegexValidator('^[A-Za-z ]+$')
-               # email = request.POST["email"]
-
-                
+                # email = request.POST["email"]
 
 
                 if phone == '':
@@ -170,7 +168,7 @@ def register_oauth(request):
                         data['gender_error'] = "Gender is mandatory"
 
                 if team_name == '':
-                        data['team_name_error'] = "Please enter your Team Name"
+                        data['team_name_error'] = "Please enter your Team Name/College Name"
                 else:
                         try:
                                 name_validator(team_name)
@@ -183,6 +181,8 @@ def register_oauth(request):
 
                 if data:
                         print(data, "$$$$$$$$$$$$$$$$$$$$$")
+                        interests_list = Interest.objects.all()
+                        data['interests_list'] = interests_list
                         return render(request, 'auths/ca_oauth_register.html', data)
 
                 if Profile.objects.filter(phone=phone):
@@ -228,9 +228,6 @@ def register_oauth(request):
                                   return redirect('auths:register_oauth')
                 else :
                     CA_Detail.objects.create(user = request.user)"""
-
-
-
 
                 return redirect('ca:home')
                 

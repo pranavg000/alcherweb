@@ -30,7 +30,7 @@ class Profile(models.Model):
         state = models.CharField(max_length=50, blank=True)
         city = models.CharField(max_length=100, blank=True)
         interests = models.ManyToManyField(Interest)
-        emailVerified = models.BooleanField(default=False)
+        # emailVerified = models.BooleanField(default=False)
 
         def __str__(self):
                 return self.alcher_id
@@ -41,8 +41,9 @@ class CA_Detail(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='ca_details')
     ca_profile_complete = models.BooleanField(default=False)
     ca_approval = models.BooleanField(default=False)
+    certificate_approval=models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
-    triweekly = models.IntegerField(default =0,verbose_name='Tri-weekly Score')
+#     triweekly = models.IntegerField(default =0,verbose_name='Tri-weekly Score')
     score = models.IntegerField(default = 0)
     fbscore = models.IntegerField(default =0)
 
