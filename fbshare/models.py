@@ -81,7 +81,7 @@ class UserSharedPost(BasePost) :
 
 class InviteAll(models.Model) :
     user = models.OneToOneField(User,on_delete =models.CASCADE ,related_name = "fb_invites_pic")
-    image = models.ImageField(upload_to= "invitePics/" ,default = "") 
+    # image = models.ImageField(upload_to= "invitePics/" ,default = "") 
     invitesScore = models.IntegerField(default = 0)
     approval = models.IntegerField(default = 0)
     uploaded_at = models.DateField(auto_now = False,auto_now_add = True)
@@ -138,3 +138,12 @@ def likedby_changed(sender,instance,action,pk_set,**kwargs) :
     user.ca_details.save()
 
 m2m_changed.connect(likedby_changed ,sender = PagePost.liked_by.through)
+
+
+class InviteImage(models.Model) :
+    invite = models.ForeignKey(InviteAll,on_delete =models.CASCADE ,related_name = "fb_images",)
+    image = models.ImageField(upload_to= "invitePics/" ,default = "") 
+    # invitesScore = models.IntegerField(default = 0)
+    # approval = models.IntegerField(default = 0)
+    # uploaded_at = models.DateField(auto_now = False,auto_now_add = True)
+    # triweekly_invite = models.IntegerField(default = 0)

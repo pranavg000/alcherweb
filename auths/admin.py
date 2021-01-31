@@ -47,6 +47,7 @@ def export_CA(modeladmin, request, queryset):
 	return response
 export_CA.short_description = 'Export CA data to csv'
 
+
 class CAadmin(admin.ModelAdmin):
 #	readonly_fields=['score','triweekly','fbscore']
 	# change_list_template = "auths/CAadmin.html"
@@ -93,7 +94,7 @@ class CAadmin(admin.ModelAdmin):
 
 
 class ProfileAdmin(admin.ModelAdmin):	
-	list_display = ('alcher_id', 'user', 'fullname', 'college', 'phone', 'state', 'city', )
+	list_display = ('alcher_id', 'user', 'fullname', 'college', 'phone',)
 	search_fields =['alcher_id', 'phone', 'state', 'interests',]
 	list_filter = ("interests",)
 

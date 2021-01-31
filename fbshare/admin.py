@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Tag, PagePost, UserSharedPost,InviteAll
+from .models import Tag, PagePost, UserSharedPost,InviteAll,InviteImage
 from ca.scores import FB_SHARE_SCORE
 
 class UserSharedPostAdmin(admin.ModelAdmin):
@@ -21,9 +21,13 @@ class UserSharedPostAdmin(admin.ModelAdmin):
                 obj.user.ca_details.save()   '''
 
 
+class ImageInline(admin.StackedInline):
+    model = InviteImage
+
 
 class InviteAdmin(admin.ModelAdmin):
         readonly_fields = ['invitesScore','triweekly_invite']
+        inlines = [ImageInline]
         def save_model(self, request, obj, form, change):
                 if 'approval' in form.changed_data:
   
@@ -42,10 +46,7 @@ class InviteAdmin(admin.ModelAdmin):
                         obj.invitesScore+=delta
                         obj.user.ca_details.fbscore+=delta
                         obj.user.ca_details.score+=delta
-                        if  delta > 0 or obj.triweekly_invite!= 0 :
-                            obj.triweekly_invite+=delta
-                            obj.user.ca_details.triweekly+=delta
-
+                 
                 super().save_model(request, obj, form, change)
                 obj.user.ca_details.save()
         
@@ -86,11 +87,9 @@ class InviteAdmin(admin.ModelAdmin):
 
 
 
-
-
 admin.site.register(Tag)
 admin.site.register(PagePost)
-
+admin.site.register(InviteImage)
 admin.site.register(InviteAll,InviteAdmin)
 
 #admin.site.register(UserManualSharedPost, UserManualSharedPostAdmin)
