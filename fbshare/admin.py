@@ -26,8 +26,30 @@ class ImageInline(admin.StackedInline):
 
 
 class InviteAdmin(admin.ModelAdmin):
+        list_display = ('user', 'approval', 'uploaded_at', 'invitesScore')
+        list_filter = ("approval", )
         readonly_fields = ['invitesScore','triweekly_invite']
         inlines = [ImageInline]
+        actions = ("approveinvite", "disapproveinvite")
+
+        def approveinvite(self, request, queryset):
+            for ca_invite in queryset:
+                if ca_invite.approval is False:
+                    ca_invite.approval = True
+                    ca_invite.invitesScore += 50
+                    ca_invite.save()
+            self.message_user(request, "Invites for all the selected CAs have been approved successfully")
+        approveinvite.short_description = "Approve invites for all the selected CAs"
+
+        def disapproveinvite(self, request, queryset):
+            for ca_invite in queryset:
+                if ca_invite.approval is True:
+                    ca_invite.approval = False
+                    ca_invite.invitesScore -= 50
+                    ca_invite.save()
+            self.message_user(request, "Invites for all the selected CAs have been disapproved successfully")
+        disapproveinvite.short_description = "Disapprove invites for all the selected CAs"
+
         def save_model(self, request, obj, form, change):
                 if 'approval' in form.changed_data:
   

@@ -83,7 +83,7 @@ class InviteAll(models.Model) :
     user = models.OneToOneField(User,on_delete =models.CASCADE ,related_name = "fb_invites_pic")
     # image = models.ImageField(upload_to= "invitePics/" ,default = "") 
     invitesScore = models.IntegerField(default = 0)
-    approval = models.IntegerField(default = 0)
+    approval = models.BooleanField(default = False)
     uploaded_at = models.DateField(auto_now = False,auto_now_add = True)
     triweekly_invite = models.IntegerField(default = 0)
 
