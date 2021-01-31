@@ -4,9 +4,9 @@ from django.urls import path
 from django.http import HttpResponseRedirect, HttpResponse
 from django.db.models import F
 from .models import CA_Detail, Profile, Interest
-from ca.models import Idea,Venue,POC
+from ca.models import Idea,Venue,POC, CA_Questionnaire
 from ca.scores import REFERRAL_SCORE
-
+from django.contrib.auth.models import User
 
 def ca_approve(modeladmin, request, queryset):	
 		for ca in queryset:
@@ -47,6 +47,8 @@ def export_CA(modeladmin, request, queryset):
 	return response
 export_CA.short_description = 'Export CA data to csv'
 
+class CAInline(admin.StackedInline):
+	model = User
 
 class CAadmin(admin.ModelAdmin):
 #	readonly_fields=['score','triweekly','fbscore']
@@ -70,6 +72,7 @@ class CAadmin(admin.ModelAdmin):
 	list_filter = ("ca_profile_complete", "ca_approval", "certificate_approval",)
 	search_fields = ['user']
 	actions = [ca_approve, ca_disapprove, certificate_approve, certificate_disapprove, export_CA, ]
+	inlines = [CAInline]
 
 	def save_model(self, request, obj, form, change):
 		if 'ca_approval' in form.changed_data:
