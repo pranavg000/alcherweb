@@ -9,7 +9,7 @@ from django.core.validators import RegexValidator, EmailValidator, URLValidator
 from auths.models import CA_Detail
 from .decorators import profile_required
 from django.contrib.auth.models import User
-
+from .choices import STATE_CHOICES
 
 def generateGrievanceId():
         try:
@@ -198,7 +198,6 @@ def venue(request):
 @login_required
 def questionnare(request):
         if request.method == 'POST':
-
                 data = {}
                 # if request.POST['acad'] == '':
                 #         data['acad_stat'] = "ACAD EMPTY"
@@ -249,16 +248,15 @@ def questionnare(request):
                         except Exception as e:
                                 data['mailing_address_stat'] = "MAILING ADDRESS REGEX"
 
-                
-
-                if request.POST['fb'] == '':
-                        data['fb_stat'] = "FB EMPTY"
-                else:
-                        url_validator = URLValidator()
-                        try:
-                                url_validator(request.POST['fb'])
-                        except Exception as e:
-                                data['fb_stat'] = "FB REGEX"
+                # if request.POST['fb'] == '':
+                #         print("Hello")
+                #         data['fb_stat'] = "FB EMPTY"
+                # else:
+                #         url_validator = URLValidator()
+                #         try:
+                #                 url_validator(request.POST['fb'])
+                #         except Exception as e:
+                #                 data['fb_stat'] = "FB REGEX"
 
 
                 contact_number_validator = RegexValidator('^[0-9]{10}$')
@@ -280,21 +278,22 @@ def questionnare(request):
                         college_name = request.POST['college_name']
                         city = request.POST['city']
                         mailing_address = request.POST['mailing_address']
-                        fb = request.POST['fb']
+                        # fb = request.POST['fb']
                         por = request.POST['por']
                         referral_code = request.POST['referral']
-
+                        full_name = request.POST['full_name']
+                        state = request.POST['state']
                         # acad=acad
                         CA_Questionnaire.objects.create(user = request.user, alt_contact=alt_contact,
-                                college_name=college_name, city=city, mailing_address=mailing_address, fb=fb, por=por,
-                                referral_code=referral_code)
+                                college_name=college_name, state=state, city=city, mailing_address=mailing_address, por=por,
+                                referral_code=referral_code, full_name=full_name, )
 
                         ca_det_user = CA_Detail.objects.get(user=request.user)
                         ca_det_user.ca_profile_complete = True
                         ca_det_user.save()
                         data['stat'] = "SUCCESS"
-
                         return JsonResponse(data)
+                        
         else :
                 ca_dets = request.user.ca_details
                 if ca_dets.ca_profile_complete and ca_dets.ca_approval :
@@ -305,6 +304,7 @@ def questionnare(request):
                         'email': request.user.email,
                         'phone_no': request.user.profile.phone,
                         'college': request.user.profile.college,
+                        'states': STATE_CHOICES,
                 }
                 return render(request, 'ca/questionnare.html', context)
 
@@ -433,7 +433,7 @@ def standings(request):
                 'referral_count': referral_count,
                 # 'triweekly_score': triweekly_score,
                 # 'triweekly_standings': top5Triweekly,
-                'overall_standings': top1Overall,
+                'overall_standings': top10Overall,
                 # 'last_triweekly_winner': last_triweekly_winner,
                 'more_active': True
         }

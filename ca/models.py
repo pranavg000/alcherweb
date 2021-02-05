@@ -7,7 +7,6 @@ from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 from ca.scores import REFERRAL_SCORE
 
-
 class Complaints(models.Model):
 	# complaint_id = models.IntegerField(default=0,validators=[MinValueValidator(0)])
 	grievance_id = models.CharField(max_length=15)
@@ -92,13 +91,12 @@ class CA_Questionnaire(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='ca_questionnaire')
 	alt_contact = models.CharField(max_length=13)
 	college_name = models.CharField(max_length=200)
-	state = models.CharField(max_length=50, blank=True)
-	city = models.CharField(max_length=200)
 	mailing_address = models.CharField(max_length=500)
-	fb = models.URLField(max_length=200)
 	por = models.CharField(max_length=500)
 	referral_code = models.CharField(max_length=200,blank=True)
-
+	state = models.CharField(max_length=17, choices=STATE_CHOICES)
+	city = models.CharField(max_length=100)
+	full_name = models.CharField(max_length=200, default='')
 
 
 # class TriweekyWinner(models.Model):

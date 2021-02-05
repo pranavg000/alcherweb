@@ -3,9 +3,11 @@ from django.contrib import admin
 from .models import Idea, POC, FAQ, Venue, Complaints, Notifications, CA_Questionnaire
 from auths.models import CA_Detail
 from ca.scores import IDEA_SCORE, POC_SCORE, VENUE_SCORE
+from django.http import HttpResponse
+import csv
 
 class IdeaAdmin(admin.ModelAdmin):
-	list_display = ('user', 'idea_category', 'idea', 'admin_reply', 'approval',)
+	list_display = ('user', 'idea_category', 'idea', 'admin_reply', 'approval', 'ideascore' )
 	list_filter = ("idea_category", "approval",)
 	search_fields = ['user']
 	readonly_fields = ['ideascore']
@@ -161,7 +163,21 @@ class NotificationsAdmin(admin.ModelAdmin):
 	list_filter = ("notification_timestamp", )
 
 class CA_QuestionnaireAdmin(admin.ModelAdmin):
-	list_display = ('user', 'college_name', 'city', 'alt_contact', 'mailing_address', 'fb')
+	list_display = ('user', 'college_name', 'city', 'alt_contact', 'mailing_address', 'state', 'city', 'full_name')
+	list_filter = ("state", "city", )
+	search_fields = ['state', 'city']
+	actions = ["export_csv"]
+
+	def export_csv(self, request, queryset):
+		response = HttpResponse(content_type='text/csv')
+		response['Content-Disposition'] = 'attachment; filename="ca_profile.csv"'
+		writer = csv.writer(response)
+		writer.writerow(['Full Name', 'State', 'City', 'Alt_Contact', 'Username', 'Mailing Address'])
+		ca_profiles = queryset.values_list('full_name', 'state', 'city', 'alt_contact', 'user', 'mailing_address')
+		for ca_profile in ca_profiles:
+			writer.writerow(ca_profile)
+		return response
+	export_csv.short_description = 'Export data to csv'
 
 class ComplaintsAdmin(admin.ModelAdmin):
 	list_display = ('grievance_id', 'complaint_category', 'user', 'complaint_stat', 'complaint_text', 'complaint_report')
@@ -172,7 +188,7 @@ admin.site.register(Complaints, ComplaintsAdmin)
 admin.site.register(FAQ, FAQAdmin)
 admin.site.register(Idea,IdeaAdmin)
 admin.site.register(POC,POCAdmin)
-admin.site.register(Venue, VenueAdmin)
+# admin.site.register(Venue, VenueAdmin)
 admin.site.register(CA_Questionnaire,CA_QuestionnaireAdmin)
 # admin.site.register(TriweekyWinner)
 admin.site.register(Notifications, NotificationsAdmin)

@@ -12,6 +12,9 @@
           z-index: 10;
         }
       }
+      .mdl-textfield{
+        max-width: 95%;
+      }
     </style>
   <link rel="stylesheet" href="{% static 'ca/css/style.css' %}">
   <link rel="stylesheet" href="{% static 'ca/css/index.css' %}">
@@ -20,11 +23,10 @@
   <link rel="stylesheet" href="{% static 'ca/css/normalize.css' %}">
   	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   	<link href="https://fonts.googleapis.com/css?family=Fira+Sans|Roboto" rel="stylesheet">
-  	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css">
+    <!-- <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css"> -->
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css" />
   	<link rel="stylesheet" href="{% static 'ca/css/semantic.min.css' %}">
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
-
   	<link rel="icon" type="image/png" href="{% static 'ca/img/favicon.png' %}">
   	<meta name="theme-color" content="#455A64">
 
@@ -51,9 +53,9 @@
             <li class="nav-item {% if home_active %} active {% endif %} ml-2 mr-2">
               <a class="nav-link" href="{% url 'ca:home' %}">HOME </a>
             </li>
-            <li class="nav-item {% if dashboard_active %} active {% endif %}  ml-2 mr-2">
+            <!-- <li class="nav-item {% if dashboard_active %} active {% endif %}  ml-2 mr-2">
               <a class="nav-link" href="#">DASHBOARD </a>
-            </li>
+            </li> -->
             <li class="nav-item {% if guidelines_active %} active {% endif %}  ml-2 mr-2">
               <a class="nav-link" href="{% url 'ca:guidelines' %}">GUIDELINES </a>
             </li>
@@ -65,7 +67,9 @@
               <a class="nav-link dropdown-toggle ml-2 mr-2" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false" style="cursor: pointer; ">MORE.. </a>
               <div class="dropdown-menu dropdown-primary navbarDropdown" aria-labelledby="navbarDropdownMenuLink1">
-                <a class="dropdown-item navbarDropdownItem" href="{% url 'ca:venue' %}"> SUBMIT VENUE </a>
+                
+                <!-- Load the template tag for the url -->
+                <!-- <a class="dropdown-item navbarDropdownItem" href="% url 'ca:venue' %"> SUBMIT VENUE </a> -->
                 <a class="dropdown-item navbarDropdownItem" href="{% url 'ca:poc' %}"> SUBMIT POC </a>
                 <a class="dropdown-item navbarDropdownItem" href="{% url 'fb:invite_all' %}">SUBMIT FBINVITES </a>
                 <a class="dropdown-item navbarDropdownItem" href="{% url 'ca:standings' %}"> STANDINGS </a>
@@ -96,15 +100,7 @@
     <div class="card">
       <div class="card-body">
         <p class="card-image" style="text-align: center;">
-
-          <img src="/media/{{user.profile.profile_image}}" style="border-radius: 50%;
-  width: 150px;
-  height: 150px;
-
-
-
-" >
-
+          <img src="/media/{{user.profile.profile_image}}" style="border-radius: 50%; width: 150px; height: 150px;" >
         </p>
         <p class="card-title" style="text-align: center;">
           <h3><!--NAME--></h3>
@@ -135,7 +131,6 @@
 	<script type="text/javascript" src="{% static 'ca/js/jquery_ui/jquery-ui.min.js' %}"></script>
 	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 	<script type="text/javascript" src="{% static  'ca/js/semantic.min.js'%}"></script>
-
   {% block js %}
   {% endblock %}
 
@@ -155,6 +150,7 @@
   </div>
 </div>
 </div>
+    
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
