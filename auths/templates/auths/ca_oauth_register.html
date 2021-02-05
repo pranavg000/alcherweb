@@ -30,16 +30,13 @@
         <span class="vl-innertext">or</span>
       </div> -->
 
-      <div class="col">
-                        
-        
-      </div>
 
-      <div class="col">
-        <div class="hide-md-lg">
+      <div class="col" style="width: 25vw;">
+		  
+        <!-- <div class="hide-md-lg">
           <p>Or sign up manually:</p>
           
-        </div>
+        </div> -->
         <div class="sign_up_error" style="color:#d50000;font-size:11px;">
 			{{signup_error}}
 						
@@ -65,7 +62,6 @@
 						--->
 
 							<div class="phone_div">
-
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 									<input class="mdl-textfield__input" type="tel" id="phone" name="phone"
 									value="" pattern="{{phone_pattern}}">
@@ -100,23 +96,31 @@
 									<span class="mdl-textfield__error">Only letters, digits, comma and space are allowed</span>
 									<div class="team_name_error input_error"><p>{{team_name_error}}</p></div>
 								</div>
-
-								
-
-							</div>
-                                                         
-							<div class="interests_div">
-								Pick Your Interests
-								<select name='interests[]' form='create_account_form' multiple id='interests' class="ui fluid search dropdown">
-									
+							</div>                  
+							<!-- <div class="interests_div">
+								Pick Your Interests -->
+								<!-- <select name='interests[]' form='create_account_form' multiple id='interests' class="ui fluid search dropdown">
 									{% for interest in interests_list %}
 									<option value='{{interest.id}}'>{{interest.name}}</option>
 									{% endfor %}
+								</select> -->
+								<!-- <i class="dropdown-icon">::before</i>
+								<input class="search valid" autocomplete="off" tabindex="0" aria-invalid="false">
+								<span class="sizer"></span>
 
-								</select>
-
-								<div class="interests_error input_error"><p>{{interests_error}}</p></div>
-							</div>
+								<div class="menu transition hidden" tabindex="-1">
+									<div class="item selected" data-value="Dance">Dance</div>
+									<div class="item" data-value="Music">Music</div>
+									<div class="item" data-value="Drama">Drama</div>
+									<div class="item" data-value="Fashion">Fashion</div>
+									<div class="item" data-value="Arts">Arts</div>
+									<div class="item" data-value="Literature">Literature</div>
+									<div class="item" data-value="Quiz">Quiz</div>
+									<div class="item" data-value="Sports">Sports</div>
+									<div class="item" data-value="CA">CA</div>
+								</div> -->
+								<!-- <div class="interests_error input_error"><p>{{interests_error}}</p></div>
+							</div> -->
 
 							
 
@@ -129,19 +133,22 @@
         <!-- -->
       
       </div>
-      
+      <div class="col">
+                        
+        
+	</div>
     </div>
   
   
 </div>
 
 <div class="bottom-container">
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-12">
       <a href="{% url 'auths:login' %}" style="color:white" class="btn">Login </a>
     </div>
     
-  </div>
+  </div> -->
 </div>
 </div>
 </div>

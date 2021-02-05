@@ -1,12 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+# class Interest(models.Model):
+#         name = models.CharField(max_length=50)
 
-class Interest(models.Model):
-        name = models.CharField(max_length=50)
-
-        def __str__(self):
-                return self.name
+#         def __str__(self):
+#                 return self.name
 
 class Profile(models.Model):
         user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
@@ -24,15 +23,13 @@ class Profile(models.Model):
                 max_length=1,
                 default='M'
                 )
-        interests = models.ManyToManyField(Interest)
+        # interests = models.ManyToManyField(Interest)
         # emailVerified = models.BooleanField(default=False)
-
         def __str__(self):
                 return self.alcher_id
 
 
 class CA_Detail(models.Model):
-        
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='ca_details')
     ca_profile_complete = models.BooleanField(default=False)
     ca_approval = models.BooleanField(default=False)

@@ -3,12 +3,12 @@ from django.contrib import admin
 from django.urls import path
 from django.http import HttpResponseRedirect, HttpResponse
 from django.db.models import F
-from .models import CA_Detail, Profile, Interest
+from .models import CA_Detail, Profile
 from ca.models import Idea,Venue,POC, CA_Questionnaire
 from ca.scores import REFERRAL_SCORE
 from django.contrib.auth.models import User
 
-def ca_approve(modeladmin, request, queryset):	
+def ca_approve(modeladmin, request, queryset):
 		for ca in queryset:
 			if ca.ca_approval==False:
 				ca.score += 50
@@ -16,7 +16,7 @@ def ca_approve(modeladmin, request, queryset):
 			ca.save()
 ca_approve.short_description = 'Approve all the selected CAs'
 
-def ca_disapprove(modeladmin, request, queryset):	
+def ca_disapprove(modeladmin, request, queryset):
 		for ca in queryset:
 			if ca.ca_approval==True:
 				ca.score-=50
@@ -47,8 +47,8 @@ def export_CA(modeladmin, request, queryset):
 	return response
 export_CA.short_description = 'Export CA data to csv'
 
-class CAInline(admin.StackedInline):
-	model = User
+# class CAInline(admin.StackedInline):
+#['ALC ID', 'User', 'Full Name', 'College', 'Phone', 'City', 'Mailing Address', 'Alt. Contact', 'Email ID', 'CA Approval', 'Certificate Approval']
 
 class CAadmin(admin.ModelAdmin):
 #	readonly_fields=['score','triweekly','fbscore']
@@ -72,7 +72,7 @@ class CAadmin(admin.ModelAdmin):
 	list_filter = ("ca_profile_complete", "ca_approval", "certificate_approval",)
 	search_fields = ['user']
 	actions = [ca_approve, ca_disapprove, certificate_approve, certificate_disapprove, export_CA, ]
-	inlines = [CAInline]
+	# inlines = [CAInline]
 
 	def save_model(self, request, obj, form, change):
 		if 'ca_approval' in form.changed_data:
@@ -98,10 +98,9 @@ class CAadmin(admin.ModelAdmin):
 
 class ProfileAdmin(admin.ModelAdmin):	
 	list_display = ('alcher_id', 'user', 'fullname', 'college', 'phone',)
-	search_fields =['alcher_id', 'phone', 'state', 'interests',]
-	list_filter = ("interests",)
+	search_fields =['alcher_id', 'phone', 'state',]
 
 
-admin.site.register(Interest)
+# admin.site.register(Interest)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(CA_Detail, CAadmin)
