@@ -25,6 +25,32 @@
 
 					</div> <!-- notifications_div -->
 
+					<div class='referral_div d-block d-lg-none'>
+
+						<div class='referral_header'>
+							<p>MY PROFILE</p>
+						</div>
+						<div class="card">
+							<div class="card-body">
+							  <p class="card-image" style="text-align: center;">
+								<img src="/media/{{user.profile.profile_image}}" style="border-radius: 50%; width: 150px; height: 150px;" >
+							  </p>
+							  <p class="card-title" style="text-align: center;">
+								<h3><!--NAME--></h3>
+								</p>
+								<br>
+							  <div class="card-text">
+							  <div style="float: left;"> Alcher ID: </div><div style="float: right;"> {{ user.profile.alcher_id }}</div><br><br>
+							  <div style="float: left;"> Score: </div><div style="float: right;"> {{ user.ca_details.score }}</div><br><br>
+							   {% comment %} <div style="float: left;"> Tri-weekly Score: </div><div style="float: right;">
+								{{ user.ca_details.triweekly }}
+							  </div>
+							  <br><br>  {% endcomment %}
+							  </div>
+							</div>
+						  </div>
+					</div>
+
 					<div class='referral_div'>
 
 						<div class='referral_header'>
@@ -41,7 +67,26 @@
 							</div>
 						</div>
 
-					</div> <!-- referral_div -->
+					</div> 
+					
+					<div class='referral_div d-block d-lg-none'>
+
+						<div class='referral_header'>
+							<p>Notifications</p>
+						</div>
+						<div class='referral_content'>
+							{% for notification in notifications %}
+							<a href="{{notification.notification_href}}" style="color: inherit; ">
+							<p class="card-text" > {{ notification.notification_content|truncatechars:120 }}</p>
+							</a>
+							<hr>
+							{% endfor %}
+							<a href="{% url 'ca:notifications' %}">See All </a>
+						</div>
+
+					</div> 
+					
+					<!-- referral_div -->
 
 					<!-- <div class='time_remaining_div'>
 
