@@ -1471,7 +1471,7 @@ body{
 	.contact_heads_3{
 		display: block;
 		width: calc((100% - 30px) / 2);
-		margin-left: calc(50% - ((100% - 30px) / 2)/2);
+		/* margin-left: calc(50% - ((100% - 30px) / 2)/2); */
 		background-color: white;
 		margin-bottom: 20px;
 		box-shadow: 0 0 3px 0px #cccccc;
@@ -1529,7 +1529,7 @@ body{
 	.contact_heads_3{
 		display: block;
 		width: calc((100% - 30px) / 2);
-		margin-left: calc(50% - ((100% - 30px) / 2)/2);
+		/* margin-left: calc(50% - ((100% - 30px) / 2)/2); */
 		background-color: white;
 		margin-bottom: 20px;
 		box-shadow: 0 0 3px 0px #cccccc;
