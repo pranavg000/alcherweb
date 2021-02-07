@@ -40,8 +40,8 @@ def export_CA(modeladmin, request, queryset):
 	response = HttpResponse(content_type='text/csv')
 	response['Content-Disposition'] = 'attachment; filename="ca.csv"'
 	writer = csv.writer(response)
-	writer.writerow(['Username', 'CA Approval', 'Certificate Approval', 'Score', 'FBscore'])
-	cas = queryset.values_list('user', 'ca_approval', 'certificate_approval', 'score', 'fbscore')
+	writer.writerow(['Username', 'CA Approval', 'Certificate Approval', 'Score', 'FBscore',])
+	cas = queryset.values_list('user_id', 'ca_approval', 'certificate_approval', 'score', 'fbscore',)
 	for ca in cas:
 		writer.writerow(ca)
 	return response
@@ -105,8 +105,8 @@ class ProfileAdmin(admin.ModelAdmin):
 		response = HttpResponse(content_type='text/csv')
 		response['Content-Disposition'] = 'attachment; filename="caprofile.csv"'
 		writer = csv.writer(response)
-		writer.writerow(['Alcher ID', 'Full Name', 'Phone', 'College'])
-		caprofiles = queryset.values_list('alcher_id', 'fullname', 'phone', 'college')
+		writer.writerow(['Username' ,'Alcher ID', 'Full Name', 'Phone', 'College'])
+		caprofiles = queryset.values_list('user', 'alcher_id', 'fullname', 'phone', 'college')
 		for profile in caprofiles:
 			writer.writerow(profile)
 		
