@@ -74,22 +74,6 @@ else{
 					<p><b>Note</b>: You are only required to fill this quesionnaire if you want to apply for our <a href="https://www.alcheringa.in/ca/">Campus Ambassador Programme</a>. If that is not what you are looking for and you wanted to register for our competitions, Please login to our <a href="https://www.alcheringa.in/registrations">Registration Portal</a> instead.</p>
 
 					<h4>Team Information</h4>
-
-					<!-- <div class="acad_div">
-
-						<select name='acad' id='acad' class="ui fluid selection dropdown">
-							<option value=''>Select Year of Study</option>
-							<option value='1st Year'>1st Year</option>
-							<option value='2nd Year'>2nd Year</option>
-							<option value='3rd Year'>3rd Year</option>
-							<option value='4th Year'>4th Year</option>
-							<option value='5th Year'>5th Year</option>
-						</select>
-
-						<div class="acad_error input_error"></div>
-
-					</div> -->
-
 					
 
 					<div class="college_name_div">
@@ -238,53 +222,54 @@ else{
 	{% block js %}
 	<script type="text/javascript">
 		$(function(){
-			$('#acad').dropdown();
+			
+			// $('#acad').dropdown();
 
 			$('.submit_questionnaire').click(function(){
 				$(this).addClass('loading');
 
 				var $this= $(this);
-				var acad= $('.acad_div').find('select').val();
+				// var acad= $('.acad_div').find('select').val();
+				// var fb= $('.fb_div').find('input').val();
 				var college_name= $('.college_name_div').find('input').val();
 				var email= $('.email_div').find('input').val();
 				var phone= $('.phone_div').find('input').val();
 				var alt_contact= $('.alt_contact_div').find('input').val();
 				var city= $('.city_div').find('input').val();
 				var mailing_address= $('.mailing_address_div').find('input').val();
-				// var fb= $('.fb_div').find('input').val();
+				
 				var por= $('.por_div').find('input').val();
 				var referral= $('.referral_div').find('input').val();
 				var fullName= $('.full_name').find('input').val();
 				var error_state= 0;
-
-				if(acad==""){
-					$this.removeClass('loading');
-					$('.acad_div').find('.acad_error').html("<p>Please select your year of study</p>");
-					$('.acad_div').find('.acad_error').slideDown().delay(2000).slideUp();
-					error_state= 1;
-				}
-
+				// alert("HIGH");
+				// if(acad==""){
+				// 	$this.removeClass('loading');
+				// 	$('.acad_div').find('.acad_error').html("<p>Please select your year of study</p>");
+				// 	$('.acad_div').find('.acad_error').slideDown().delay(2000).slideUp();
+				// 	error_state= 1;
+				// }
+				// alert(1);
 				if(college_name==""){
 					$this.removeClass('loading');
 					$('.college_name_div').find('.college_name_error').html("<p>Please enter your college name</p>");
 					$('.college_name_div').find('.college_name_error').slideDown().delay(2000).slideUp();
 					error_state= 1;
 				}
-
+				// alert(2);
 				if(city==""){
 					$this.removeClass('loading');
 					$('.city_div').find('.city_error').html("<p>Please enter your City</p>");
 					$('.city_div').find('.city_error').slideDown().delay(2000).slideUp();
 					error_state= 1;
 				}
-
+				// alert(3);
 				if(mailing_address==""){
 					$this.removeClass('loading');
 					$('.mailing_address_div').find('.mailing_address_error').html("<p>Please enter your mailing address</p>");
 					$('.mailing_address_div').find('.mailing_address_error').slideDown().delay(2000).slideUp();
-					error_state= 1;
 				}
-
+				// alert(4);
 				// if(fb==""){
 				// 	$this.removeClass('loading');
 				// 	$('.fb_div').find('.fb_error').html("<p>Please enter your facebook profile link</p>");
@@ -293,24 +278,23 @@ else{
 				// }
 
 				if(error_state==0){
+					// alert(error_state);
+					// function isAcad(acad){
+					// 	var regex= /^[a-zA-z0-9 ]*$/;
+					// 	return regex.test(acad);
+					// }
 
-					function isAcad(acad){
-						var regex= /^[a-zA-z0-9 ]*$/;
-						return regex.test(acad);
-					}
-
-					if(!isAcad(acad)){
-						$this.removeClass('loading');
-						$('.acad_div').find('.acad_error').html("<p>Select year from the dropdown</p>");
-						$('.acad_div').find('.acad_error').slideDown().delay(2000).slideUp();
-						error_state= 1;
-					}
+					// if(!isAcad(acad)){
+					// 	$this.removeClass('loading');
+					// 	$('.acad_div').find('.acad_error').html("<p>Select year from the dropdown</p>");
+					// 	$('.acad_div').find('.acad_error').slideDown().delay(2000).slideUp();
+					// 	error_state= 1;
+					// }
 
 					function isCollegeName(college_name){
 						var regex= /^[a-zA-z0-9, ]*$/;
 						return regex.test(college_name);
 					}
-
 					if(!isCollegeName(college_name)){
 						$this.removeClass('loading');
 						$('.college_name_div').find('.college_name_error').html("<p>Only letters, digits, comma and space are allowed</p>");
@@ -339,7 +323,6 @@ else{
 							$('.alt_contact_div').find('.alt_contact_error').slideDown().delay(2000).slideUp();
 							error_state= 1;
 						}
-
 					}
 
 					function isMailingAddress(mailing_address){
@@ -360,6 +343,7 @@ else{
 						$('.mailing_address_div').find('.mailing_address_error').slideDown().delay(2000).slideUp();
 						error_state= 1;
 					}
+					// alert(mailing_address);
 
 					// function isURL(url){
 					// 	var regex = /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/;
@@ -405,22 +389,42 @@ else{
 						}
 
 					}
-
+					
 					if(error_state==0){
-
+						// alert(college_name+alt_contact+city+mailing_address+por+referral);
 						$.ajax({
 								type: "POST",
 								url: "{% url 'ca:questionnare' %}",
 								dataType: "json",
+								// data: ({csrfmiddlewaretoken : $("input[name=csrfmiddlewaretoken]").val(),
+								// 	college_name: college_name,
+								// 		alt_contact: alt_contact, city: city, mailing_address: mailing_address,
+								// 		fb: fb, por: por, referral: referral, }),
 								data: ({csrfmiddlewaretoken : $("input[name=csrfmiddlewaretoken]").val(),
-									acad: acad, college_name: college_name,
+									college_name: college_name,
 										alt_contact: alt_contact, city: city, mailing_address: mailing_address,
-										fb: fb, por: por, referral: referral, }),
+										por: por, referral: referral,}),
+//////
+				// var college_name= $('.college_name_div').find('input').val();
+				// var email= $('.email_div').find('input').val();
+				// var phone= $('.phone_div').find('input').val();
+				// var alt_contact= $('.alt_contact_div').find('input').val();
+				// var city= $('.city_div').find('input').val();
+				// var mailing_address= $('.mailing_address_div').find('input').val();
+				
+				// var por= $('.por_div').find('input').val();
+				// var referral= $('.referral_div').find('input').val();
+				// var fullName= $('.full_name').find('input').val();
+				// var error_state= 0;
+
+//////
 								success: function(response){
+									// alert(JSON.stringify(response));
 									console.log(response);
 									$this.removeClass('loading');
 
 									if(response.session == "Session Error"){
+										// alert("I JUST GOT STUCK");
 										var notification = document.querySelector('.mdl-js-snackbar');
 										var data = {
 										  message: 'Session Expired',
@@ -433,10 +437,10 @@ else{
 										}, 3000);
 									}
 
-									if(response.acad_stat=="ACAD EMPTY"){
-										$('.acad_div').find('.acad_error').html("<p>Please select your year of study</p>");
-										$('.acad_div').find('.acad_error').slideDown().delay(2000).slideUp();
-									}
+									// if(response.acad_stat=="ACAD EMPTY"){
+									// 	$('.acad_div').find('.acad_error').html("<p>Please select your year of study</p>");
+									// 	$('.acad_div').find('.acad_error').slideDown().delay(2000).slideUp();
+									// }
 
 									if(response.college_name_stat=="COLLEGE NAME EMPTY"){
 										$('.college_name_div').find('.college_name_error').html("<p>Please enter your college name</p>");
@@ -453,10 +457,10 @@ else{
 										$('.mailing_address_div').find('.mailing_address_error').slideDown().delay(2000).slideUp();
 									}
 
-									if(response.acad_stat=="ACAD REGEX"){
-										$('.acad_div').find('.acad_error').html("<p>Select year from the dropdown</p>");
-										$('.acad_div').find('.acad_error').slideDown().delay(2000).slideUp();
-									}
+									// if(response.acad_stat=="ACAD REGEX"){
+									// 	$('.acad_div').find('.acad_error').html("<p>Select year from the dropdown</p>");
+									// 	$('.acad_div').find('.acad_error').slideDown().delay(2000).slideUp();
+									// }
 
 									if(response.college_name_stat=="COLLEGE NAME REGEX"){
 										$('.college_name_div').find('.college_name_error').html("<p>Only letters, digits, comma and space are allowed</p>");
@@ -497,7 +501,7 @@ else{
 										$('.referral_div').find('.referral_error').html("<p>We see what you did there! Can't use your own Alcher ID as referral code.</p>");
 										$('.referral_div').find('.referral_error').slideDown().delay(2000).slideUp();
 									}
-
+									// alert("OK I AM HERE");
 									if(response.stat=="SUCCESS"){
 
 										var notification = document.querySelector('.mdl-js-snackbar');
@@ -508,10 +512,12 @@ else{
 										notification.MaterialSnackbar.showSnackbar(data);
 										console.log("{% url 'ca:pending' %}")
 										window.location.href = "{% url 'ca:pending' %}";
-										console.log("HELLO");
+										// alert("success");
+
 									}
 
 									if(response.stat=="FAILURE"){
+										// alert("fail");
 										var notification = document.querySelector('.mdl-js-snackbar');
 										var data = {
 										  message: 'Questionnaire could not be submitted',
