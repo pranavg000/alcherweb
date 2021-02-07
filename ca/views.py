@@ -270,19 +270,25 @@ def questionnare(request):
 
 
                 if data:
-                        data['stat'] = "FAILURE"
-                        return JsonResponse(data)
-                else:
-                        alt_contact = request.POST['alt_contact']
+                        # data['stat'] = "FAILURE"
+                        # data['stat'] = "SUCCESS"
+                        # print(data)
+                        # return JsonResponse(data)
+
+                        alt_contact = request.POST.get('alt_contact')
                         # acad = request.POST['acad']
-                        college_name = request.POST['college_name']
-                        city = request.POST['city']
-                        mailing_address = request.POST['mailing_address']
+                        college_name = request.POST.get('college_name')
+                        city = request.POST.get('city')
+                        mailing_address = request.POST.get('mailing_address')
                         # fb = request.POST['fb']
-                        por = request.POST['por']
-                        referral_code = request.POST['referral']
-                        full_name = request.POST['full_name']
-                        state = request.POST['state']
+                        por = request.POST.get('por')
+                        referral_code = request.POST.get('referral')
+                        full_name = request.POST.get('full_name')
+                        state = request.POST.get('state')
+
+                        print("State: " + state)
+                        print("Full Name" + full_name)
+
                         # acad=acad
                         CA_Questionnaire.objects.create(user = request.user, alt_contact=alt_contact,
                                 college_name=college_name, state=state, city=city, mailing_address=mailing_address, por=por,
@@ -292,6 +298,34 @@ def questionnare(request):
                         ca_det_user.ca_profile_complete = True
                         ca_det_user.save()
                         data['stat'] = "SUCCESS"
+
+                        print(data)
+                        # print(JsonResponse(data))
+                        return JsonResponse(data)
+
+                else:
+                        alt_contact = request.POST.get('alt_contact')
+                        # acad = request.POST['acad']
+                        college_name = request.POST.get('college_name')
+                        city = request.POST.get('city')
+                        mailing_address = request.POST.get('mailing_address')
+                        # fb = request.POST['fb']
+                        por = request.POST.get('por')
+                        referral_code = request.POST.get('referral')
+                        full_name = request.POST.get('full_name')
+                        state = request.POST.get('state')
+                        # acad=acad
+                        CA_Questionnaire.objects.create(user = request.user, alt_contact=alt_contact,
+                                college_name=college_name, state=state, city=city, mailing_address=mailing_address, por=por,
+                                referral_code=referral_code, full_name=full_name, )
+
+                        ca_det_user = CA_Detail.objects.get(user=request.user)
+                        ca_det_user.ca_profile_complete = True
+                        ca_det_user.save()
+                        data['stat'] = "SUCCESS"
+
+                        print(data)
+                        # print(JsonResponse(data))
                         return JsonResponse(data)
                         
         else :
@@ -375,10 +409,6 @@ def poc(request):
                         except Exception as e:
                                 data['email'] = "Email REGEX"
 
-                
-
-                
-
                 if data:
                         data['stat'] = "FAILURE"
                         return JsonResponse(data)
@@ -392,7 +422,7 @@ def poc(request):
                         poc_fb = request.POST['poc_fb']
 
                         POC.objects.create(user=request.user, genre=poc_genre, colg=poc_college,
-                                name_con=poc_name, desg=poc_designation, phone=poc_phone, email=poc_email, fb=poc_fb)
+                                name_con=poc_name, desg=poc_designation, phone=poc_phone, email=poc_email, fburl=poc_fb)
                         data['stat'] = "Success"
 
                         return JsonResponse(data)

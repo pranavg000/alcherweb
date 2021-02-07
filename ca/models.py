@@ -94,9 +94,9 @@ class CA_Questionnaire(models.Model):
 	mailing_address = models.CharField(max_length=500)
 	por = models.CharField(max_length=500)
 	referral_code = models.CharField(max_length=200,blank=True)
-	state = models.CharField(max_length=17, choices=STATE_CHOICES)
+	state = models.CharField(max_length=17, choices=STATE_CHOICES, blank=True, null=True)
 	city = models.CharField(max_length=100)
-	full_name = models.CharField(max_length=200, default='')
+	full_name = models.CharField(max_length=200, default='',blank=True, null=True)
 
 
 # class TriweekyWinner(models.Model):

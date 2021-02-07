@@ -200,6 +200,12 @@ def register_oauth(request):
                 profUser.save()
                 # profUser.interests.add(*interests_int)
                 CA_Detail.objects.create(user = request.user)
+                ##
+                print(request.user)
+                print("HEYHEYHEYHEYHEYHEYHEYHEYHEYHEYHEYHEYHEYHEYHEYHEY")
+                print(fullname)
+
+                ##
                 profUser.save()
 
                 """if email != request.user.email :
