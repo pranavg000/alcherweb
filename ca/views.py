@@ -288,7 +288,7 @@ def questionnare(request):
 
                         print("State: " + state)
                         print("Full Name" + full_name)
-
+                        
                         # acad=acad
                         CA_Questionnaire.objects.create(user = request.user, alt_contact=alt_contact,
                                 college_name=college_name, state=state, city=city, mailing_address=mailing_address, por=por,

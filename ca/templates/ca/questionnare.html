@@ -64,7 +64,7 @@ else{
 
 		<?php include 'leftbar.php'; ?> -->
 
-			<form method="POST">
+			<form method="POST" >
 				{% csrf_token %}
 
 				<div class="questionnaire_content">
@@ -165,13 +165,13 @@ else{
 
 					</div>
 
-					<div class="fb_div">
+					<div class="state_div">
 
 						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="max-width: 95%;">
 							<label class="mdl-textfield__label" for="state">State</label><br>
 							<select name="state" id="state" class="ui fluid search dropdown">
 								{% for state, state_value in states %}
-									<option value='{{ state_value }}'>{{ state }}</option>
+									<option value='{{ state }}'>{{ state }}</option>
 								{% endfor %}
 							</select>
 							
@@ -240,7 +240,8 @@ else{
 				
 				var por= $('.por_div').find('input').val();
 				var referral= $('.referral_div').find('input').val();
-				var fullName= $('.full_name').find('input').val();
+				var fullName= $('.full_name_div').find('input').val();
+				var state= $('.state_div').find('select').val();
 				var error_state= 0;
 				// alert("HIGH");
 				// if(acad==""){
@@ -389,7 +390,8 @@ else{
 						}
 
 					}
-					
+					// alert(state);
+					// alert("State is");
 					if(error_state==0){
 						// alert(college_name+alt_contact+city+mailing_address+por+referral);
 						$.ajax({
@@ -403,7 +405,7 @@ else{
 								data: ({csrfmiddlewaretoken : $("input[name=csrfmiddlewaretoken]").val(),
 									college_name: college_name,
 										alt_contact: alt_contact, city: city, mailing_address: mailing_address,
-										por: por, referral: referral,}),
+										por: por, referral: referral, full_name:fullName, state:state, }),
 //////
 				// var college_name= $('.college_name_div').find('input').val();
 				// var email= $('.email_div').find('input').val();

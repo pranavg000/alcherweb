@@ -88,7 +88,7 @@ class Venue(models.Model):
 
 
 class CA_Questionnaire(models.Model):
-	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='ca_questionnaire')
+	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ca_questionnaire')
 	alt_contact = models.CharField(max_length=13)
 	college_name = models.CharField(max_length=200)
 	mailing_address = models.CharField(max_length=500)
@@ -96,7 +96,7 @@ class CA_Questionnaire(models.Model):
 	referral_code = models.CharField(max_length=200,blank=True)
 	state = models.CharField(max_length=17, choices=STATE_CHOICES, blank=True, null=True)
 	city = models.CharField(max_length=100)
-	full_name = models.CharField(max_length=200, default='',blank=True, null=True)
+	full_name = models.CharField(max_length=200, default='',blank=False, null=True)
 
 
 # class TriweekyWinner(models.Model):
