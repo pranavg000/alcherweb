@@ -99,7 +99,21 @@ class CAadmin(admin.ModelAdmin):
 class ProfileAdmin(admin.ModelAdmin):	
 	list_display = ('alcher_id', 'user', 'fullname', 'college', 'phone',)
 	search_fields =['alcher_id', 'phone', 'state',]
+	actions = ["export_profiles", ]
 
+	def export_profiles(self, request, queryset):	
+		response = HttpResponse(content_type='text/csv')
+		response['Content-Disposition'] = 'attachment; filename="caprofile.csv"'
+		writer = csv.writer(response)
+		writer.writerow(['Alcher ID', 'Full Name', 'Phone', 'College'])
+		caprofiles = queryset.values_list('alcher_id', 'fullname', 'phone', 'college')
+		for profile in caprofiles:
+			writer.writerow(profile)
+		
+		self.message_user(request, "All the profiles have been exported successfully.")
+		return response
+	export_profiles.short_description = 'Export CA profiles to CSV'
+	
 
 # admin.site.register(Interest)
 admin.site.register(Profile, ProfileAdmin)
