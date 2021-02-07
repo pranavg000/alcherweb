@@ -30,8 +30,6 @@ def register(request):
                 team_name = request.POST['team_name']
                 email = request.POST['email']
                 phone = request.POST['phone']
-                # interests = request.POST.getlist('interests[]')
-                # interests_int = [int(x) for x in interests]
                 data = {}
                 name_validator = RegexValidator('^[A-Za-z ]+$')
                 if fullname == '':
@@ -67,7 +65,6 @@ def register(request):
                 # data['gender_error'] = "Testing"
                 # data['team_name_error'] = "Testing"
                 # data['fullname_error'] = "Testing"
-                # data['interests_error'] = "Testing"
 
 
                 if gender == None:
@@ -87,8 +84,6 @@ def register(request):
                         if len(password) < 8:
                                 data['password_error'] = "Password should have minimum 8 characters"
 
-                # if len(interests_int) == 0:
-                #         data['interests_error'] = "Select one or more interests"
 
                 if data:
                         print(data, "$$$$$$$$$$$$$$$$$$$$$")
@@ -108,7 +103,6 @@ def register(request):
                                 profUser = Profile(user=user, alcher_id=alcher_id, fullname=fullname, phone=phone, college=team_name, gender=gender)
                                 profUser.save()
                                 profUser.emailVerified = False
-                                profUser.interests.add(*interests_int)
                                 profUser.save()
                                 current_site = get_current_site(request)
                                 subject = 'Activate Your Alcheringa CA Account'
@@ -128,12 +122,10 @@ def register(request):
                 name_pattern = "[A-Za-z ]*"
                 team_name_pattern = "[A-Za-z0-9, ]*"
                 phone_pattern = "[0-9]{10}"
-                # interests_list = Interest.objects.all()
                 context = {
                 'name_pattern': name_pattern,
                 'team_name_pattern' : team_name_pattern,
                 'phone_pattern' : phone_pattern,
-                # 'interests_list' : interests_list,
                 }
                 return render(request, 'auths/ca_register.html', context)
 
@@ -144,8 +136,6 @@ def register_oauth(request):
                 gender = request.POST.get('gender')
                 team_name = request.POST['team_name']
                 phone = request.POST['phone']
-                # interests = request.POST.getlist('interests[]')
-                # interests_int = [int(x) for x in interests]
                 data = {}
                 name_validator = RegexValidator('^[A-Za-z ]+$')
                 # email = request.POST["email"]
@@ -175,14 +165,8 @@ def register_oauth(request):
                         except Exception as e:
                                 data['team_name_error'] = "Only letters and white spaces"
 
-
-                # if len(interests_int) == 0:
-                #         data['interests_error'] = "Please select one or more interests"
-
                 if data:
                         print(data, "$$$$$$$$$$$$$$$$$$$$$")
-                        # interests_list = Interest.objects.all()
-                        # data['interests_list'] = interests_list
                         return render(request, 'auths/ca_oauth_register.html', data)
 
                 if Profile.objects.filter(phone=phone):
@@ -198,7 +182,6 @@ def register_oauth(request):
                 profUser.college = team_name
                 profUser.phone = phone
                 profUser.save()
-                # profUser.interests.add(*interests_int)
                 CA_Detail.objects.create(user = request.user)
                 ##
                 print(request.user)
@@ -242,12 +225,10 @@ def register_oauth(request):
                 name_pattern = "[A-Za-z ]*"
                 team_name_pattern = "[A-Za-z0-9, ]*"
                 phone_pattern = "[0-9]{10}"
-                # interests_list = Interest.objects.all()
                 context = {
                 'name_pattern': name_pattern,
                 'team_name_pattern' : team_name_pattern,
                 'phone_pattern' : phone_pattern,
-                # 'interests_list' : interests_list,
                 }
                 return render(request, 'auths/ca_oauth_register.html', context)
 
