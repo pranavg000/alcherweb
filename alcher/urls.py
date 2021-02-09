@@ -21,7 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import RedirectView
 urlpatterns = [
-    path('',RedirectView.as_view(url  ='/auth/login')),
+    path('',RedirectView.as_view(url  ='/auth/facebook/callback/')),
     path('admin/', admin.site.urls),
     path('auth/', include('auths.urls', namespace='home')),
     path('caportal/', include('ca.urls', namespace='ca')),

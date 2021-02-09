@@ -148,7 +148,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 LOGIN_REDIRECT_URL = 'ca:home'
-LOGIN_URL = 'auths:login'
+LOGIN_URL = '/auths/facebook/callback/ṭ'
 
 AUTHENTICATION_BACKENDS = [
         'social_core.backends.google.GoogleOAuth2',
