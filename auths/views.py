@@ -154,10 +154,10 @@ def register(request):
                                 profUser = Profile(user=user, alcher_id=alcher_id, fullname=fullname, phone=phone, college=team_name, gender=gender)
                                 profUser.save()
                                 user.save()
-                                
+                                auth_login(request,user)
                                 print(user)
 
-                                ca_object = CA_Detail(user=alcher_id, ca_profile_complete=False, ca_approval=False, certificate_approval=False, score=0, fbscore=0)
+                                # ca_object = CA_Detail(user=alcher_id, ca_profile_complete=False, ca_approval=False, certificate_approval=False, score=0, fbscore=0)
                                 CA_Detail.objects.create(user=request.user)
 
                                 # CA_Detail.objects.create(user = request.user)
