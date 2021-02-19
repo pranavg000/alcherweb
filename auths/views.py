@@ -156,7 +156,8 @@ def register(request):
                                 user.save()
                                 
                                 print(user)
-                                
+
+                                ca_object = CA_Detail(user=alcher_id, ca_profile_complete=False, ca_approval=False, certificate_approval=False, score=0, fbscore=0)
                                 CA_Detail.objects.create(user=request.user)
 
                                 # CA_Detail.objects.create(user = request.user)

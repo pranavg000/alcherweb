@@ -34,7 +34,7 @@ class CA_Detail(models.Model):
     ca_profile_complete = models.BooleanField(default=False)
     ca_approval = models.BooleanField(default=False)
     certificate_approval=models.BooleanField(default=False)
-    timestamp = models.DateTimeField(auto_now_add=True)
+#     timestamp = models.DateTimeField(auto_now_add=True)
 #     triweekly = models.IntegerField(default =0,verbose_name='Tri-weekly Score')
     score = models.IntegerField(default = 0)
     fbscore = models.IntegerField(default =0)

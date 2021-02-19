@@ -41,16 +41,16 @@
         
       <!-- </div> -->
 
-      <!-- <div class="col"> -->
+      <div class="col" style="width: 100%;">
         <!-- <div class="hide-md-lg">
           <p>Or sign in manually:</p>
-        </div> -->
-        <!-- <div class="sign_up_error" style="color:#d50000;font-size:15px;">
+        </div>  -->
+         <div class="sign_up_error" style="color:#d50000;font-size:15px;">
 							{{login_error}}
-	    </div> -->
+	    </div>
         
 
-<!-- <div class="email_div">
+ <div class="email_div">
 
 										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 											<input class="mdl-textfield__input" type="email" id="ca_email" name="ca_email"
@@ -73,16 +73,16 @@
 
 										<div class="password_error  input_error"><p>{{password_error}}</p></div>
 
-									</div> -->
+									</div> 
 
-									<!-- <div class="forgot_password_div">
-										<a href="{% url 'password_reset' %}">Forgot Password</a>
-									</div> -->
+									<div class="forgot_password_div">
+										<a href="{% url 'password_reset' %}" style="color: #1323b9;">Forgot Password</a>
+									</div>
 
-									<!-- <input type='submit' name='ca_login' id="ca_login_button" value='LOG IN' class='btn'> -->
+									<input type='submit' name='ca_login' id="ca_login_button" value='LOG IN' class='btn'>
         
-      <!-- </div> -->
-      
+      </div>
+        <center><a href="{% url 'auths:register' %}" class="btn" style="background-color: #1a73e8; width: 80%; color: white;">New User ? SignUP</a></center>
     </div>
   </form>
 </div>
