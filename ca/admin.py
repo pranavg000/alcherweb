@@ -163,7 +163,7 @@ class NotificationsAdmin(admin.ModelAdmin):
 	list_filter = ("notification_timestamp", )
 
 class CA_QuestionnaireAdmin(admin.ModelAdmin):
-	list_display = ('user', 'college_name', 'city', 'alt_contact', 'mailing_address', 'state', 'city', 'full_name')
+	list_display = ('user', 'college_name', 'city', 'mailing_address', 'state', 'city',)
 	list_filter = ("state", "city", )
 	search_fields = ['state', 'city']
 	actions = ["export_csv"]

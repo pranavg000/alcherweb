@@ -17,11 +17,62 @@ from .utilities import generateAlcherId
 
 
 
+def login(request):
+        username = password = ''
+        if request.POST:
+                email = request.POST['ca_email']
+                password = request.POST['ca_password']
 
+                data = {}
+                try:
+                        email_validator = EmailValidator()
+                        email_validator(email)
+                except Exception as e:
+                        data['email_error'] = "Please enter a valid Email ID"
+
+                if password == '':
+                        data['password_error'] = "Password is required"
+
+                if data:
+                        return render(request, 'auths/ca_login.html', data)
+
+                user_obj = User.objects.filter(email=email)
+                if len(user_obj) == 0:
+                        print("No user with this email exists!")
+                        data['login_error'] = "Sorry! Invalid credentials. Try again."
+                        return render(request, 'auths/ca_login.html', data)
+                else:
+                        user = authenticate(username=user_obj[0].username, password=password)
+                        if user is None:
+                                print("Please enter the correct password for your account.")
+                                data['login_error'] = "Sorry! Invalid credentials. Try again."
+                                return render(request, 'auths/ca_login.html', data)
+
+
+                        user_obj = user_obj.filter(profile__emailVerified=True)
+
+                        if len(user_obj) == 0:
+                                print("Email not verified yet!")
+                                return redirect('auths:verifyEmail')
+                        
+                        
+                        auth_login(request, user)
+                        print(user.username)
+
+                        ca_detail = CA_Detail.objects.filter(user = request.user);
+                        if len(ca_detail) == 0:
+                                CA_Detail.objects.create(user=request.user)
+                                ca_detail = CA_Detail.objects.filter(user = request.user);
+                        if ca_detail[0].ca_approval :
+                                return redirect('ca:home')
+                        elif ca_detail[0].ca_profile_complete :
+                                return redirect('ca:pending')
+                        else :
+                                return redirect('ca:questionnare')
+        return render(request, 'auths/ca_login.html')
 
 
 def register(request):
-
         if request.method == 'POST':
                 print(request.POST, "$$$$$$$$$$$$$$$$$$$$$")
                 password = request.POST['password']
@@ -91,30 +142,38 @@ def register(request):
 
 
                 alcher_id = generateAlcherId(fullname)
-                if User.objects.filter(email=email).filter(profile__emailVerified=True):
-                        data['signup_error'] = "Same Email or phone no. already present"
+                # if User.objects.filter(email=email).filter(profile__emailVerified=True):
+                if User.objects.filter(email=email):
+                        data['signup_error'] = "Make sure you are registering with your email address"
                         return render(request, 'auths/ca_register.html', data)
                 else:
                         User.objects.create_user(alcher_id, email, password)
                         user = authenticate(username=alcher_id, password=password)
                         if user is not None:
-                                user.is_active=False
-                                user.save()
+                                user.is_active=True
                                 profUser = Profile(user=user, alcher_id=alcher_id, fullname=fullname, phone=phone, college=team_name, gender=gender)
                                 profUser.save()
-                                profUser.emailVerified = False
-                                profUser.save()
-                                current_site = get_current_site(request)
-                                subject = 'Activate Your Alcheringa CA Account'
-                                message = render_to_string('auths/account_activation_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user),
-            })
-                                user.email_user(subject, message)
-                                return redirect('auths:account_activation_sent')
-                        else:
+                                user.save()
+                                
+                                print(user)
+                                
+                                CA_Detail.objects.create(user=request.user)
+
+                                # CA_Detail.objects.create(user = request.user)
+
+        #                         profUser.emailVerified = False
+        #                         profUser.save()
+                                # current_site = get_current_site(request)
+        #                         subject = 'Get started with your journey of becoming Campus Ambassador for Alcheringa 2021'
+        #                         message = render_to_string('auths/account_activation_email.html', {
+        #         'user': user,
+        #         'domain': current_site.domain,
+        #         'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        #         'token': account_activation_token.make_token(user),
+        #     })
+        #                         user.email_user(subject, message)
+                                return redirect('ca:questionnare')
+                        else: 
                                 print("user is none")
                                 return redirect('auths:register')
 
@@ -149,10 +208,6 @@ def register_oauth(request):
                                 phone_number_validator(phone)
                         except Exception as e:
                                 data['phone_error'] = "Must have 10 digits and only digits from 0 to 9 allowed"
-
-
-
-
 
                 if gender == None:
                         data['gender_error'] = "Gender is mandatory"
@@ -189,7 +244,6 @@ def register_oauth(request):
                 print(fullname)
 
                 ##
-                profUser.save()
 
                 """if email != request.user.email :
                     if User.objects.filter(email=email).filter(profile__emailVerified=True):
@@ -256,65 +310,6 @@ def activate(request, uidb64, token, backend= 'django.contrib.auth.backends.Mode
 
 def account_activation_sent(request):
         return render(request, 'auths/account_activation_sent.html')
-
-
-
-
-
-
-def login(request):
-        username = password = ''
-        if request.POST:
-                email = request.POST['ca_email']
-                password = request.POST['ca_password']
-
-                data = {}
-                try:
-                        email_validator = EmailValidator()
-                        email_validator(email)
-                except Exception as e:
-                        data['email_error'] = "Please enter a valid Email ID"
-
-                if password == '':
-                        data['password_error'] = "Password is required"
-
-                if data:
-                        return render(request, 'auths/ca_login.html', data)
-
-                user_obj = User.objects.filter(email=email)
-                if len(user_obj) == 0:
-                        print("No user with this email exists!")
-                        data['login_error'] = "Sorry! Invalid credentials. Try again."
-                        return render(request, 'auths/ca_login.html', data)
-                else:
-                        user = authenticate(username=user_obj[0].username, password=password)
-                        if user is None:
-                                print("Please enter the correct password for your account.")
-                                data['login_error'] = "Sorry! Invalid credentials. Try again."
-                                return render(request, 'auths/ca_login.html', data)
-
-
-                        user_obj = user_obj.filter(profile__emailVerified=True)
-
-                        if len(user_obj) == 0:
-                                print("Email not verified yet!")
-                                return redirect('auths:verifyEmail')
-                        
-                        
-                        auth_login(request, user)
-                        print(user.username)
-
-                        ca_detail = CA_Detail.objects.filter(user = request.user);
-                        if len(ca_detail) == 0:
-                                CA_Detail.objects.create(user=request.user)
-                                ca_detail = CA_Detail.objects.filter(user = request.user);
-                        if ca_detail[0].ca_approval :
-                                return redirect('ca:home')
-                        elif ca_detail[0].ca_profile_complete :
-                                return redirect('ca:pending')
-                        else :
-                                return redirect('ca:questionnare')
-        return render(request, 'auths/ca_login.html')
 
 
 def verifyEmail(request):

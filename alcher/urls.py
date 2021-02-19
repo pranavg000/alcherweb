@@ -21,9 +21,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import RedirectView
 urlpatterns = [
-    path('',RedirectView.as_view(url  ='/auth/facebook/callback/')),
+    path('',RedirectView.as_view(url  ='/auths/login/')),
     path('admin/', admin.site.urls),
-    path('auth/', include('auths.urls', namespace='home')),
+    path('auths/', include('auths.urls', namespace='home')),
     path('caportal/', include('ca.urls', namespace='ca')),
     path("fbshare/",include("fbshare.urls",namespace="fb")),
     url(r'^password_reset/$', auth_views.PasswordResetView.as_view(template_name="auths/password_reset_form.html"), name='password_reset'),

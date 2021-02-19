@@ -1,55 +1,3 @@
-<!-- ple<?php
-
-session_start();
-
-require 'db_connect.php';
-require 'functions.php';
-include 'analyticstracking.php';
-
-if(!isset($_SESSION['ca_id']) || empty($_SESSION['ca_id'])){
-	header('Location: https://www.alcheringa.in/registrations/ca_login.php');
-}
-
-else{
-
-	$current_page = "";
-
-	$ca_id= test_input($_SESSION['ca_id']);
-	$alcher_id= test_input($_SESSION['alcher_id']);
-	$name= test_input($_SESSION['name']);
-
-	validate_session($connect_ca, "ca", $ca_id, $alcher_id, $name);
-
-	if($session_error == 1){
-		header('Location: https://www.alcheringa.in/registrations/ca_login.php');
-	}
-
-	else{
-
-		$ca_query = mysqli_query($connect_ca,
-			"SELECT * FROM ca_details WHERE ca_id='$ca_id' "
-			);
-
-		$ca= $ca_query->fetch_assoc();
-		$ca_profile_complete= $ca['ca_profile_complete'];
-		$ca_approval= $ca['ca_approval'];
-		$ca_email= $ca['email'];
-		$ca_phone= $ca['phone'];
-		$ca_team_name= $ca['team_name'];
-
-		if($ca_profile_complete==1 && $ca_approval==1){
-			header('Location: home.php');
-		}
-
-		elseif($ca_profile_complete==1 && $ca_approval==0){
-			header('Location: pending.php');
-		}
-
-		elseif($ca_profile_complete==0){
-
-?>
- -->
-
 {% extends 'ca/base.html' %}
     {% load static %}
 
@@ -59,10 +7,6 @@ else{
 
 {% block body %}
 	<div class="col-lg-6">
-
-		<!-- <?php include 'header.php'; ?>
-
-		<?php include 'leftbar.php'; ?> -->
 
 			<form method="POST" >
 				{% csrf_token %}
@@ -91,53 +35,6 @@ else{
 
 					<h4>Personal Information</h4>
 
-
-					<div class="full_name_div">
-						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="max-width: 95%;">
-							<input class="mdl-textfield__input" type="text" id="full-name" name="full_name" value="{{ full_name }}">
-							<label class="mdl-textfield__label" for="full-name">Full Name</label>
-							<span class="mdl-textfield__error">Only letters and spaces are allowed</span> 
-						</div>
-					</div>
-
-					<div class="email_div">
-
-						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="max-width: 95%;">
-							<input class="mdl-textfield__input" type="email" id="email" name="email"
-								value="{{email}}" disabled >
-							<label class="mdl-textfield__label" for="email">Email ID</label>
-							<span class="mdl-textfield__error">Please enter a valid Email ID</span>
-						</div>
-
-						<div class="email_error input_error"></div>							
-
-					</div>
-
-					<div class="phone_div">
-
-						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="max-width: 95%;">
-							<input class="mdl-textfield__input" type="tel" id="phone" name="phone"
-								pattern="[0-9]*" value="{{phone_no}}" disabled>
-							<label class="mdl-textfield__label" for="phone">Phone Number</label>
-							<span class="mdl-textfield__error">Please enter a valid Phone No</span>
-						</div>
-
-						<div class="phone_error input_error"></div>
-
-					</div>
-
-					<div class="alt_contact_div">
-
-						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="max-width: 95%;">
-							<input class="mdl-textfield__input" type="tel" id="alt_contact" name="alt_contact"
-								pattern="[0-9]{10}">
-							<label class="mdl-textfield__label" for="alt_contact">Alternate Contact</label>
-							<span class="mdl-textfield__error">Please enter a valid Phone No</span>
-						</div>
-
-						<div class="alt_contact_error input_error"></div>
-
-					</div>
 
 					<div class="city_div">
 
@@ -232,15 +129,15 @@ else{
 				// var acad= $('.acad_div').find('select').val();
 				// var fb= $('.fb_div').find('input').val();
 				var college_name= $('.college_name_div').find('input').val();
-				var email= $('.email_div').find('input').val();
-				var phone= $('.phone_div').find('input').val();
-				var alt_contact= $('.alt_contact_div').find('input').val();
+				// var email= $('.email_div').find('input').val();
+				// var phone= $('.phone_div').find('input').val();
+				// var alt_contact= $('.alt_contact_div').find('input').val();
 				var city= $('.city_div').find('input').val();
 				var mailing_address= $('.mailing_address_div').find('input').val();
 				
 				var por= $('.por_div').find('input').val();
 				var referral= $('.referral_div').find('input').val();
-				var fullName= $('.full_name_div').find('input').val();
+				// var fullName= $('.full_name_div').find('input').val();
 				var state= $('.state_div').find('select').val();
 				var error_state= 0;
 				// alert("HIGH");
