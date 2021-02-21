@@ -49,11 +49,11 @@ def login(request):
                                 return render(request, 'auths/ca_login.html', data)
 
 
-                        user_obj = user_obj.filter(profile__emailVerified=True)
+                        # user_obj = user_obj.filter(profile__emailVerified=True)
 
-                        if len(user_obj) == 0:
-                                print("Email not verified yet!")
-                                return redirect('auths:verifyEmail')
+                        # if len(user_obj) == 0:
+                        #         print("Email not verified yet!")
+                        #         return redirect('auths:verifyEmail')
                         
                         
                         auth_login(request, user)
@@ -82,7 +82,7 @@ def register(request):
                 email = request.POST['email']
                 phone = request.POST['phone']
                 data = {}
-                name_validator = RegexValidator('^[A-Za-z ]+$')
+                name_validator = RegexValidator('^[A-Za-z, ]+$')
                 if fullname == '':
                         data['fullname_error'] = "Please enter your Full Name"
                 else:
@@ -156,8 +156,6 @@ def register(request):
                                 user.save()
                                 auth_login(request,user)
                                 print(user)
-
-                                # ca_object = CA_Detail(user=alcher_id, ca_profile_complete=False, ca_approval=False, certificate_approval=False, score=0, fbscore=0)
                                 CA_Detail.objects.create(user=request.user)
 
                                 # CA_Detail.objects.create(user = request.user)
@@ -173,7 +171,7 @@ def register(request):
         #         'token': account_activation_token.make_token(user),
         #     })
         #                         user.email_user(subject, message)
-                                return redirect('ca:questionnare')
+                                return redirect('ca:home')
                         else: 
                                 print("user is none")
                                 return redirect('auths:register')
