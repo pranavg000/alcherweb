@@ -241,35 +241,9 @@ def questionnare(request):
                         except Exception as e:
                                 data['mailing_address_stat'] = "MAILING ADDRESS REGEX"
 
-                # if request.POST['fb'] == '':
-                #         print("Hello")
-                #         data['fb_stat'] = "FB EMPTY"
-                # else:
-                #         url_validator = URLValidator()
-                #         try:
-                #                 url_validator(request.POST['fb'])
-                #         except Exception as e:
-                #                 data['fb_stat'] = "FB REGEX"
-
-
                 contact_number_validator = RegexValidator('^[0-9]{10}$')
-                # if len(request.POST['alt_contact']) < 10:
-                #         data['alt_contact_stat'] = "ALT CONTACT LENGTH"
-                # else:
-                #         try:
-                #                 contact_number_validator(request.POST['alt_contact'])
-                #         except Exception as e:
-                #                 data['alt_contact_stat'] = "ALT CONTACT REGEX"
-
 
                 if data:
-                        # data['stat'] = "FAILURE"
-                        # data['stat'] = "SUCCESS"
-                        # print(data)
-                        # return JsonResponse(data)
-
-                        # alt_contact = request.POST.get('alt_contact')
-                        # acad = request.POST['acad']
                         college_name = request.POST.get('college_name')
                         city = request.POST.get('city')
                         mailing_address = request.POST.get('mailing_address')
@@ -287,18 +261,21 @@ def questionnare(request):
                         #         college_name=college_name, state=state, city=city, mailing_address=mailing_address, por=por,
                         #         referral_code=referral_code, full_name=full_name, )
 
-                        CA_Questionnaire.objects.create(user = request.user,
-                                college_name=college_name, state=state, city=city, mailing_address=mailing_address, por=por,
-                                referral_code=referral_code, )
+                        # CA_Questionnaire.objects.create(user = request.user,
+                        #         college_name=college_name, state=state, city=city, mailing_address=mailing_address, por=por,
+                        #         referral_code=referral_code, )
 
-                        ca_det_user = CA_Detail.objects.get(user=request.user)
-                        ca_det_user.ca_profile_complete = True
-                        ca_det_user.save()
+                        # ca_det_user = CA_Detail.objects.get(user=request.user)
+                        # ca_det_user.ca_profile_complete = True
+                        # ca_det_user.save()
                         data['stat'] = "FAILURE"
 
                         print(data)
+
+
                         # print(JsonResponse(data))
-                        return JsonResponse(data)
+                        return redirect('ca:pending')
+                        # return JsonResponse(data)
 
                 else:
                         alt_contact = request.POST.get('alt_contact')
@@ -326,6 +303,7 @@ def questionnare(request):
 
                         print(data)
                         # print(JsonResponse(data))
+                        return redirect('ca:home')
                         return JsonResponse(data)
                         
         else :

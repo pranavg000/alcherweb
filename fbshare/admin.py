@@ -109,11 +109,11 @@ class InviteAdmin(admin.ModelAdmin):
 
 
 
-admin.site.register(Tag)
-admin.site.register(PagePost)
-admin.site.register(InviteImage)
-admin.site.register(InviteAll,InviteAdmin)
+# admin.site.register(Tag)
+# admin.site.register(PagePost)
+# admin.site.register(InviteImage)
+# admin.site.register(InviteAll,InviteAdmin)
 
-#admin.site.register(UserManualSharedPost, UserManualSharedPostAdmin)
-# Register your models here
-admin.site.register(UserSharedPost,UserSharedPostAdmin)
+# #admin.site.register(UserManualSharedPost, UserManualSharedPostAdmin)
+# # Register your models here
+# admin.site.register(UserSharedPost,UserSharedPostAdmin)

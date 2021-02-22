@@ -51,23 +51,6 @@ export_CA.short_description = 'Export CA data to csv'
 #['ALC ID', 'User', 'Full Name', 'College', 'Phone', 'City', 'Mailing Address', 'Alt. Contact', 'Email ID', 'CA Approval', 'Certificate Approval']
 
 class CAadmin(admin.ModelAdmin):
-#	readonly_fields=['score','triweekly','fbscore']
-	# change_list_template = "auths/CAadmin.html"
-
-	#Code for resetting TriWeekly Event Score
-	# def get_urls(self):
-	# 	urls = super().get_urls()
-	# 	my_urls = [path('resetscore/', self.resetscore),]
-	# 	return my_urls + urls
-
-	# def resetscore(self, request):
-	# 	self.model.objects.all().update(triweekly=0)
-	# 	Idea.objects.all().update(triweeklyidea=0)
-	# 	POC.objects.all().update(triweeklyPOC=0)
-	# 	Venue.objects.all().update(triweeklyvenue=0)
-	# 	self.message_user(request, "triweekly scores have been reset")
-	# 	return HttpResponseRedirect("../")
-
 	list_display = ('user', 'score', 'fbscore', 'ca_profile_complete', 'ca_approval', 'certificate_approval')
 	list_filter = ("ca_profile_complete", "ca_approval", "certificate_approval",)
 	search_fields = ['user']
