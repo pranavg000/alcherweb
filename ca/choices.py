@@ -20,7 +20,7 @@ IDEA_CATEGORY_CHOICES = {
 FAQ_CATEGORY_CHOICES = {
 ('general', 'GENERAL'),
 ('portal', 'PORTAL'),
-('competition', 'COMPETITIONS'),
+('competitions', 'COMPETITIONS'),
 ('accommodation', 'ACCOMMODATION'),
 ('audition', 'CITY AUDITION'),
 }

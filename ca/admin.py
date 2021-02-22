@@ -49,7 +49,7 @@ class POCAdmin(admin.ModelAdmin):
 	list_display = ('user', 'genre', 'name_con', 'desg', 'colg', 'phone', 'fburl', 'email', 'approval')
 	list_filter = ("genre", "approval",)
 	readonly_fields = ['POCscore',]
-	actions = ["approve_poc", "disapprove_poc",]
+	# actions = ["approve_poc", "disapprove_poc",]
 
 	def approve_poc(self, request, queryset):
 		for venue in queryset:
@@ -105,7 +105,7 @@ class VenueAdmin(admin.ModelAdmin):
 	list_display = ('user', 'venue_name', 'venue_address', 'contact_name', 'contact_number', 'remarks', 'approval')
 	list_filter = ("approval", )
 	readonly_fields = ['venuescore',]
-	actions = ["approve_venue", "disapprove_venue",]
+	# actions = ["approve_venue", "disapprove_venue",]
 
 	def approve_venue(self, request, queryset):
 		for venue in queryset:

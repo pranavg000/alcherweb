@@ -15,7 +15,7 @@
 
 					<h3>Some more info and you are good to go...</h3>
 
-					<p><b>Note</b>: You are only required to fill this quesionnaire if you want to apply for our <a href="https://www.alcheringa.in/ca/">Campus Ambassador Programme</a>. If that is not what you are looking for and you wanted to register for our competitions, Please login to our <a href="https://www.alcheringa.in/registrations">Registration Portal</a> instead.</p>
+					<p><b>Note</b>: You are only required to fill this quesionnaire if you want to apply for our Campus Ambassador Programme.</p>
 
 					<h4>Team Information</h4>
 					
@@ -153,6 +153,7 @@
 					$('.college_name_div').find('.college_name_error').html("<p>Please enter your college name</p>");
 					$('.college_name_div').find('.college_name_error').slideDown().delay(2000).slideUp();
 					error_state= 1;
+					// alert("HIGH CLG NAME");
 				}
 				// alert(2);
 				if(city==""){
@@ -160,38 +161,20 @@
 					$('.city_div').find('.city_error').html("<p>Please enter your City</p>");
 					$('.city_div').find('.city_error').slideDown().delay(2000).slideUp();
 					error_state= 1;
+					// alert("HIGH CITY");
 				}
 				// alert(3);
 				if(mailing_address==""){
 					$this.removeClass('loading');
 					$('.mailing_address_div').find('.mailing_address_error').html("<p>Please enter your mailing address</p>");
 					$('.mailing_address_div').find('.mailing_address_error').slideDown().delay(2000).slideUp();
+					// alert("HIGH MAILING ADDRESS");
 				}
-				// alert(4);
-				// if(fb==""){
-				// 	$this.removeClass('loading');
-				// 	$('.fb_div').find('.fb_error').html("<p>Please enter your facebook profile link</p>");
-				// 	$('.fb_div').find('.fb_error').slideDown().delay(2000).slideUp();
-				// 	error_state= 1;
-				// }
-
 				if(error_state==0){
-					// alert(error_state);
-					// function isAcad(acad){
-					// 	var regex= /^[a-zA-z0-9 ]*$/;
-					// 	return regex.test(acad);
-					// }
-
-					// if(!isAcad(acad)){
-					// 	$this.removeClass('loading');
-					// 	$('.acad_div').find('.acad_error').html("<p>Select year from the dropdown</p>");
-					// 	$('.acad_div').find('.acad_error').slideDown().delay(2000).slideUp();
-					// 	error_state= 1;
-					// }
 
 					function isCollegeName(college_name){
 						var regex= /^[a-zA-z0-9, ]*$/;
-						return regex.test(college_name);
+						return regex.test(college_name);	
 					}
 					if(!isCollegeName(college_name)){
 						$this.removeClass('loading');
@@ -199,30 +182,6 @@
 						$('.college_name_div').find('.college_name_error').slideDown().delay(2000).slideUp();
 						error_state= 1;
 					}
-
-					if(alt_contact!=""){
-
-						alt_contact= $.trim(alt_contact);
-						if(alt_contact.length!=10){
-							$this.removeClass('loading');
-							$('.alt_contact_div').find('.alt_contact_error').html("<p>Must have 10 digits</p>");
-							$('.alt_contact_div').find('.alt_contact_error').slideDown().delay(2000).slideUp();
-							error_state= 1;
-						}
-
-						function isPhone(phone){
-							var regex= /^[0-9]*$/;
-							return regex.test(phone);
-						}
-
-						if(!isPhone(alt_contact)){
-							$this.removeClass('loading');
-							$('.alt_contact_div').find('.alt_contact_error').html("<p>Only digits from 0-9 are allowed</p>");
-							$('.alt_contact_div').find('.alt_contact_error').slideDown().delay(2000).slideUp();
-							error_state= 1;
-						}
-					}
-
 					function isMailingAddress(mailing_address){
 						var regex= /^[a-zA-z0-9,-: ]*$/;
 						return regex.test(mailing_address);
@@ -241,19 +200,6 @@
 						$('.mailing_address_div').find('.mailing_address_error').slideDown().delay(2000).slideUp();
 						error_state= 1;
 					}
-					// alert(mailing_address);
-
-					// function isURL(url){
-					// 	var regex = /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/;
-					// 	return regex.test(url);
-					// }
-
-					// if(!isURL(fb)){
-					// 	$this.removeClass('loading');
-					// 	$('.fb_div').find('.fb_error').html("<p>Please enter a valid FB profile</p>");
-					// 	$('.fb_div').find('.fb_error').slideDown().delay(2000).slideUp();
-					// 	error_state= 1;
-					// }
 
 					if(por!=""){
 
@@ -301,25 +247,12 @@
 								// 		fb: fb, por: por, referral: referral, }),
 								data: ({csrfmiddlewaretoken : $("input[name=csrfmiddlewaretoken]").val(),
 									college_name: college_name,
-										alt_contact: alt_contact, city: city, mailing_address: mailing_address,
-										por: por, referral: referral, full_name:fullName, state:state, }),
-//////
-				// var college_name= $('.college_name_div').find('input').val();
-				// var email= $('.email_div').find('input').val();
-				// var phone= $('.phone_div').find('input').val();
-				// var alt_contact= $('.alt_contact_div').find('input').val();
-				// var city= $('.city_div').find('input').val();
-				// var mailing_address= $('.mailing_address_div').find('input').val();
-				
-				// var por= $('.por_div').find('input').val();
-				// var referral= $('.referral_div').find('input').val();
-				// var fullName= $('.full_name').find('input').val();
-				// var error_state= 0;
+										city: city, mailing_address: mailing_address,
+										por: por, referral: referral, state:state, }),
 
-//////
 								success: function(response){
 									// alert(JSON.stringify(response));
-									console.log(response);
+									// console.log(response);
 									$this.removeClass('loading');
 
 									if(response.session == "Session Error"){
@@ -336,11 +269,6 @@
 										}, 3000);
 									}
 
-									// if(response.acad_stat=="ACAD EMPTY"){
-									// 	$('.acad_div').find('.acad_error').html("<p>Please select your year of study</p>");
-									// 	$('.acad_div').find('.acad_error').slideDown().delay(2000).slideUp();
-									// }
-
 									if(response.college_name_stat=="COLLEGE NAME EMPTY"){
 										$('.college_name_div').find('.college_name_error').html("<p>Please enter your college name</p>");
 										$('.college_name_div').find('.college_name_error').slideDown().delay(2000).slideUp();
@@ -356,26 +284,13 @@
 										$('.mailing_address_div').find('.mailing_address_error').slideDown().delay(2000).slideUp();
 									}
 
-									// if(response.acad_stat=="ACAD REGEX"){
-									// 	$('.acad_div').find('.acad_error').html("<p>Select year from the dropdown</p>");
-									// 	$('.acad_div').find('.acad_error').slideDown().delay(2000).slideUp();
-									// }
 
 									if(response.college_name_stat=="COLLEGE NAME REGEX"){
 										$('.college_name_div').find('.college_name_error').html("<p>Only letters, digits, comma and space are allowed</p>");
 										$('.college_name_div').find('.college_name_error').slideDown().delay(2000).slideUp();
 									}
 
-									if(response.alt_contact_stat=="ALT CONTACT LENGTH"){
-										$('.alt_contact_div').find('.alt_contact_error').html("<p>Must have 10 digits</p>");
-										$('.alt_contact_div').find('.alt_contact_error').slideDown().delay(2000).slideUp();
-									}
-
-									if(response.alt_contact_stat=="ALT CONTACT REGEX"){
-										$('.alt_contact_div').find('.alt_contact_error').html("<p>Only digits from 0-9 are allowed</p>");
-										$('.alt_contact_div').find('.alt_contact_error').slideDown().delay(2000).slideUp();
-									}
-
+									
 									if(response.city_stat=="CITY REGEX"){
 										$('.city_div').find('.city_error').html("<p>Only letters, digits, comma and space are allowed</p>");
 										$('.city_div').find('.city_error').slideDown().delay(2000).slideUp();
@@ -416,7 +331,7 @@
 									}
 
 									if(response.stat=="FAILURE"){
-										// alert("fail");
+										alert("fail");
 										var notification = document.querySelector('.mdl-js-snackbar');
 										var data = {
 										  message: 'Questionnaire could not be submitted',
@@ -431,6 +346,8 @@
 					}
 
 				}
+
+
 
 			})
 		})

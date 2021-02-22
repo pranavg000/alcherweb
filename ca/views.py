@@ -199,13 +199,6 @@ def venue(request):
 def questionnare(request):
         if request.method == 'POST':
                 data = {}
-                # if request.POST['acad'] == '':
-                #         data['acad_stat'] = "ACAD EMPTY"
-                # else:
-                #         ACAD_OPTIONS = ['1st Year', '2nd Year', '3rd Year', '4th Year', '5th Year']
-                #         if request.POST['acad'] not in ACAD_OPTIONS:
-                #                 data['acad_stat'] = "ACAD REGEX"
-
                 college_name_validator = RegexValidator('^[a-zA-z0-9, ]*$')
                 if request.POST['college_name'] == '':
                         data['college_name_stat'] = "COLLEGE NAME EMPTY"
@@ -260,13 +253,13 @@ def questionnare(request):
 
 
                 contact_number_validator = RegexValidator('^[0-9]{10}$')
-                if len(request.POST['alt_contact']) < 10:
-                        data['alt_contact_stat'] = "ALT CONTACT LENGTH"
-                else:
-                        try:
-                                contact_number_validator(request.POST['alt_contact'])
-                        except Exception as e:
-                                data['alt_contact_stat'] = "ALT CONTACT REGEX"
+                # if len(request.POST['alt_contact']) < 10:
+                #         data['alt_contact_stat'] = "ALT CONTACT LENGTH"
+                # else:
+                #         try:
+                #                 contact_number_validator(request.POST['alt_contact'])
+                #         except Exception as e:
+                #                 data['alt_contact_stat'] = "ALT CONTACT REGEX"
 
 
                 if data:
@@ -275,7 +268,7 @@ def questionnare(request):
                         # print(data)
                         # return JsonResponse(data)
 
-                        alt_contact = request.POST.get('alt_contact')
+                        # alt_contact = request.POST.get('alt_contact')
                         # acad = request.POST['acad']
                         college_name = request.POST.get('college_name')
                         city = request.POST.get('city')
@@ -283,21 +276,25 @@ def questionnare(request):
                         # fb = request.POST['fb']
                         por = request.POST.get('por')
                         referral_code = request.POST.get('referral')
-                        full_name = request.POST.get('full_name')
+                        # full_name = request.POST.get('full_name')
                         state = request.POST.get('state')
 
-                        print("State: " + state)
-                        print("Full Name" + full_name)
+                        # print("State: " + state)
+                        # print("Full Name" + full_name)
                         
                         # acad=acad
-                        CA_Questionnaire.objects.create(user = request.user, alt_contact=alt_contact,
+                        # CA_Questionnaire.objects.create(user = request.user, alt_contact=alt_contact,
+                        #         college_name=college_name, state=state, city=city, mailing_address=mailing_address, por=por,
+                        #         referral_code=referral_code, full_name=full_name, )
+
+                        CA_Questionnaire.objects.create(user = request.user,
                                 college_name=college_name, state=state, city=city, mailing_address=mailing_address, por=por,
-                                referral_code=referral_code, full_name=full_name, )
+                                referral_code=referral_code, )
 
                         ca_det_user = CA_Detail.objects.get(user=request.user)
                         ca_det_user.ca_profile_complete = True
                         ca_det_user.save()
-                        data['stat'] = "SUCCESS"
+                        data['stat'] = "FAILURE"
 
                         print(data)
                         # print(JsonResponse(data))
@@ -315,9 +312,12 @@ def questionnare(request):
                         full_name = request.POST.get('full_name')
                         state = request.POST.get('state')
                         # acad=acad
-                        CA_Questionnaire.objects.create(user = request.user, alt_contact=alt_contact,
+                        # CA_Questionnaire.objects.create(user = request.user, alt_contact=alt_contact,
+                        #         college_name=college_name, state=state, city=city, mailing_address=mailing_address, por=por,
+                        #         referral_code=referral_code, full_name=full_name, )
+                        CA_Questionnaire.objects.create(user = request.user,
                                 college_name=college_name, state=state, city=city, mailing_address=mailing_address, por=por,
-                                referral_code=referral_code, full_name=full_name, )
+                                referral_code=referral_code )
 
                         ca_det_user = CA_Detail.objects.get(user=request.user)
                         ca_det_user.ca_profile_complete = True

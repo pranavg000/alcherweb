@@ -7,6 +7,15 @@ from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 from ca.scores import REFERRAL_SCORE
 
+def validate_sub(value):
+	value=str(value)
+	t=value.lower()
+	if t.endswith(".pdf")!=True and t.endswith(".png")!=True and t.endswith(".jpg")!=True and t.endswith(".jpeg")!=True:
+		raise ValidationError("Only above written Extensions are allowed.")
+	else:	
+		return value
+
+
 class Complaints(models.Model):
 	# complaint_id = models.IntegerField(default=0,validators=[MinValueValidator(0)])
 	grievance_id = models.CharField(max_length=15)
@@ -93,9 +102,10 @@ class CA_Questionnaire(models.Model):
 	college_name = models.CharField(max_length=200)
 	mailing_address = models.CharField(max_length=500)
 	por = models.CharField(max_length=500)
-	referral_code = models.CharField(max_length=200,blank=True)
+	referral_code = models.CharField(max_length=200,blank=True, null=True)
 	state = models.CharField(max_length=17, choices=STATE_CHOICES, blank=True, null=True)
 	city = models.CharField(max_length=100)
+	img = models.ImageField(upload_to = 'profileimgs/', validators=[validate_sub], verbose_name="", default="/static/img/Avatar.png")
 	# full_name = models.CharField(max_length=200, default='',blank=False, null=True)
 
 

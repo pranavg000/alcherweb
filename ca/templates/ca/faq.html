@@ -11,99 +11,55 @@
 				<form>
 					{% csrf_token %}
 					<div class="content_faq">
-
 					<div class="faq_header">
-
 					</div><!-- faq_header -->
-
 					<div class="faq_tabs">
-
 						<div class="faq_tab general_faq" data-faq-category="general">
-
 							<div class="faq_tab_icon">
-
 								<i class="material-icons">language</i>
-
 							</div><!-- faq_tab_icon -->
-
 							<div class="faq_tab_title">
-
 								<p>GENERAL</p>
-
 							</div><!-- faq_tab_title -->
-
 						</div><!-- faq_tab general_faq -->
 
 						<div class="faq_tab portal_faq" data-faq-category="portal">
-
 							<div class="faq_tab_icon">
-
 								<i class="material-icons">computer</i>
-
 							</div><!-- faq_tab_icon -->
-
 							<div class="faq_tab_title">
-
 								<p>PORTAL</p>
-
 							</div><!-- faq_tab_title -->
-
 						</div><!-- faq_tab portal_faq -->
-
+						
 						<div class="faq_tab competitions_faq" data-faq-category="competitions">
-
 							<div class="faq_tab_icon">
-
 								<i class="material-icons">speaker_group</i>
-
 							</div><!-- faq_tab_icon -->
-
 							<div class="faq_tab_title">
-
 								<p>COMPETITIONS</p>
-
 							</div><!-- faq_tab_title -->
-
 						</div><!-- faq_tab competitions_faq -->
-
-						<div class="faq_tab accommodation_faq" data-faq-category="accommodation">
-
+						<!-- <div class="faq_tab accommodation_faq" data-faq-category="accommodation">
 							<div class="faq_tab_icon">
-
 								<i class="material-icons">hotel</i>
-
-							</div><!-- faq_tab_icon -->
-
+							</div>
 							<div class="faq_tab_title">
-
 								<p>ACCOMMODATION</p>
-
-							</div><!-- faq_tab_title -->
-
-						</div><!-- faq_tab accommodation_faq -->
-
-						<div class="faq_tab city_audition_faq" data-faq-category="city_audition">
-
+							</div>
+						</div> -->
+						<!-- <div class="faq_tab city_audition_faq" data-faq-category="city_audition">
 							<div class="faq_tab_icon">
-
 								<i class="material-icons">location_city</i>
-
-							</div><!-- faq_tab_icon -->
-
+							</div>
 							<div class="faq_tab_title">
-
 								<p>CITY AUDITION</p>
-
-							</div><!-- faq_tab_title -->
-
-						</div><!-- faq_tab city_audition_faq -->
-
-					</div><!-- faq_tabs -->
+							</div>
+						</div> -->
+					</div>
 
 					<div class="faq_faqs ui segment">
-
 					</div><!-- faq_faqs -->
-
 				</div> <!-- content_faq -->
 				</form>
 
@@ -148,7 +104,7 @@
 					success: function(response){
 						$('.faq_faqs').slideUp(300);
 						$('.faq_faqs').html(response);
-						$('.faq_faqs').fadeIn(1000);
+						$('.faq_faqs').fadeIn(800);
 						$('#accordion').accordion();
 					}
 				});

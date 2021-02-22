@@ -5,7 +5,9 @@
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
 {#  	<meta name="author" content="Kishor Malakar">#}
 {#  	<link rel="author" href="https://www.facebook.com/kishor.malakar" />#}
-    {% load static %}
+    
+{% load static %}
+
     <style>
       @media only screen and (max-width: 990px) {
         .navbar-nav{
@@ -72,9 +74,9 @@
                 <!-- Load the template tag for the url -->
                 <!-- <a class="dropdown-item navbarDropdownItem" href="% url 'ca:venue' %"> SUBMIT VENUE </a> -->
                 <a class="dropdown-item navbarDropdownItem" href="{% url 'ca:poc' %}"> SUBMIT POC </a>
-                <a class="dropdown-item navbarDropdownItem" href="{% url 'fb:invite_all' %}">SUBMIT FBINVITES </a>
+                <!-- <a class="dropdown-item navbarDropdownItem" href="{% url 'fb:invite_all' %}">SUBMIT FBINVITES </a> -->
                 <a class="dropdown-item navbarDropdownItem" href="{% url 'ca:submitIdea' %}">SUBMIT IDEAS </a>
-                <a class="dropdown-item navbarDropdownItem" href="{% url 'ca:hospitality' %}"> HOSPITALITY </a>
+                <!-- <a class="dropdown-item navbarDropdownItem" href="{% url 'ca:hospitality' %}"> HOSPITALITY </a> -->
                 <a class="dropdown-item navbarDropdownItem" href="{% url 'ca:faqs' %}"> FAQ </a>
                 <a class="dropdown-item navbarDropdownItem" href="{% url 'ca:contactUs' %}"> CONTACT US </a>
                 <a class="dropdown-item navbarDropdownItem" href="{% url 'auths:logout' %}"> LOGOUT </a>
@@ -90,7 +92,7 @@
       <li class="nav-item"><a href="#"><img style="border-radius: 50%;
   width: 40px;
   height: 40px;
-" src="/media/{{user.profile.profile_image}}"></a></li>
+" src="{% static 'ca/img/Avatar.png' %}"></a></li>
     </ul>
 </span>
     </nav>
@@ -101,7 +103,7 @@
     <div class="card">
       <div class="card-body">
         <p class="card-image" style="text-align: center;">
-          <img src="/media/{{user.profile.profile_image}}" style="border-radius: 50%; width: 150px; height: 150px;" >
+          <img src="{% static 'ca/img/Avatar.png' %}" style="border-radius: 50%; width: 150px; height: 150px;" >
         </p>
         <p class="card-title" style="text-align: center;">
           <h3><!--NAME--></h3>
